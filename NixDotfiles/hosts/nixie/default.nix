@@ -20,7 +20,11 @@
     "virtio_scsi"
     "nvme"
     "ahci"
+    "ehci_pci"
+    "megaraid_sas"
     "uas"
+    "usb_storage"
+    "usbhid"
     "sd_mod"
     "sr_mod"
   ];
