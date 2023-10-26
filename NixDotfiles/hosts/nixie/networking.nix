@@ -28,7 +28,7 @@
       }];
     };
 
-    interfaces.eth1 = {
+    interfaces.eno2 = {
       ipv4.addresses = [{
         address = "192.168.200.8";
         prefixLength = 25;
