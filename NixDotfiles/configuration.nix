@@ -90,6 +90,7 @@ in {
     openssl
     tcpdump
     traceroute
+    sysstat
     pv
 
   ];

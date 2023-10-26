@@ -1,11 +1,11 @@
 { pkgs, config, lib, ...}: {
 
   services.nginx.virtualHosts = {
-    "new-mail.${config.domainName}" = {
+    "mail.${config.domainName}" = {
       forceSSL = true;
       enableACME = true;
 
-      serverAliases = [ "mail1.${config.domainName}" "mail.${config.domainName}" "mail.net.t-labs.tu-berlin.de" ];
+      serverAliases = [ "mail1.${config.domainName}" "mail.net.t-labs.tu-berlin.de" ];
     };
   };
 
