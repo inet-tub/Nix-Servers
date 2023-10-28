@@ -20,7 +20,7 @@
 
   security.acme = {
     acceptTerms = true;
-    defaults.email = "nixie3403@gmail.com";
+    defaults.email = "root@inet.tu-berlin.de";
   };
 
   users.users.nginx.extraGroups = [ "acme" ];
