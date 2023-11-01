@@ -92,6 +92,7 @@ in {
     traceroute
     sysstat
     pv
+    du-dust
 
   ];
 
