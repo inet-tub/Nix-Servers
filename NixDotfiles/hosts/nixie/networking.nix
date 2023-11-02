@@ -35,6 +35,13 @@
       }];
     };
 
+    interfaces.eno3 = {
+      ipv4.addresses = [{
+        address = "130.149.220.240";
+        prefixLength = 25;
+      }];
+    };
+
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 25 80 443 465 587 993 ];
