@@ -10,6 +10,16 @@
       owner = "keycloak";
     };
 
+    KeyCloakSSLCert = {
+      file = ./KeyCloak/SSL_Cert.age;
+      owner = "nginx";
+    };
+
+    KeyCloakSSLKey = {
+      file = ./KeyCloak/SSL_Key.age;
+      owner = "nginx";
+    };
+
     NextcloudAdminPassword = {
       file = ./Nextcloud/AdminPassword.age;
       owner = "nextcloud";

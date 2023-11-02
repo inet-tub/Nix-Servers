@@ -37,13 +37,11 @@ in
 
     "keycloak-admin.${config.domainName}" = {
       forceSSL = true;
-      enableACME = true;
+
+      sslCertificate = config.age.secrets.KeyCloakSSLCert.path;
+      sslCertificateKey = config.age.secrets.KeyCloakSSLKey.path;
 
       locations = {
-        "/.well-known" = {
-          # Allow access to the .well-known path for ACME challenge validation
-        };
-
         "/" = {
           proxyPass = "http://192.168.7.101:80";
           extraConfig = ''

@@ -6,6 +6,8 @@ in
 {
   "KeyCloak/DatabasePassword.age".publicKeys = [ nixie ];
   "KeyCloak/AdminPassword.age".publicKeys = [ nixie ];
+  "KeyCloak/SSL_Key.age".publicKeys = [ nixie ];
+  "KeyCloak/SSL_Cert.age".publicKeys = [ nixie ];
 
   "Nextcloud/AdminPassword.age".publicKeys = [ nixie ];
   "Nextcloud/KeycloakClientSecret.age".publicKeys = [ nixie ];
