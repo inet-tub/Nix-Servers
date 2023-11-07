@@ -18,7 +18,7 @@
 
     interfaces.eno1 = {
       ipv4.addresses = [{
-        address = "130.149.220.7";
+        address = "130.149.220.242";
         prefixLength = 25;
       }];
 
@@ -30,15 +30,8 @@
 
     interfaces.eno2 = {
       ipv4.addresses = [{
-        address = "192.168.200.8";
+        address = "192.168.200.7";
         prefixLength = 25;
-      }];
-    };
-
-    interfaces.eno3 = {
-      ipv4.addresses = [{
-        address = "130.149.220.241";
-        prefixLength = 32;
       }];
     };
 

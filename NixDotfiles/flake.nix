@@ -1,4 +1,6 @@
 {
+  # TODO: flake-parts, systems, devenv
+
   description = "Barebones NixOS on ZFS config";
 
   inputs = {
