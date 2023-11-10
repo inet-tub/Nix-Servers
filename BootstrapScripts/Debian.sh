@@ -10,6 +10,8 @@ if [ "$(uname -s)" != "Linux" ]; then
     exit 1
 fi
 
+# TODO: If lsb_release is not founnd, install it
+
 if [ "$(lsb_release -is)" != "Debian" ]; then
     echo "This script is only for Debian systems."
     exit 1

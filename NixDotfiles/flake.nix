@@ -51,7 +51,7 @@
             ./services/HedgeDoc.nix
             ./services/YouTrack.nix
             ./services/PasswordManagers/VaultWarden.nix
-            ./services/Mail.nix
+            ./services/Mail
 
           ];
         };

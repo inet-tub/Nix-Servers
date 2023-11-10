@@ -6,6 +6,7 @@
       enableACME = true;
 
       serverAliases = [ "mail1.${config.domainName}" "mail.${config.domainName}" "mail.net.t-labs.tu-berlin.de" ];
+      locations."/".proxyPass = "http://0.0.0.0:11334/";
     };
   };
 
@@ -18,6 +19,7 @@
       "587:587"
       "993:993"
       "4190:4190"
+      "11334:11334"
     ];
 
     volumes =
@@ -50,17 +52,15 @@
       ENABLE_QUOTAS = "0";
       ENABLE_MANAGESIEVE = "1";
 
-      # Disable legacy framework for domain legitimacy. The *new* version is with Rspamd and it integrates way better.
-#      ENABLE_RSPAMD = "1";
+      # Spam protection with Rspamd
+      ENABLE_RSPAMD = "1";
       ENABLE_OPENDKIM = "0";
       ENABLE_OPENDMARC = "0";
       ENABLE_POLICYD_SPF = "0";
 
-      # Spam protection
-      ENABLE_AMAVIS = "0";
-      ENABLE_CLAMAV = "0";
-
-
+      # Virus protection
+      ENABLE_AMAVIS = "0";  # Amavis is done by the DFN infront of our servers
+      ENABLE_CLAMAV = "1";
 
     };
 
