@@ -52,6 +52,9 @@ then
 fi
 
 # Commit the changes the git repository for NixOS
+git config --global user.email "$GIT_EMAIL"
+git config --global user.name "$GIT_UNAME"
+
 git -C /mnt/etc/nixos init
 git -C /mnt/etc/nixos add --all
 git -C /mnt/etc/nixos commit -m "Initial Install"

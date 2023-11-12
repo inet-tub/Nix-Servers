@@ -27,6 +27,10 @@
     "usbhid"
     "sd_mod"
     "sr_mod"
+    "ata_piix"
+    "floppy"
+    "kvm-intel"
+    "xhci_pci"
   ];
 
   boot.kernelParams = [
