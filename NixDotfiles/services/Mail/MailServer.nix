@@ -30,8 +30,15 @@
       "/data/Mail/restored-backup:/var/restored-backup"
       "/data/Mail/config:/tmp/docker-mailserver"
       "/etc/localtime:/etc/localtime"
+
+      # Overrides
       "/etc/postfix/postfix-main.cf:/tmp/docker-mailserver/postfix-main.cf"
       "/etc/dovecot/dovecot.cf:/tmp/docker-mailserver/dovecot.cf"
+
+      # MailMan
+      "/data/MailMan/mailman-core/var/data/:/var/lib/mailman"
+
+      # Certificates
       "${config.age.secrets.MailSSLCerts.path}:${config.age.secrets.MailSSLCerts.path}"
       "${config.age.secrets.MailEnvironmentFile.path}:${config.age.secrets.MailEnvironmentFile.path}"
       "/var/lib/acme/new-mail.inet.tu-berlin.de/:/var/lib/acme/new-mail.inet.tu-berlin.de/:ro"
@@ -60,18 +67,25 @@
 
       # Virus protection
       ENABLE_AMAVIS = "0";  # Amavis is done by the DFN infront of our servers
-      ENABLE_CLAMAV = "1";
+      ENABLE_CLAMAV = "0";
 
     };
-
-
-
-
   };
 
   environment.etc."postfix/postfix-main.cf".text = ''
     message_size_limit = 26214400000
     mailbox_size_limit = 26214400000
+
+    # MailMan Config
+    recipient_delimiter = +
+    unknown_local_recipient_reject_code = 550
+    owner_request_special = no
+
+    transport_maps = regexp:/var/lib/mailman/postfix_lmtp
+    local_recipient_maps = regexp:/var/lib/mailman/postfix_lmtp
+    relay_domains = regexp:/var/lib/mailman/postfix_domains
+
+    mynetworks = 10.88.0.0/16
   '';
 
   environment.etc."dovecot/dovecot.cf".text = ''
@@ -89,10 +103,10 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /data/Mail/mail-data/ 0755 root"
-    "d /data/Mail/mail-state/ 0755 root"
-    "d /data/Mail/mail-logs/ 0755 root"
-    "d /data/Mail/config/ 0755 root"
+    "d /data/Mail/mail-data/ 0755 5000 5000"
+    "d /data/Mail/mail-state/ 0755 5000 5000"
+    "d /data/Mail/mail-logs/ 0755 5000 5000"
+    "d /data/Mail/config/ 0755 5000 5000"
   ];
 
 }

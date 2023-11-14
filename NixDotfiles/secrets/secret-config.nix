@@ -40,6 +40,18 @@
       owner = "vaultwarden";
     };
 
+    MailManEnvironmentFile = {
+      file = ./Mail/MailManEnvironmentFile.age;
+      owner = "5000";
+      group = "5000";
+    };
+
+    MailManDatabasePassword = {
+      file = ./Mail/MailManEnvironmentFile.age;
+      owner = "5000";
+      group = "5000";
+    };
+
     MailEnvironmentFile = {
       file = ./Mail/EnvironmentFile.age;
       owner = "root";

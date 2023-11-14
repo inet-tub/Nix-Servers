@@ -15,6 +15,9 @@ in
   "HedgeDoc/EnvironmentFile.age".publicKeys = [ nixie ];
   "VaultWarden/EnvironmentFile.age".publicKeys = [ nixie ];
 
+  "Mail/MailManEnvironmentFile.age".publicKeys = [ nixie ];
+  "Mail/MailManDatabasePassword.age".publicKeys = [ nixie ];
+
   "Mail/ssl_certs.age".publicKeys = [ nixie ];
   "Mail/EnvironmentFile.age".publicKeys = [ nixie ];
 
