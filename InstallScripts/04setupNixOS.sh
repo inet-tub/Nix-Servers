@@ -22,9 +22,7 @@ nix-channel --update
 nix-env -f '<nixpkgs>' -iA nixos-install-tools
 
 # Update flake lock file
-nix --extra-experimental-features 'nix-command flakes' \
-    flake update --commit-lock-file \
-    "git+file:///mnt/etc/nixos"
+nix --extra-experimental-features 'nix-command flakes' flake update --commit-lock-file --flake "git+file:///mnt/etc/nixos"
 
 # Install the system
 nixos-install --no-root-password --flake "git+file:///mnt/etc/nixos#${HOST_TO_INSTALL}"

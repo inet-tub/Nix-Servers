@@ -43,9 +43,9 @@ systemctl start ssh
 
 if [ -z "$SUDO_USER" ] || [ "$SUDO_USER" == "root" ];
 then
-    repo_dir="/root/NixOServer"
+    repo_dir="/root/Nix-Servers"
 else
-    repo_dir="/home/$SUDO_USER/NixOServer"
+    repo_dir="/home/$SUDO_USER/Nix-Servers"
 fi
 
 if [ -d "$repo_dir" ]; then

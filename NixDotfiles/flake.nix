@@ -60,6 +60,7 @@
 
       nixosConfigurations = {
         nixie = mkHost "nixie" "x86_64-linux";
+        enbackup = mkHost "enbackup" "x86_64-linux";
       };
 
     };
