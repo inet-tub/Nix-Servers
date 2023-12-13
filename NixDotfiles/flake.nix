@@ -1,11 +1,11 @@
 {
   # TODO: flake-parts, systems, devenv
 
-  description = "Barebones NixOS on ZFS config";
+  description = "NixOS Server on ZFS";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.05";
-    nixpkgs-unstable.url = "nixpkgs/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/master";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.darwin.follows = "";
@@ -14,17 +14,16 @@
 
   outputs = { self, nixpkgs, nixpkgs-unstable, agenix }@inputs:
     let
-      mkHost = hostName: system:
+      mkHost = hostName: stateVersion: system:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs { inherit system; config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; }; };
 
           specialArgs = {
-            # By default, the system will only use packages from the
-            # stable channel.  You can selectively install packages
-            # from the unstable channel.  You can also add more
-            # channels to pin package version.
-            pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+            # By default, the system will only use packages from the stable channel.
+            # You can selectively install packages from the unstable channel.
+            # You can also add more  channels to pin package version.
+            pkgs-unstable = import nixpkgs-unstable { inherit system; };
 
             # make all inputs availabe in other nix files
             inherit inputs;
@@ -36,32 +35,23 @@
 
             # Configuration shared by all hosts
             ./configuration.nix
+            ./system.nix
+            ./users/root.nix
             ./secrets/secret-config.nix
             agenix.nixosModules.default
 
             # Configuration per host
             ./hosts/${hostName}
-            ./hosts/${hostName}/networking.nix
-
-            # TODO: Refactor this to be host-specific
-            ./services/KeyCloak.nix
-            ./services/Wiki-js.nix
-            ./services/Nginx.nix
-            ./services/Nextcloud.nix
-            ./services/HedgeDoc.nix
-            ./services/YouTrack.nix
-            ./services/PasswordManagers/VaultWarden.nix
-            ./services/Mail
-
-          ];
+          ] ++ [ { system.stateVersion = stateVersion; } ];
         };
 
-    in {
-
+    in
+    {
       nixosConfigurations = {
-        nixie = mkHost "nixie" "x86_64-linux";
-        enbackup = mkHost "enbackup" "x86_64-linux";
+        nixie = mkHost "nixie" "23.05" "x86_64-linux";
+        enbackup = mkHost "enbackup" "23.05" "x86_64-linux";
       };
 
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
     };
 }

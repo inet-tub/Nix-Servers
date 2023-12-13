@@ -31,8 +31,8 @@
         isReadOnly = false;
       };
 
-      "/run/agenix/VaultWardenEnvironmentFile" = {
-        hostPath = "/run/agenix/VaultWardenEnvironmentFile";
+      "${age.secrets.VaultWarden_EnvironmentFile.path}" = {
+        hostPath = age.secrets.VaultWarden_EnvironmentFile.path;
       };
     };
 
@@ -55,7 +55,7 @@
 
       services.vaultwarden = {
         enable = true;
-        environmentFile = age.secrets.VaultWardenEnvironmentFile.path;
+        environmentFile = age.secrets.VaultWarden_EnvironmentFile.path;
         dbBackend = "postgresql";
 
         config = {

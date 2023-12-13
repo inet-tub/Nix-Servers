@@ -1,5 +1,6 @@
 { pkgs, config, lib, ...}: {
   domainName = "inet.tu-berlin.de";
+  containerHostIP = "192.168.7.1";
 
   networking = {
     useDHCP = false;
@@ -47,5 +48,13 @@
       externalInterface = "eno1";
     };
 
+  };
+
+  # Currently there is no better place to put it as nixie handles inet.tu-berlin.de
+  services.nginx.virtualHosts."${config.domainName}" = {
+    forceSSL = true;
+    enableACME = true;
+
+    globalRedirect = "tu.berlin/eninet";
   };
 }

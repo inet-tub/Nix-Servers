@@ -4,10 +4,8 @@ let
   systems = [ nixie ];
 in
 {
-  "KeyCloak/DatabasePassword.age".publicKeys = [ nixie ];
-  "KeyCloak/AdminPassword.age".publicKeys = [ nixie ];
-  "KeyCloak/SSL_Key.age".publicKeys = [ nixie ];
-  "KeyCloak/SSL_Cert.age".publicKeys = [ nixie ];
+  "Keycloak/DatabasePassword.age".publicKeys = [ nixie ];
+  "Keycloak/AdminPassword.age".publicKeys = [ nixie ];
 
   "Nextcloud/AdminPassword.age".publicKeys = [ nixie ];
   "Nextcloud/KeycloakClientSecret.age".publicKeys = [ nixie ];
@@ -21,10 +19,9 @@ in
   "Mail/ssl_certs.age".publicKeys = [ nixie ];
   "Mail/EnvironmentFile.age".publicKeys = [ nixie ];
 
-  "ssl_cert.age".publicKeys = [ nixie ];
-  "ssl_key.age".publicKeys = [ nixie ];
+  "SSHKeys/Wiki-js/key.age".publicKeys = [ nixie ];
+  "SSHKeys/Duplicati/nixie.age".publicKeys = [ nixie ];
 
-  "ssh_key.age".publicKeys = [ nixie ];
-  "ssh_key_pub.age".publicKeys = [ nixie ];
-
+  "Borg/nixie.age".publicKeys = [ nixie ];
+  "Headscale/ClientSecret.age".publicKeys = [ nixie ];
 }

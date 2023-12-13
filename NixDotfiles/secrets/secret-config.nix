@@ -1,87 +1,77 @@
-{ pkgs, options, config, lib, ...}: {
+{ pkgs, options, config, lib, ... }: {
   age.secrets = {
-    KeyCloakDatabasePassword = {
-      file = ./KeyCloak/DatabasePassword.age;
+    Keycloak_DatabasePassword = {
+      file = ./Keycloak/DatabasePassword.age;
       owner = "keycloak";
     };
 
-    KeyCloakAdminPassword = {
-      file = ./KeyCloak/AdminPassword.age;
+    Keycloak_AdminPassword = {
+      file = ./Keycloak/AdminPassword.age;
       owner = "keycloak";
     };
 
-    KeyCloakSSLCert = {
-      file = ./KeyCloak/SSL_Cert.age;
-      owner = "nginx";
-    };
-
-    KeyCloakSSLKey = {
-      file = ./KeyCloak/SSL_Key.age;
-      owner = "nginx";
-    };
-
-    NextcloudAdminPassword = {
+    Nextcloud_AdminPassword = {
       file = ./Nextcloud/AdminPassword.age;
       owner = "nextcloud";
     };
 
-    NexcloudKeycloakClientSecret = {
+    Nexcloud_KeycloakClientSecret = {
       file = ./Nextcloud/KeycloakClientSecret.age;
       owner = "nextcloud";
     };
 
-    HedgeDocEnvironmentFile = {
+    HedgeDoc_EnvironmentFile = {
       file = ./HedgeDoc/EnvironmentFile.age;
       owner = "hedgedoc";
     };
 
-    VaultWardenEnvironmentFile = {
+    WikiJs_SSHKey = {
+      file = ./SSHKeys/Wiki-js/key.age;
+      owner = "wiki-js";
+    };
+
+    Duplicati_SSHKey_Nixie = {
+      file = ./SSHKeys/Duplicati/nixie.age;
+      owner = "1000";
+    };
+
+    Borg_Encrytpion_Nixie = {
+      file = ./Borg/nixie.age;
+      owner = "borg";
+    };
+
+    Headscale_ClientSecret = {
+      file = ./Headscale/ClientSecret.age;
+      owner = "headscale";
+    };
+
+    VaultWarden_EnvironmentFile = {
       file = ./VaultWarden/EnvironmentFile.age;
       owner = "vaultwarden";
     };
 
-    MailManEnvironmentFile = {
+    MailMan_EnvironmentFile = {
       file = ./Mail/MailManEnvironmentFile.age;
       owner = "5000";
       group = "5000";
     };
 
-    MailManDatabasePassword = {
+    MailMan_DatabasePassword = {
       file = ./Mail/MailManEnvironmentFile.age;
       owner = "5000";
       group = "5000";
     };
 
-    MailEnvironmentFile = {
+    Mail_EnvironmentFile = {
       file = ./Mail/EnvironmentFile.age;
       owner = "root";
       group = "root";
     };
 
-    MailSSLCerts = {
+    Mail_SSLCerts = {
       file = ./Mail/ssl_certs.age;
       owner = "root";
       group = "root";
     };
-
-    SSLCert = {
-      file = ./ssl_cert.age;
-      owner = "nginx";
-      group = "nginx";
-    };
-
-    SSLKey = {
-      file = ./ssl_key.age;
-      owner = "nginx";
-      group = "nginx";
-    };
-
-    SSHKey = {
-      file = ./ssh_key.age;
-      owner = "wiki-js";
-      path = "/etc/wiki";
-    };
-
-
   };
 }

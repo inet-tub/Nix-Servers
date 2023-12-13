@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, modulesPath, ... }: {
+{ config, modulesPath, ... }: {
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
@@ -14,43 +14,62 @@
     };
   };
 
+  boot.zfs.forceImportRoot = false;
+  services.zfs = {
+    autoSnapshot = {
+      enable = true;
+      flags = "-k -p --utc";
+      weekly = 7; # How many snapshots to keep
+      monthly = 48;
+    };
+  };
+
   boot.initrd.availableKernelModules = [
+    # "Normal" disk Support
+    "sd_mod"
+    "sr_mod"
+    "nvme"
+    "ahci"
+
+    # QEMU
     "virtio_pci"
     "virtio_blk"
     "virtio_scsi"
-    "nvme"
-    "ahci"
-    "ehci_pci"
-    "megaraid_sas"
+    "virtio_net"
+
+    # USB
     "uas"
     "usb_storage"
     "usbhid"
-    "sd_mod"
-    "sr_mod"
+
+    # Legacy Server Modules
+    "ehci_pci"
     "ata_piix"
-    "floppy"
     "kvm-intel"
     "xhci_pci"
-    "uhci_hcd"
+
+    # Legacy RAID modules
+    "megaraid_sas"
     "hpsa"
   ];
 
   boot.kernelParams = [
-    "zfs.zfs_arc_max=68719476736"
-    "zfs.zfs_arc_min=12884901888"
-    "zfs.zfs_arc_meta_limit=12884901888"
+    "zfs.zfs_arc_max=12884901888"
+    "zfs.zfs_arc_min=4294967296"
+    "zfs.zfs_arc_meta_limit=8589934592"
   ];
 
   networking = {
     hostName = "enbackup";
     hostId = "abcd1234";
   };
+
   time.timeZone = "Europe/Berlin";
 
-  # import preconfigured profiles
+  # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    # (modulesPath + "/profiles/hardened.nix")
-    # (modulesPath + "/profiles/qemu-guest.nix")
+    ./networking.nix
+    ./services.nix
   ];
 }

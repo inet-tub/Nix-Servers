@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, modulesPath, ... }: {
+{ config, modulesPath, ... }: {
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
@@ -14,21 +14,40 @@
     };
   };
 
+  boot.zfs.forceImportRoot = false;
+  services.zfs = {
+    autoSnapshot = {
+      enable = false;
+      flags = "-k -p --utc";
+      weekly = 7; # How many snapshots to keep
+      monthly = 48;
+    };
+  };
+
+  system.stateVersion = "23.05";
+
   boot.initrd.availableKernelModules = [
+    # "Normal" disk Support
+    "sd_mod"
+    "sr_mod"
+    "nvme"
+    "ahci"
+
+    # QEMU
     "virtio_pci"
     "virtio_blk"
     "virtio_scsi"
-    "nvme"
-    "ahci"
-    "ehci_pci"
-    "megaraid_sas"
+    "virtio_net"
+
+    # USB
     "uas"
     "usb_storage"
     "usbhid"
-    "sd_mod"
-    "sr_mod"
+
+    # Legacy Server Modules
+    "ehci_pci"
+    "megaraid_sas"
     "ata_piix"
-    "floppy"
     "kvm-intel"
     "xhci_pci"
   ];
@@ -43,12 +62,13 @@
     hostName = "nixie";
     hostId = "abcd1234";
   };
+
   time.timeZone = "Europe/Berlin";
 
-  # import preconfigured profiles
+  # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    # (modulesPath + "/profiles/hardened.nix")
-    # (modulesPath + "/profiles/qemu-guest.nix")
+    ./networking.nix
+    ./services.nix
   ];
 }

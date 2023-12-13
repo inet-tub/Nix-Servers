@@ -1,5 +1,6 @@
 { pkgs, config, lib, ...}: {
-  domainName = "inet.tu-berlin.de";
+  domainName = "enbackup.inet.tu-berlin.de";
+  containerHostIP = "192.168.7.1";
 
   networking = {
     useDHCP = false;
