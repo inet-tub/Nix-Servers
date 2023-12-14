@@ -35,10 +35,11 @@
     sudo
     jq
     wget
+    fish
     zsh
     neofetch
     btop
-    exa
+    eza
     cowsay
     direnv
     htop
