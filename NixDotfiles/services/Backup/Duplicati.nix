@@ -28,6 +28,7 @@ let DATA_DIR = "/data/Duplicati"; in
   ];
 
   systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0750 1000 1000"
     "d ${DATA_DIR}/config/ 0750 1000 1000"
     "d ${DATA_DIR}/backups/ 0750 1000 1000"
     "d ${DATA_DIR}/source/ 0750 1000 1000"

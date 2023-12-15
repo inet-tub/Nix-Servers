@@ -8,6 +8,7 @@ let DATA_DIR = "/data/Rsnapshot"; in
         name = "rsnapshot";
         containerIP = "192.168.7.108";
         containerPort = 80;
+        makeNginxConfig = false;
 
         imports = [ ../../users/services/restic.nix ];
         bindMounts = {
@@ -37,6 +38,7 @@ let DATA_DIR = "/data/Rsnapshot"; in
 
 
   systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0750 root root"
     "d ${DATA_DIR}/backups/ 0750 root root"
   ];
 }

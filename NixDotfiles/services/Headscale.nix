@@ -45,6 +45,7 @@ let DATA_DIR = "/data/Headscale"; in
 
 
   systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0750 headscale headscale"
     "d ${DATA_DIR}/headscale/ 0750 headscale headscale"
   ];
 }

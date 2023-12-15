@@ -90,7 +90,7 @@ in
               oidc = pkgs.fetchNextcloudApp rec {
                 url = "https://github.com/pulsejet/nextcloud-oidc-login/releases/download/v2.5.1/oidc_login.tar.gz";
                 sha256 = "sha256-lQaoKjPTh1RMXk2OE+ULRYKw70OCCFq1jKcUQ+c6XkA=";
-#                license = "agpl3Only";
+                license = "agpl3Only";
               };
             };
 

@@ -2,6 +2,7 @@
 let DATA_DIR = "/data/Borg"; in
 {
   systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0750 borg borg"
     "d ${DATA_DIR}/borg/ 0750 borg borg"
   ];
 
@@ -12,6 +13,7 @@ let DATA_DIR = "/data/Borg"; in
         name = "borg";
         containerIP = "192.168.7.106";
         containerPort = 80;
+        makeNginxConfig = false;
 
         imports = [ ../../users/services/borg.nix ];
 

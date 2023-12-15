@@ -1,0 +1,1 @@
+nix build .#nixosConfigurations.exampleIso.config.system.build.isoImage

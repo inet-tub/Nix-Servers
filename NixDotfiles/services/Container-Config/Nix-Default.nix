@@ -15,6 +15,7 @@ let DATA_DIR = "/data/TODO"; in
         subdomain = "TODO";
         containerIP = "192.168.7.TODO";
         containerPort = 80;
+        postgresqlName = "TODO";
 
         imports = [ ../users/services/TODO.nix ];
         bindMounts = {

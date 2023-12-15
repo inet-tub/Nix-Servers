@@ -5,6 +5,7 @@ let
 in
 {
   systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0755 hedgedoc"
     "d ${DATA_DIR}/hedgedoc 0755 hedgedoc"
     "d ${DATA_DIR}/postgresql 0755 postgres"
   ];

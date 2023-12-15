@@ -53,6 +53,7 @@
     openssl
     tcpdump
     traceroute
+    dig
     sysstat
     pv
     du-dust
