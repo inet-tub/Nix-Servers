@@ -14,7 +14,6 @@ let DATA_DIR = "/data/Restic"; in
         bindMounts = {
           "/var/lib/restic/" = { hostPath = "${DATA_DIR}/restic"; isReadOnly = false; };
           "${config.age.secrets.Borg_Encrytpion_Nixie.path}" = { hostPath = config.age.secrets.Borg_Encrytpion_Nixie.path; };
-          "${config.age.secrets.Duplicati_SSHKey_Nixie.path}" = { hostPath = config.age.secrets.Duplicati_SSHKey_Nixie.path; };
         };
 
         cfg = {

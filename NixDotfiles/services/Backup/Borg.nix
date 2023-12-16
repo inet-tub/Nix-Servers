@@ -19,8 +19,8 @@ let DATA_DIR = "/data/Borg"; in
 
         bindMounts = {
           "/var/lib/borgbackup/" = { hostPath = "${DATA_DIR}/borg"; isReadOnly = false; };
-          "${config.age.secrets.Borg_Encrytpion_Nixie.path}" = { hostPath = config.age.secrets.Borg_Encrytpion_Nixie.path; };
-          "${config.age.secrets.Duplicati_SSHKey_Nixie.path}" = { hostPath = config.age.secrets.Duplicati_SSHKey_Nixie.path; };
+          "${config.age.secrets.Borg_Encrytpion_Nixie.path}".hostPath = config.age.secrets.Borg_Encrytpion_Nixie.path;
+          "/etc/ssh/ssh_host_ed25519_key".hostPath = "/etc/ssh/ssh_host_ed25519_key";
         };
 
         cfg = {
@@ -40,7 +40,7 @@ let DATA_DIR = "/data/Borg"; in
             #            };
             extraCreateArgs = "--verbose";
 
-            environment = { BORG_RSH = "ssh -i ${config.age.secrets.Duplicati_SSHKey_Nixie.path}"; };
+            environment = { BORG_RSH = "ssh -i /etc/ssh/ssh_host_ed25519_key"; };
           };
         };
 

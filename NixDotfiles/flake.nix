@@ -37,7 +37,6 @@
             ./configuration.nix
             ./system.nix
             ./users/root.nix
-            ./secrets/secret-config.nix
             agenix.nixosModules.default
 
             # Configuration per host

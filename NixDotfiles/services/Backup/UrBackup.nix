@@ -21,7 +21,6 @@ let DATA_DIR = "/data/UrBackup"; in
         volumes = [
           "${DATA_DIR}/backups:/backups"
           "${DATA_DIR}/urbackup:/var/urbackup"
-          "${config.age.secrets.Duplicati_SSHKey_Nixie.path}:${config.age.secrets.Duplicati_SSHKey_Nixie.path}"
         ];
       }
     )

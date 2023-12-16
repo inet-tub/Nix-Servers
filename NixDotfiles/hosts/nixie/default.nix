@@ -70,5 +70,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./networking.nix
     ./services.nix
+    ./secrets.nix
   ];
 }

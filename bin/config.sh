@@ -11,3 +11,4 @@ export ROOT_PASSWORD="root"
 export GIT_EMAIL="seebeckemily3403@gmail.com"
 export GIT_UNAME="Emily3403"
 export HOST_PRIVATE_SSH_KEY=""  # You may set the private key used for agenix decryption
+# TODO: Detect ed25519 and link accordingly or just never use rsa again

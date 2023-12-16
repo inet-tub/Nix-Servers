@@ -20,8 +20,6 @@ let DATA_DIR = "/data/Duplicati"; in
           "${DATA_DIR}/config:/config"
           "${DATA_DIR}/backups:/backups"
           "${DATA_DIR}/source:/source"
-
-          "${config.age.secrets.Duplicati_SSHKey_Nixie.path}:${config.age.secrets.Duplicati_SSHKey_Nixie.path}"
         ];
       }
     )
