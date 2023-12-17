@@ -6,8 +6,14 @@
     };
 
     Headscale_ClientSecret = {
-      file = ../../secrets/Headscale/ClientSecret.age;
+      file = ../../secrets/Headscale.age;
       owner = "headscale";
+    };
+
+    BackupPC = {
+      file = ../../secrets/BackupPC.age;
+      owner = "6003";
+      group = "6003";
     };
 
   };

@@ -1,12 +1,7 @@
 { pkgs, options, config, lib, ... }: {
   age.secrets = {
     Keycloak_DatabasePassword = {
-      file = ../../secrets/Keycloak/DatabasePassword.age;
-      owner = "keycloak";
-    };
-
-    Keycloak_AdminPassword = {
-      file = ../../secrets/Keycloak/AdminPassword.age;
+      file = ../../secrets/Keycloak.age;
       owner = "keycloak";
     };
 
@@ -21,7 +16,7 @@
     };
 
     HedgeDoc_EnvironmentFile = {
-      file = ../../secrets/HedgeDoc/EnvironmentFile.age;
+      file = ../../secrets/HedgeDoc.age;
       owner = "hedgedoc";
     };
 
@@ -31,7 +26,7 @@
     };
 
     VaultWarden_EnvironmentFile = {
-      file = ../../secrets/VaultWarden/EnvironmentFile.age;
+      file = ../../secrets/VaultWarden.age;
       owner = "vaultwarden";
     };
 
@@ -49,12 +44,6 @@
 
     Mail_EnvironmentFile = {
       file = ../../secrets/Mail/EnvironmentFile.age;
-      owner = "root";
-      group = "root";
-    };
-
-    Mail_SSLCerts = {
-      file = ../../secrets/Mail/ssl_certs.age;
       owner = "root";
       group = "root";
     };

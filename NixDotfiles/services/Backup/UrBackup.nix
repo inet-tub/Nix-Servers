@@ -13,9 +13,8 @@ let DATA_DIR = "/data/UrBackup"; in
 
         additionalContainerConfig.extraOptions = [ "--device=/dev/zfs" ];
         environment = {
-          PUID = "1000";
-          PGID = "1000";
-          TZ = "Europe/Berlin";
+          PUID = "6004";
+          PGID = "6004";
         };
 
         volumes = [
@@ -27,8 +26,8 @@ let DATA_DIR = "/data/UrBackup"; in
   ];
 
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0750 1000 1000"
-    "d ${DATA_DIR}/backups/ 0750 1000 1000"
-    "d ${DATA_DIR}/urbackup/ 0750 1000 1000"
+    "d ${DATA_DIR} 0750 6004 6004"
+    "d ${DATA_DIR}/backups/ 0750 6004 6004"
+    "d ${DATA_DIR}/urbackup/ 0750 6004 6004"
   ];
 }

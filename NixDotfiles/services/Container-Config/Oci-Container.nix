@@ -29,8 +29,8 @@ in
       ports = [ "127.0.0.1::${containerPortStr}" ];
       extraOptions = [ "--ip=${containerIP}" "--userns=keep-id" ];
 
-      volumes = volumes;
-      environment = environment;
+      volumes = volumes ++ [ "/etc/resolv.conf:/etc/resolv.conf" ];
+      environment = { TZ = "Europe/Berlin"; } // environment;
       environmentFiles = environmentFiles;
     }
   ];

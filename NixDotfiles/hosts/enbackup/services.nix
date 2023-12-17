@@ -6,5 +6,6 @@
     "Backup/Borg.nix"
     "Backup/Restic.nix"
     "Backup/Rsnapshot.nix"
+    "Backup/BackupPC.nix"
   ];
 }

@@ -17,9 +17,11 @@
   boot.zfs.forceImportRoot = false;
   services.zfs = {
     autoSnapshot = {
-      enable = false;
+      enable = true;
       flags = "-k -p --utc";
-      weekly = 7; # How many snapshots to keep
+
+      # How many snapshots to keep
+      weekly = 7;
       monthly = 48;
     };
   };

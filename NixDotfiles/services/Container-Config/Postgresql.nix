@@ -6,8 +6,7 @@
     ensureDatabases = [ name ];
     ensureUsers = [{
       name = name;
-#      ensureDBOwnership = true;
-      ensureClauses.superuser = true;
+      ensureDBOwnership = true;
     }];
   };
 }

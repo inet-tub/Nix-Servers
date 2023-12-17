@@ -27,7 +27,6 @@
       "/data/Mail/mail-data:/var/mail"
       "/data/Mail/mail-state:/var/mail-state"
       "/data/Mail/mail-logs:/var/log/mail"
-      "/data/Mail/restored-backup:/var/restored-backup"
       "/data/Mail/config:/tmp/docker-mailserver"
       "/etc/localtime:/etc/localtime"
 

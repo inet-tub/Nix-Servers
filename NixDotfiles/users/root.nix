@@ -24,7 +24,7 @@
 
   users.users = {
     root = {
-      initialHashedPassword = "rootHash_placeholder";
+      initialHashedPassword = "rootHash_placeholder";  # We have to allow password login in case ssh breaks
       openssh.authorizedKeys.keys = [ "sshKey_placeholder" ];
 
       shell = pkgs.fish;

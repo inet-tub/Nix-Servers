@@ -10,7 +10,7 @@ let DATA_DIR = "/data/TODO"; in
         image = "TODO";
 
         subdomain = "TODO";
-        containerIP = "192.168.7.TODO";
+        containerIP = "10.88.TODO.1";
         containerPort = 80;
         environmentFiles = [ config.age.secrets.TODO.path ];
 
@@ -22,6 +22,7 @@ let DATA_DIR = "/data/TODO"; in
   ];
 
   systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0750 5000 5000"
     "d ${DATA_DIR}/TODO/ 0750 5000 5000"
   ];
 }

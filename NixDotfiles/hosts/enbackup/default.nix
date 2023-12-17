@@ -19,8 +19,10 @@
     autoSnapshot = {
       enable = true;
       flags = "-k -p --utc";
-      weekly = 7; # How many snapshots to keep
-      monthly = 48;
+
+      # How many snapshots to keep
+      weekly = 7;
+      monthly = 120;
     };
   };
 
