@@ -41,13 +41,16 @@ in
               host = "/run/postgresql";
             };
 
+            # Users and Permissions
             email = false;
             allowAnonymous = false;
             allowEmailRegister = false;
             allowFreeURL = true;
             requireFreeURLAuthentication = true;
-            sessionSecret = "$SESSION_SECRET";
+            defaultPermission = "limited";
 
+            # Authentication
+            sessionSecret = "$SESSION_SECRET";
             oauth2 = {
               providerName = config.keycloak-setup.name;
               clientID = "HedgeDoc";
