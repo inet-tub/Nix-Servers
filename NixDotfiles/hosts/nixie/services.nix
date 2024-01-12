@@ -6,6 +6,11 @@
     "Nextcloud.nix"
     "Wiki-js.nix"
     "YouTrack.nix"
+    "PasswordManagers/VaultWarden.nix"
+
+    "Mail/MailServer.nix"
+    "Mail/MailMan.nix"
+    "Mail/WebMail.nix"
   ];
 
   keycloak-setup.realm = "INET";

@@ -5,7 +5,10 @@ let
   allSystems = [ nixie enbackup ];
 in
 {
-  "Keycloak.age".publicKeys = [ nixie ];
+  "Keycloak/DatabasePassword.age".publicKeys = [ nixie ];
+  "Keycloak/SSLCert.age".publicKeys = [ nixie ];
+  "Keycloak/SSLKey.age".publicKeys = [ nixie ];
+
   "HedgeDoc.age".publicKeys = [ nixie ];
   "VaultWarden.age".publicKeys = [ nixie ];
 
@@ -16,7 +19,7 @@ in
   "Mail/MailManEnvironmentFile.age".publicKeys = [ nixie ];
   "Mail/MailManDatabasePassword.age".publicKeys = [ nixie ];
 
-  "SSHKeys/Wiki-js/key.age".publicKeys = [ nixie ];
+  "SSHKeys/Wiki-js.age".publicKeys = [ nixie ];
 
   "Borg/nixie.age".publicKeys = [ enbackup ];
   "Headscale.age".publicKeys = [ enbackup ];

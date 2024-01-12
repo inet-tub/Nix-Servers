@@ -38,12 +38,11 @@
       "/data/MailMan/mailman-core/var/data/:/var/lib/mailman"
 
       # Certificates
-      "${config.age.secrets.MailSSLCerts.path}:${config.age.secrets.MailSSLCerts.path}"
-      "${config.age.secrets.MailEnvironmentFile.path}:${config.age.secrets.MailEnvironmentFile.path}"
+      "${config.age.secrets.Mail_EnvironmentFile.path}:${config.age.secrets.Mail_EnvironmentFile.path}"
       "/var/lib/acme/new-mail.inet.tu-berlin.de/:/var/lib/acme/new-mail.inet.tu-berlin.de/:ro"
     ];
 
-    environmentFiles = [ config.age.secrets.MailEnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.Mail_EnvironmentFile.path ];
 
     environment = {
       OVERRIDE_HOSTNAME = "mail.${config.domainName}";

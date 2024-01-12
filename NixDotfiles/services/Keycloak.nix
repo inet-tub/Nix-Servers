@@ -14,6 +14,7 @@ let DATA_DIR = "/data/Keycloak"; in
         name = "keycloak";
         containerIP = "192.168.7.101";
         containerPort = 80;
+        postgresqlName = "keycloak";
 
         imports = [ ../users/services/keycloak.nix ];
         bindMounts = {
@@ -31,7 +32,9 @@ let DATA_DIR = "/data/Keycloak"; in
 
         additionalNginxHostConfig."keycloak-admin.${config.domainName}" = {
           forceSSL = true;
-          enableACME = true;
+
+          sslCertificate = config.age.secrets.Keycloak_SSLCert.path;
+          sslCertificateKey = config.age.secrets.Keycloak_SSLKey.path;
 
           locations = {
             "/" = {
@@ -63,7 +66,8 @@ let DATA_DIR = "/data/Keycloak"; in
             };
 
             database = {
-#              type = "postgresql";
+              createLocally = false;
+              type = "postgresql";
               passwordFile = config.age.secrets.Keycloak_DatabasePassword.path;
             };
 

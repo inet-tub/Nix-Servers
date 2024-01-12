@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 let
-  DATA_DIR = "/data/Hedgedoc";
+  DATA_DIR = "/data/HedgeDoc";
   SUBDOMAIN = "hedgedoc";
 in
 {
@@ -61,7 +61,7 @@ in
               baseURL = "${config.keycloak-setup.subdomain}.${config.keycloak-setup.domain}";
               userProfileURL = "https://${config.keycloak-setup.subdomain}.${config.keycloak-setup.domain}/realms/${config.keycloak-setup.realm}/protocol/openid-connect/userinfo";
 
-              userProfileUsernameAttr = config.keycloak-setup.attributeMapper.username;
+              userProfileUsernameAttr = config.keycloak-setup.attributeMapper.name;
               userProfileDisplayNameAttr = config.keycloak-setup.attributeMapper.name;
               userProfileEmailAttr = config.keycloak-setup.attributeMapper.email;
               scope = "openid email profile";

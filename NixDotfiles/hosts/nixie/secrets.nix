@@ -1,8 +1,18 @@
 { pkgs, options, config, lib, ... }: {
   age.secrets = {
     Keycloak_DatabasePassword = {
-      file = ../../secrets/Keycloak.age;
+      file = ../../secrets/Keycloak/DatabasePassword.age;
       owner = "keycloak";
+    };
+
+    Keycloak_SSLCert = {
+      file = ../../secrets/Keycloak/SSLCert.age;
+      owner = "nginx";
+    };
+
+    Keycloak_SSLKey = {
+      file = ../../secrets/Keycloak/SSLKey.age;
+      owner = "nginx";
     };
 
     Nextcloud_AdminPassword = {
@@ -21,7 +31,7 @@
     };
 
     WikiJs_SSHKey = {
-      file = ../../secrets/SSHKeys/Wiki-js/key.age;
+      file = ../../secrets/SSHKeys/Wiki-js.age;
       owner = "wiki-js";
     };
 

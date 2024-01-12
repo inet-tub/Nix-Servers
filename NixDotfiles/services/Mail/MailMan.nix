@@ -47,7 +47,7 @@ in
     ];
 
     environment = ENVIRONMENT_CONFIG;
-    environmentFiles = [ config.age.secrets.MailManEnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.MailMan_EnvironmentFile.path ];
 
     volumes = [
       "/data/MailMan/mailman-core:/opt/mailman"
@@ -62,7 +62,7 @@ in
     ports = [ "127.0.0.1:3022:8000" ];
 
     environment = ENVIRONMENT_CONFIG;
-    environmentFiles = [ config.age.secrets.MailManEnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.MailMan_EnvironmentFile.path ];
 
     volumes =
     [
@@ -83,7 +83,7 @@ in
       POSTGRES_USER = "mailman";
     };
 
-    environmentFiles = [ config.age.secrets.MailManEnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.MailMan_EnvironmentFile.path ];
 
     volumes =
     [
