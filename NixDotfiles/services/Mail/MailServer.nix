@@ -30,6 +30,9 @@
       "/data/Mail/config:/tmp/docker-mailserver"
       "/etc/localtime:/etc/localtime"
 
+      # DNS
+      "/etc/resolv.conf:/etc/resolv.conf:ro"
+
       # Overrides
       "/etc/postfix/postfix-main.cf:/tmp/docker-mailserver/postfix-main.cf"
       "/etc/dovecot/dovecot.cf:/tmp/docker-mailserver/dovecot.cf"
