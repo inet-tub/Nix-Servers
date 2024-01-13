@@ -6,6 +6,8 @@
     "Nextcloud.nix"
     "Wiki-js.nix"
     "YouTrack.nix"
+    "NetBox.nix"
+
     "PasswordManagers/VaultWarden.nix"
 
     "Mail/MailServer.nix"

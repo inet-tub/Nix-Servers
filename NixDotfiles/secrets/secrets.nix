@@ -19,6 +19,9 @@ in
   "Mail/MailManEnvironmentFile.age".publicKeys = [ nixie ];
   "Mail/MailManDatabasePassword.age".publicKeys = [ nixie ];
 
+  "NetBox/SecretKey.age".publicKeys = [ nixie ];
+  "NetBox/KeycloakClientSecret.age".publicKeys = [ nixie ];
+
   "SSHKeys/Wiki-js.age".publicKeys = [ nixie ];
 
   "Borg/nixie.age".publicKeys = [ enbackup ];
