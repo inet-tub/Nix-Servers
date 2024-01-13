@@ -50,7 +50,7 @@ in
         cfg
         {
           system.stateVersion = stateVersion;
-          networking.firewall.allowedTCPPorts = [ 80 443 containerPort ];
+          networking.firewall.allowedTCPPorts = [ containerPort ];
           imports = [ ../../users/root.nix ../../system.nix ] ++ imports ++ pgImport;
         }
       ];

@@ -19,17 +19,17 @@ let DATA_DIR = "/data/NetBox"; in
         bindMounts = {
           "/var/lib/netbox/" = { hostPath = "${DATA_DIR}/netbox"; isReadOnly = false; };
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
-          "${config.age.secrets.NetBox_SecretKey.path}".hostPath = config.age.secrets.NetBox_SecretKey.path;
-          "${config.age.secrets.NetBox_KeycloakClientSecret.path}".hostPath = config.age.secrets.NetBox_KeycloakClientSecret.path;
+#          "${config.age.secrets.NetBox_SecretKey.path}".hostPath = config.age.secrets.NetBox_SecretKey.path;
+#          "${config.age.secrets.NetBox_KeycloakClientSecret.path}".hostPath = config.age.secrets.NetBox_KeycloakClientSecret.path;
         };
 
-        additionalNginxConfig.locations."/static/".alias = "${DATA_DIR}/netbox/static/";
+#        additionalNginxConfig.locations."/static/".alias = "${DATA_DIR}/netbox/static/";
 
         cfg.services.netbox = {
           enable = true;
           package = pkgs.netbox_3_6;
 
-          secretKeyFile = config.age.secrets.NetBox_SecretKey.path;
+#          secretKeyFile = config.age.secrets.NetBox_SecretKey.path;
 
         };
       }
