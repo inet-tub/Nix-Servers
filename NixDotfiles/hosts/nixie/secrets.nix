@@ -25,6 +25,11 @@
       owner = "nextcloud";
     };
 
+    OnlyOffice = {
+      file = ../../secrets/OnlyOffice.age;
+      owner = "onlyoffice";
+    };
+
     HedgeDoc_EnvironmentFile = {
       file = ../../secrets/HedgeDoc.age;
       owner = "hedgedoc";

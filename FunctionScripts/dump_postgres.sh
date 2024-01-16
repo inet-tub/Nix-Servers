@@ -10,17 +10,17 @@ for dir in "$BASE_DIR"/*/"postgresql"; do
     chown -R postgres:postgres "$dir/backups"
 
     container_name=$(echo $dir | cut -d '/' -f 3 | tr '[:upper:]' '[:lower:]')
+    backup_path="$dir/backups/backup.$(date +%Y-%m-%d_%H:%M:%S).sql"
     if [ "$container_name" = "wiki" ]; then
         container_name="wiki-js"
     fi
 
-    # Check if the container exists
-    if ! nixos-container show-ip "$container_name" > /dev/null 2>&1; then
-        continue
+    # Check if the container is a Nix-Container or a Podman-Container
+    if nixos-container show-ip "$container_name" > /dev/null 2>&1; then
+        nixos-container run "$container_name" -- sudo -u postgres pg_dumpall > "$backup_path"
+    else
+        podman exec --user="$container_name" "$container_name-postgres" pg_dumpall > "$backup_path"
     fi
-
-    backup_path="$dir/backups/backup.$(date +%Y-%m-%d_%H:%M:%S).sql"
-    nixos-container run "$container_name" -- sudo -u postgres pg_dumpall > "$backup_path"
 
     # Secure the backup
     chown postgres:postgres "$backup_path"

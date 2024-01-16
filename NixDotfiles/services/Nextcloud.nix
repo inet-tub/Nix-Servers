@@ -46,7 +46,7 @@ in
               dbhost = "/run/postgresql";
               dbuser = "nextcloud";
               dbname = "nextcloud";
-              extraTrustedDomains = [ config.containerHostIP ];
+              trustedProxies = [ config.containerHostIP ];
 
               defaultPhoneRegion = "DE";
             };

@@ -79,6 +79,6 @@ let DATA_DIR = "/data/NetBox"; in
     "d ${DATA_DIR} 0750 6050 6050"
     "d ${DATA_DIR}/netbox/ 0750 6050 6050"
     "d ${DATA_DIR}/postgresql/ 0750 70 70"
-    "d ${DATA_DIR}/redis/ 0750 6050 6050"
+    "d ${DATA_DIR}/redis/ 0750 999 999"
   ];
 }
