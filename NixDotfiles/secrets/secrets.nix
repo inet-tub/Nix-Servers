@@ -21,6 +21,7 @@ in
 
   "NetBox/SecretKey.age".publicKeys = [ nixie ];
   "NetBox/KeycloakClientSecret.age".publicKeys = [ nixie ];
+  "NetBox.age".publicKeys = [ nixie ];
 
   "SSHKeys/Wiki-js.age".publicKeys = [ nixie ];
 

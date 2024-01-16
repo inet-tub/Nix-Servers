@@ -1,6 +1,7 @@
 {
   name, image, subdomain ? null, containerIP, containerPort, volumes,
-  imports ? [], environment ? { }, environmentFiles ? [ ], additionalContainerConfig ? {}, additionalDomains ? [ ], additionalNginxConfig ? {}, additionalNginxLocationConfig ? {},
+  imports ? [], environment ? { }, environmentFiles ? [ ], additionalDomains ? [ ], additionalContainerConfig ? {},
+  makeNginxConfig ? true, additionalNginxConfig ? {}, additionalNginxLocationConfig ? {}, additionalNginxHostConfig ? {},
   config, lib
 }:
 let
@@ -8,9 +9,7 @@ let
   utils = import ../../utils.nix { inherit lib; };
   containerPortStr = if !builtins.isString containerPort then toString containerPort else containerPort;
 
-in
-{
-  imports = imports ++ [
+  nginxImport = if makeNginxConfig == false then [] else [
     (
       import ./Nginx.nix {
         inherit containerIP config additionalDomains lib;
@@ -18,9 +17,16 @@ in
         subdomain = if subdomain != null then subdomain else name;
         additionalConfig = additionalNginxConfig;
         additionalLocationConfig = additionalNginxLocationConfig;
+        additionalHostConfig = additionalNginxHostConfig;
       }
     )
   ];
+
+
+in
+{
+  # TODO: Postgres
+  imports = imports ++ nginxImport;
 
   virtualisation.oci-containers.containers."${name}" = utils.recursiveMerge [
     additionalContainerConfig

@@ -1,38 +1,84 @@
 { pkgs, config, lib, ... }:
 let DATA_DIR = "/data/NetBox"; in
 {
-  systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 netbox"
-    "d ${DATA_DIR}/netbox 0755 netbox"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
-  ];
 
   imports = [
     (
-      import ./Container-Config/Nix-Container.nix {
-        inherit config lib pkgs;
+      import ./Container-Config/Oci-Container.nix {
+        inherit config lib;
         name = "netbox";
-        containerIP = "192.168.7.111";
-        containerPort = 8001;
+        image = "linuxserver/netbox:latest";
 
-        imports = [ ../users/services/netbox.nix ];
-        bindMounts = {
-          "/var/lib/netbox/" = { hostPath = "${DATA_DIR}/netbox"; isReadOnly = false; };
-          "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
-#          "${config.age.secrets.NetBox_SecretKey.path}".hostPath = config.age.secrets.NetBox_SecretKey.path;
-#          "${config.age.secrets.NetBox_KeycloakClientSecret.path}".hostPath = config.age.secrets.NetBox_KeycloakClientSecret.path;
-        };
+        subdomain = "netbox";
+        containerIP = "10.88.5.1";
+        containerPort = 8000;
+        environment = {
+          PUID = "6050";
+          PGID = "6050";
+          SUPERUSER_EMAIL = "admins@inet.tu-berlin.de";
+          ALLOWED_HOST = "netbox.inet.tu-berlin.de";
 
-#        additionalNginxConfig.locations."/static/".alias = "${DATA_DIR}/netbox/static/";
+          DB_USER = "netbox";
+          DB_HOST = "10.88.5.2";
 
-        cfg.services.netbox = {
-          enable = true;
-          package = pkgs.netbox_3_6;
-
-#          secretKeyFile = config.age.secrets.NetBox_SecretKey.path;
+          REDIS_HOST = "10.88.5.3";
 
         };
+        environmentFiles = [ config.age.secrets.NetBox.path ];
+
+        volumes = [
+          "${DATA_DIR}/netbox:/config"
+        ];
       }
     )
+
+    (
+      import ./Container-Config/Oci-Container.nix {
+        inherit config lib;
+        name = "netbox-postgres";
+        image = "postgres:15-alpine";
+
+        containerIP = "10.88.5.2";
+        containerPort = 5432;
+        makeNginxConfig = false;
+
+        environment = {
+          POSTGRES_DB = "netbox";
+          POSTGRES_USER = "netbox";
+        };
+        environmentFiles = [ config.age.secrets.NetBox.path ];
+
+        volumes =
+        [
+          "${DATA_DIR}/postgresql:/var/lib/postgresql/data"
+        ];
+      }
+    )
+
+    (
+      import ./Container-Config/Oci-Container.nix {
+        inherit config lib;
+        name = "netbox-redis";
+        image = "redis:7.2.4-alpine";
+
+        containerIP = "10.88.5.3";
+        containerPort = 6379;
+        makeNginxConfig = false;
+
+        volumes =
+        [
+          "${DATA_DIR}/redis:/data"
+        ];
+      }
+    )
+
+
+  ];
+
+  systemd.tmpfiles.rules = [
+    "d ${DATA_DIR} 0750 6050 6050"
+    "d ${DATA_DIR}/netbox/ 0750 6050 6050"
+    "d ${DATA_DIR}/postgresql/ 0750 70 70"
+    "d ${DATA_DIR}/redis/ 0750 6050 6050"
   ];
 }

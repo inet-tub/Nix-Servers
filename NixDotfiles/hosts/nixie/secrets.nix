@@ -30,14 +30,9 @@
       owner = "hedgedoc";
     };
 
-    NetBox_SecretKey = {
-      file = ../../secrets/NetBox/SecretKey.age;
-      owner = "netbox";
-    };
-
-    NetBox_KeycloakClientSecret =  {
-      file = ../../secrets/NetBox/KeycloakClientSecret.age;
-      owner = "netbox";
+    NetBox = {
+      file = ../../secrets/NetBox.age;
+      owner = "6050";
     };
 
     WikiJs_SSHKey = {
