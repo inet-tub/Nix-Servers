@@ -51,6 +51,7 @@ in
 
     volumes = [
       "/data/MailMan/mailman-core:/opt/mailman"
+      "/etc/resolv.conf:/etc/resolv.conf:ro"
     ];
 
   };
@@ -67,6 +68,7 @@ in
     volumes =
     [
       "/data/MailMan/mailman-web:/opt/mailman-web-data"
+      "/etc/resolv.conf:/etc/resolv.conf:ro"
     ];
 
   };
@@ -91,7 +93,6 @@ in
     ];
 
   };
-
 
 
   systemd.tmpfiles.rules = [
