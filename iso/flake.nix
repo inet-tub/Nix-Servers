@@ -10,7 +10,7 @@
 
   outputs = { self, nixos, agenix }@inputs: {
     nixosConfigurations = {
-      exampleIso = nixos.lib.nixosSystem {
+      inetInstaller = nixos.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
 

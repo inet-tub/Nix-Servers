@@ -26,7 +26,7 @@ partition_disk () {
     udevadm settle
 }
 
-for disk in "${DRIVES[@]}"; do
+for disk in "${DRIVES[@]}" "${HOT_SPARES[@]}"; do
     echo -e "\n\nPartitioning $disk\n"
 
     partition_disk "${disk}"

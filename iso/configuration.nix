@@ -31,7 +31,7 @@ in
 
     # MAR
 #    defaultGateway = {
-#      address = "130.149.152.129";
+#      address = "130.149.220.TODO";
 #      interface = "eth0";
 #    };
 #
@@ -50,7 +50,7 @@ in
     root = {
       initialHashedPassword = "";
       openssh.authorizedKeys.keys = [
-        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCpNKIvAaXYU31EBwwbrLuTa4ljiY26F4XboYoOjibVuzIjRZFikcGpLTJr0w7FfsFMkoCHmciPkb6XXZMgDj0LL+mFhVSgg4RW3MmSl5Pqz10qht5gz55gpHh+u/p7wFSi63xKwqmIZ/hEdyBq/c8CS5lsQMWGnPigf7vy/kdBny/La0LEy7bIWouuhGFQtqnYJna2NWQqWyii1LgLWjgwsq/fvWbOxAAcN8iTIX3Q8LXDONPxYGvTbV40R6KhA26m0ZHkMH06cqMUZ4ACfOizz8mf+g+Fuauvj9BZx3No3fKDDOsErZfdqK1Tx93xnO9qrIIDk1cXALKCGMddsgDh0bHzBS82WsqTvQordjkLrXDsXDIz4MRT0DwIUOqFqX29w+yT24ravhGPeOIYSo71y7oMkzGrsHTCM278dRpq6vKUTU8Ct/JRRRvTN5bZLKCI++DllfDCcI24FF1IP8tg/BXto7j1JZBVV4FtlyQBl1QOmXQsxe7HEYUfSifnTkEYCZdrHUwwBEMvUEnYAN3GPt9wbMB2PtOPs4EWbBw6dwkK+WJjMMuNjOzRk3zqKHd7eIlSfZ1CqiraVaSYMa4LRlcbBgZDj9VoYgzl/1Xw2T0YizutHCsqLZVvb1jBtiK9sX7KHh9u9MvpR7H1WOTd4y9MJxcERpwxEo/5m4Zrdw== emily@NYAA"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND9kUmAEwH+qD6T+Gs/G83SA/oyIzpz1Zj4oMAkOvhO emily"
       ];
 
       shell = pkgs.fish;

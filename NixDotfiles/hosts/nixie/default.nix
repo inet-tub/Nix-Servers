@@ -26,8 +26,6 @@
     };
   };
 
-  system.stateVersion = "23.05";
-
   boot.initrd.availableKernelModules = [
     # "Normal" disk Support
     "sd_mod"

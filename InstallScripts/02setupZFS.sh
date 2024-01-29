@@ -14,9 +14,17 @@ check_zpool_status() {
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 source "$SCRIPT_DIR/utils.sh"
-check_variables DRIVES RAID_LEVEL BOOT_POOL_NAME ROOT_POOL_NAME
+check_variables DRIVES HOT_SPARES RAID_LEVEL BOOT_POOL_NAME ROOT_POOL_NAME
 
 echo -e "\n\nCreating boot pool ...\n"
+
+if [ "$NUM_HOT_SPARES" -gt 0 ]; then
+    spare_bpool_string="spare ${HOT_SPARES[@]/%/-part2}"
+    spare_rpool_string="spare ${HOT_SPARES[@]/%/-part3}"
+else
+    spare_bpool_string=""
+    spare_rpool_string=""
+fi
 
 zpool create \
     -o compatibility=grub2 \
@@ -34,7 +42,7 @@ zpool create \
     -R /mnt \
     "$BOOT_POOL_NAME" \
     "$RAID_LEVEL" \
-    "${DRIVES[@]/%/-part2}"
+    "${DRIVES[@]/%/-part2}" $spare_bpool_string
 
 check_zpool_status "$BOOT_POOL_NAME"
 
@@ -53,7 +61,7 @@ zpool create \
     -R /mnt \
     "$ROOT_POOL_NAME" \
     "$RAID_LEVEL" \
-    "${DRIVES[@]/%/-part3}"
+    "${DRIVES[@]/%/-part3}" $spare_rpool_string
 
 check_zpool_status "$ROOT_POOL_NAME"
 

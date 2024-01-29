@@ -26,6 +26,8 @@
     };
   };
 
+  system.stateVersion = "23.11";
+
   boot.initrd.availableKernelModules = [
     # "Normal" disk Support
     "sd_mod"
@@ -62,7 +64,7 @@
   ];
 
   networking = {
-    hostName = "enbackup";
+    hostName = "authentication";
     hostId = "abcd1234";
   };
 

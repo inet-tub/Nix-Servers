@@ -55,7 +55,8 @@
     {
       nixosConfigurations = {
         nixie = mkHost "nixie" "23.05" "x86_64-linux";
-        enbackup = mkHost "enbackup" "23.05" "x86_64-linux";
+        enbackup = mkHost "enbackup" "23.11" "x86_64-linux";
+        monitoring = mkHost "monitoring" "23.11" "x86_64-linux";
       };
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
