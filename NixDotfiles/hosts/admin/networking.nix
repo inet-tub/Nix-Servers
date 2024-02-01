@@ -1,6 +1,6 @@
 { pkgs, config, lib, ...}: {
-  domainName = "inet.tu-berlin.de";
-  containerHostIP = "192.168.7.1";
+  inetNetworking.domainName = "inet.tu-berlin.de";
+  inetNetworking.containerHostIP = "192.168.7.1";
 
   networking = {
     useDHCP = false;

@@ -12,11 +12,7 @@ in
       type = types.bool;
       default = true;
     };
-    luks.enable = mkOption {
-      description = "Use luks encryption";
-      type = types.bool;
-      default = false;
-    };
+
     devNodes = mkOption {
       description = "Specify where to discover ZFS pools";
       type = types.str;
@@ -26,20 +22,18 @@ in
         x;
       default = "/dev/disk/by-id/";
     };
+
     bootDevices = mkOption {
       description = "Specify boot devices";
       type = types.nonEmptyListOf types.str;
     };
-    immutable = mkOption {
-      description = "Enable root on ZFS immutable root support";
-      type = types.bool;
-      default = false;
-    };
+
     removableEfi = mkOption {
       description = "install bootloader to fallback location";
       type = types.bool;
       default = true;
     };
+
     partitionScheme = mkOption {
       default = {
         biosBoot = "-part5";
@@ -51,82 +45,40 @@ in
       description = "Describe on disk partitions";
       type = types.attrsOf types.str;
     };
-    sshUnlock = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-      authorizedKeys = mkOption {
-        type = types.listOf types.str;
-        default = [ ];
-      };
-    };
 
   };
 
   config = mkIf (cfg.enable) (mkMerge [
     {
       zfs-root.fileSystems.datasets = {
+        "bpool/nixos/root" = "/boot";
+        "rpool/nixos/root" = "/";
         "rpool/nixos/home" = mkDefault "/home";
         "rpool/nixos/var/lib" = mkDefault "/var/lib";
         "rpool/nixos/var/log" = mkDefault "/var/log";
-        "bpool/nixos/root" = "/boot";
       };
     }
-    (mkIf cfg.luks.enable {
-      boot.initrd.luks.devices = mkMerge (map
-        (diskName: {
-          "luks-rpool-${diskName}${cfg.partitionScheme.rootPool}" = {
-            device = (cfg.devNodes + diskName + cfg.partitionScheme.rootPool);
-            allowDiscards = true;
-            bypassWorkqueues = true;
-          };
-        })
-        cfg.bootDevices);
-    })
-    (mkIf (!cfg.immutable) {
-      zfs-root.fileSystems.datasets = { "rpool/nixos/root" = "/"; };
-    })
-    (mkIf cfg.immutable {
-      zfs-root.fileSystems = {
-        datasets = {
-          "rpool/nixos/empty" = "/";
-          "rpool/nixos/root" = "/oldroot";
-        };
-        bindmounts = {
-          "/oldroot/nix" = "/nix";
-          "/oldroot/etc/nixos" = "/etc/nixos";
-        };
-      };
-      boot.initrd.postDeviceCommands = ''
-        if ! grep -q zfs_no_rollback /proc/cmdline; then
-          zpool import -N rpool
-          zfs rollback -r rpool/nixos/empty@start
-          zpool export -a
-        fi
-      '';
-    })
+
     {
       zfs-root.fileSystems = {
-        efiSystemPartitions =
-          (map (diskName: diskName + cfg.partitionScheme.efiBoot)
-            cfg.bootDevices);
-        swapPartitions =
-          (map (diskName: diskName + cfg.partitionScheme.swap) cfg.bootDevices);
+        efiSystemPartitions = (map (diskName: diskName + cfg.partitionScheme.efiBoot) cfg.bootDevices);
+        swapPartitions = (map (diskName: diskName + cfg.partitionScheme.swap) cfg.bootDevices);
       };
+
       boot = {
         supportedFilesystems = [ "zfs" ];
         zfs = {
           devNodes = cfg.devNodes;
           forceImportRoot = mkDefault false;
         };
+
         loader = {
+          generationsDir.copyKernels = true;
           efi = {
             canTouchEfiVariables = (if cfg.removableEfi then false else true);
-            efiSysMountPoint = ("/boot/efis/" + (head cfg.bootDevices)
-              + cfg.partitionScheme.efiBoot);
+            efiSysMountPoint = ("/boot/efis/" + (head cfg.bootDevices) + cfg.partitionScheme.efiBoot);
           };
-          generationsDir.copyKernels = true;
+
           grub = {
             enable = true;
             devices = (map (diskName: cfg.devNodes + diskName) cfg.bootDevices);
@@ -145,27 +97,6 @@ in
         };
       };
     }
-    (mkIf cfg.sshUnlock.enable {
-      boot.initrd = {
-        network = {
-          enable = true;
-          ssh = {
-            enable = true;
-            hostKeys = [
-              "/var/lib/ssh_unlock_zfs_ed25519_key"
-              "/var/lib/ssh_unlock_zfs_rsa_key"
-            ];
-            authorizedKeys = cfg.sshUnlock.authorizedKeys;
-          };
-          postCommands = ''
-            tee -a /root/.profile >/dev/null <<EOF
-            if zfs load-key rpool/nixos; then
-               pkill zfs
-            fi
-            exit
-            EOF'';
-        };
-      };
-    })
+
   ]);
 }

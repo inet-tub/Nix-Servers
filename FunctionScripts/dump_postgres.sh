@@ -2,7 +2,6 @@
 
 BASE_DIR="/data"
 
-# Backup all Nix containers
 for dir in "$BASE_DIR"/*/"postgresql"; do
 
     echo "Dumping $dir"

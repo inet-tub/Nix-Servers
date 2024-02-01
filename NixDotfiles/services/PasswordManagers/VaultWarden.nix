@@ -31,7 +31,7 @@ let DATA_DIR = "/data/VaultWarden"; in
 
             config = {
               DATABASE_URL = "postgres://vaultwarden@%2Frun%2Fpostgresql/vaultwarden";
-              DOMAIN = "https://vaultwarden.${config.domainName}";
+              DOMAIN = "https://vaultwarden.${config.inetNetworking.domainName}";
               ROCKET_ADDRESS="0.0.0.0";
 
               SIGNUPS_ALLOWED = false;

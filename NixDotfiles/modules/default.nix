@@ -1,1 +1,1 @@
-{ config, lib, pkgs, ... }: { imports = [ ./boot ./fileSystems ./services ]; }
+{ config, lib, pkgs, ... }: { imports = [ ./boot ./fileSystems ./host ./services ]; }

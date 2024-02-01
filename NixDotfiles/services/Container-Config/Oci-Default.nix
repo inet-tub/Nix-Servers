@@ -12,6 +12,7 @@ let DATA_DIR = "/data/TODO"; in
         subdomain = "TODO";
         containerIP = "10.88.TODO.1";
         containerPort = 80;
+        environment = { };
         environmentFiles = [ config.age.secrets.TODO.path ];
 
         volumes = [

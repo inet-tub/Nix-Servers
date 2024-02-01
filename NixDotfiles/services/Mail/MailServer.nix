@@ -1,11 +1,11 @@
 { pkgs, config, lib, ...}: {
 
   services.nginx.virtualHosts = {
-    "new-mail.${config.domainName}" = {
+    "new-mail.${config.inetNetworking.domainName}" = {
       forceSSL = true;
       enableACME = true;
 
-      serverAliases = [ "mail1.${config.domainName}" "mail.${config.domainName}" "mail.net.t-labs.tu-berlin.de" ];
+      serverAliases = [ "mail1.${config.inetNetworking.domainName}" "mail.${config.inetNetworking.domainName}" "mail.net.t-labs.tu-berlin.de" ];
       locations."/".proxyPass = "http://0.0.0.0:11334/";
     };
   };
@@ -48,7 +48,7 @@
     environmentFiles = [ config.age.secrets.Mail_EnvironmentFile.path ];
 
     environment = {
-      OVERRIDE_HOSTNAME = "mail.${config.domainName}";
+      OVERRIDE_HOSTNAME = "mail.${config.inetNetworking.domainName}";
       LOG_LEVEL = "trace";
       TZ = "Europe/Berlin";
       ONE_DIR = "1";

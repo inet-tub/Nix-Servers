@@ -24,9 +24,7 @@
             # You can also add more  channels to pin package version.
             pkgs = import nixpkgs {
               inherit system;
-              config = {
-                packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
-              };
+              config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
             };
 
             pkgs-unstable = import nixpkgs-unstable { inherit system; };
@@ -56,7 +54,9 @@
       nixosConfigurations = {
         nixie = mkHost "nixie" "23.05" "x86_64-linux";
         enbackup = mkHost "enbackup" "23.11" "x86_64-linux";
-        monitoring = mkHost "monitoring" "23.11" "x86_64-linux";
+        monitoring = mkHost "monitoring" "23.11" "x86_64-linux";#
+        authentication = mkHost "authentication" "23.11" "x86_64-linux";
+        admin = mkHost "admin" "23.11" "x86_64-linux";
       };
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;

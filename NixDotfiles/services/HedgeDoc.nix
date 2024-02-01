@@ -31,8 +31,8 @@ in
           environmentFile = config.age.secrets.HedgeDoc_EnvironmentFile.path;
 
           settings = {
-            domain = "${SUBDOMAIN}.${config.domainName}";
-            allowOrigin = [ "localhost" "${SUBDOMAIN}.${config.domainName}" ];
+            domain = "${SUBDOMAIN}.${config.inetNetworking.domainName}";
+            allowOrigin = [ "localhost" "${SUBDOMAIN}.${config.inetNetworking.domainName}" ];
             host = "0.0.0.0";
             protocolUseSSL = true;
 

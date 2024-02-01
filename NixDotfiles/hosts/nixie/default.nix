@@ -3,7 +3,6 @@
     boot = {
       devNodes = "/dev/disk/by-id/";
       bootDevices = [ "bootDevices_placeholder" ];
-      immutable = false;
       removableEfi = true;
       luks.enable = false;
 

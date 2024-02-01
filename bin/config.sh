@@ -11,4 +11,5 @@ export HOST_TO_INSTALL="authentication"
 export ROOT_PASSWORD="root"
 export GIT_EMAIL="seebeckemily3403@gmail.com"
 export GIT_UNAME="Emily3403"
+
 export HOST_PRIVATE_SSH_KEY=""  # You may set the private key used for agenix decryption

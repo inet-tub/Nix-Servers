@@ -30,7 +30,7 @@ let DATA_DIR = "/data/OnlyOffice"; in
           services.onlyoffice = {
             package = pkgs-unfree.onlyoffice-documentserver;
             enable = true;
-            hostname = "onlyoffice.${config.domainName}";
+            hostname = "onlyoffice.${config.inetNetworking.domainName}";
             jwtSecretFile = config.age.secrets.OnlyOffice.path;
           };
         };
