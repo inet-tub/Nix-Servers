@@ -1,30 +1,29 @@
 { pkgs, config, lib, ... }:
-let DATA_DIR = "/data/TODO"; in
+let DATA_DIR = "/data/OpenLDAP"; in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 TODO"
-    "d ${DATA_DIR}/TODO 0755 TODO"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0755 openldap openldap"
+    "d ${DATA_DIR}/openldap 0755 openldap openldap"
   ];
 
   imports = [
     (
       import ./Container-Config/Nix-Container.nix {
         inherit config lib pkgs;
-        name = "TODO";
-        subdomain = "TODO";
-        containerIP = "192.168.7.TODO";
+        name = "ldap";
+        makeNgnixConfig = false;
+        containerIP = "192.168.7.113";
         containerPort = 80;
-        postgresqlName = "TODO";
 
-        imports = [ ../users/services/TODO.nix ];
+        imports = [ ../users/services/openldap.nix ];
         bindMounts = {
-          "/var/lib/TODO/" = { hostPath = "${DATA_DIR}/TODO"; isReadOnly = false; };
+          "/var/lib/openldap/" = { hostPath = "${DATA_DIR}/openldap"; isReadOnly = false; };
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
           "${config.age.secrets.TODO.path}".hostPath = config.age.secrets.TODO.path;
         };
 
-        cfg = {
+        cfg.openldap = {
+#          enable = true;
 
         };
       }
