@@ -54,7 +54,7 @@
       nixosConfigurations = {
         nixie = mkHost "nixie" "23.05" "x86_64-linux";
         enbackup = mkHost "enbackup" "23.11" "x86_64-linux";
-        monitoring = mkHost "monitoring" "23.11" "x86_64-linux";#
+        en-observertory = mkHost "en-observertory" "23.11" "x86_64-linux";#
         authentication = mkHost "authentication" "23.11" "x86_64-linux";
         admin = mkHost "admin" "23.11" "x86_64-linux";
       };

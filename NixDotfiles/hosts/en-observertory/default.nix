@@ -1,6 +1,6 @@
 { config, modulesPath, ... }: {
   host = {
-    name = "monitoring";
+    name = "en-observertory";
     id = "abcd1234";
     bootDevices = [ "bootDevices_placeholder" ];
 

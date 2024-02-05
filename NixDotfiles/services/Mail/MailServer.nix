@@ -95,8 +95,6 @@
     mail_cache_max_size=200 MB
   '';
 
-
-
   users.users = {
     postgres = {
       uid = 71;
