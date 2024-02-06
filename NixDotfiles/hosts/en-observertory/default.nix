@@ -21,7 +21,7 @@
       networkRange = "ennet";
       interface = "eno1";
     };
-  };
+  };    
 
   # import other host-specific things
   imports = [

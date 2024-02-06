@@ -57,4 +57,11 @@
 
     globalRedirect = "tu.berlin/eninet";
   };
+
+  services.nginx.virtualHosts."www.${config.inetNetworking.domainName}" = {
+    forceSSL = true;
+    enableACME = true;
+
+    globalRedirect = "tu.berlin/eninet";
+  };
 }
