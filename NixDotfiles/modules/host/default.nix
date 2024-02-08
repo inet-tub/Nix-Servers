@@ -92,7 +92,13 @@ in
         };};
       };
 
-      inetNetworking = mkOption {
+      zfsMetrics = mkOption {
+        description = "Enable ZFS metrics";
+        type = types.bool;
+        default = false;
+      };
+
+      networking = mkOption {
         description = "Enable networking";
         type = types.submodule { options = {
 
@@ -102,12 +108,12 @@ in
           };
 
           location = mkOption {
-            type = types.str;
+            type = types.enum [ "en" "mar" ];
             description = "Location of the host";
           };
 
           networkRange = mkOption {
-            type = types.str;
+            type = types.enum [ "ennet" "birdcage" "dmz" ];
             description = "Network range to be used";
           };
 
@@ -151,8 +157,6 @@ in
     assertions = [
       { assertion = config.networking.defaultGateway.address != ""; }
       { assertion = config.networking.defaultGateway6.address != ""; }
-      { assertion = config.host.inetNetworking.location == "en" || config.host.inetNetworking.location == "mar"; }
-      { assertion = config.host.inetNetworking.networkRange == "ennet" || config.host.inetNetworking.networkRange == "birdcage" || config.host.inetNetworking.networkRange == "dmz"; }
     ];
 
     zfs-root.boot.bootDevices = config.host.bootDevices;
@@ -215,13 +219,13 @@ in
       search = [ "inet.tu-berlin.de" "net.t-labs.tu-berlin.de" ];
 
       defaultGateway = {
-        interface = config.host.inetNetworking.interface;
+        interface = config.host.networking.interface;
         address =
-          if config.host.inetNetworking.networkRange == "ennet" then
+          if config.host.networking.networkRange == "ennet" then
             "130.149.152.129"
-          else if config.host.inetNetworking.networkRange == "birdcage" then
+          else if config.host.networking.networkRange == "birdcage" then
             ""  # TODO
-          else if config.host.inetNetworking.networkRange == "dmz" then
+          else if config.host.networking.networkRange == "dmz" then
             "130.149.220.126"
           else
             ""
@@ -229,41 +233,41 @@ in
       };
 
       defaultGateway6 = {
-        interface = config.host.inetNetworking.interface;
+        interface = config.host.networking.interface;
         address = "fe80::1";
       };
 
-      interfaces."${config.host.inetNetworking.interface}" = {
+      interfaces."${config.host.networking.interface}" = {
 
         ipv4.addresses = [{
-          address = config.host.inetNetworking.ip;
+          address = config.host.networking.ip;
           prefixLength = 25;
         }];
 
         ipv6.addresses = [{
-          address = "2001:638:809:ff${if config.host.inetNetworking.networkRange == "ennet" then
+          address = "2001:638:809:ff${if config.host.networking.networkRange == "ennet" then
             "20"
-          else if config.host.inetNetworking.networkRange == "birdcage" then
+          else if config.host.networking.networkRange == "birdcage" then
             ""  # TODO
-          else if config.host.inetNetworking.networkRange == "dmz" then
+          else if config.host.networking.networkRange == "dmz" then
             "11"
           else
-            ""}:${lib.replaceStrings [ "." ] [ ":" ] config.host.inetNetworking.ip}";
+            ""}:${lib.replaceStrings [ "." ] [ ":" ] config.host.networking.ip}";
           prefixLength = 64;
         }];
       };
 
       firewall = {
         enable = true;
-        allowedTCPPorts = config.host.inetNetworking.firewallAllowedTCPPorts;
-        allowedUDPPorts = config.host.inetNetworking.firewallAllowedUDPPorts;
+        allowedTCPPorts = config.host.networking.firewallAllowedTCPPorts;
+        allowedUDPPorts = config.host.networking.firewallAllowedUDPPorts;
       };
 
       # For the containers
       nat = {
         enable = true;
         internalInterfaces = ["ve-+"];
-        externalInterface = config.host.inetNetworking.interface;
+        externalInterface = config.host.networking.interface;
       };
 
     };

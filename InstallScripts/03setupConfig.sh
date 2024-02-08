@@ -31,7 +31,7 @@ rootHashPwd=$(echo "$ROOT_PASSWORD" | mkpasswd -m SHA-512 -s)
 sed -i "s|rootHash_placeholder|${rootHashPwd}|" "/mnt/etc/nixos/users/root.nix"
 
 SSH_HOST_KEY_LOCATION="/mnt/etc/ssh/ssh_host_ed25519_key"
-SSH_ROOT_DIR="/root/.ssh/"
+SSH_ROOT_DIR="/mnt/root/.ssh/"
 SSH_ROOT_ID="$SSH_ROOT_DIR/id_ed25519"
 
 if [ -n "$HOST_PRIVATE_SSH_KEY" ];

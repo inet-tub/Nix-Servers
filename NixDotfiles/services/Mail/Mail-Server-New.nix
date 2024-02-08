@@ -30,7 +30,7 @@ let DATA_DIR = "/data/MailServer"; in
 
 
         environment = {
-          OVERRIDE_HOSTNAME = "mail.${config.inetNetworking.domainName}";
+          OVERRIDE_HOSTNAME = "mail.${config.host.networking.domainName}";
           LOG_LEVEL = "trace";
           TZ = "Europe/Berlin";
           ONE_DIR = "1";

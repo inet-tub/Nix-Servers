@@ -15,7 +15,7 @@
       metaGB = 12;
     };
 
-    inetNetworking = {
+    networking = {
       ip = "130.149.152.137";
       location = "en";
       networkRange = "ennet";

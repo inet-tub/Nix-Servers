@@ -15,19 +15,30 @@
       metaGB = 12;
     };
 
-    inetNetworking = {
+    networking = {
       ip = "130.149.152.135";
       location = "en";
       networkRange = "ennet";
       interface = "eno1";
     };
-  };    
+
+  };
+
+  monitoredServices = {
+    prometheus.enable = true;
+    nginx.enable = true;
+    smartctl.enable = true;
+    zfs.enable = true;
+  };
 
   # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
+    # Import services
     "Nginx.nix"
+    "Monitoring/Prometheus.nix"
+    "Monitoring/Grafana.nix"
   ];
 }

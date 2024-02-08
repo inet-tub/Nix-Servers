@@ -18,7 +18,7 @@ in
 
         domain = mkOption {
           type = types.str;
-          default = config.inetNetworking.domainName;
+          default = config.host.networking.domainName;
         };
 
         name = mkOption {

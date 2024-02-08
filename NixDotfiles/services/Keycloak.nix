@@ -30,7 +30,7 @@ let DATA_DIR = "/data/Keycloak"; in
           proxy_buffer_size   256k;
         '';
 
-        additionalNginxHostConfig."keycloak-admin.${config.inetNetworking.domainName}" = {
+        additionalNginxHostConfig."keycloak-admin.${config.host.networking.domainName}" = {
           forceSSL = true;
 
           sslCertificate = config.age.secrets.Keycloak_SSLCert.path;
@@ -58,8 +58,8 @@ let DATA_DIR = "/data/Keycloak"; in
             enable = true;
 
             settings = {
-              hostname = "keycloak.${config.inetNetworking.domainName}";
-              hostname-admin = "keycloak-admin.${config.inetNetworking.domainName}";
+              hostname = "keycloak.${config.host.networking.domainName}";
+              hostname-admin = "keycloak-admin.${config.host.networking.domainName}";
 
               hostname-strict-backchannel = true;
               proxy = "edge";

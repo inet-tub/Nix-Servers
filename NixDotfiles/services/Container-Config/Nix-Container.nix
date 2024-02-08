@@ -41,7 +41,7 @@ in
     {
       autoStart = true;
       privateNetwork = true;
-      hostAddress = config.inetNetworking.containerHostIP;
+      hostAddress = config.host.networking.containerHostIP;
       localAddress = containerIP;
 
       bindMounts = bindMounts;

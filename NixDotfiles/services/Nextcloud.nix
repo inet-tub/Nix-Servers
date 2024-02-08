@@ -33,7 +33,7 @@ in
             enable = true;
             package = pkgs.nextcloud27;
             datadir = "/var/lib/nextcloud";
-            hostName = "${SUBDOMAIN}.${config.inetNetworking.domainName}";
+            hostName = "${SUBDOMAIN}.${config.host.networking.domainName}";
             https = true;
 
             secretFile = config.age.secrets.Nexcloud_KeycloakClientSecret.path;
@@ -46,7 +46,7 @@ in
               dbhost = "/run/postgresql";
               dbuser = "nextcloud";
               dbname = "nextcloud";
-              trustedProxies = [ config.inetNetworking.containerHostIP ];
+              trustedProxies = [ config.host.networking.containerHostIP ];
 
               defaultPhoneRegion = "DE";
             };
@@ -97,7 +97,7 @@ in
             extraOptions = {
               # Behaviour of OpenID Connect with Keycloak
               oidc_login_provider_url = "https://${config.keycloak-setup.subdomain}.${config.keycloak-setup.domain}/realms/${config.keycloak-setup.realm}";
-              oidc_login_logout_url = "https://${SUBDOMAIN}.${config.inetNetworking.domainName}/apps/oidc_login/oidc";
+              oidc_login_logout_url = "https://${SUBDOMAIN}.${config.host.networking.domainName}/apps/oidc_login/oidc";
               oidc_login_client_id = "Nextcloud";
 
               oidc_login_auto_redirect = true;

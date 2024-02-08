@@ -6,11 +6,11 @@ let
     DATABASE_CLASS = "mailman.database.postgresql.PostgreSQLDatabase";
 
     # Web Configuration
-    SERVE_FROM_DOMAIN = "lists.${config.inetNetworking.domainName}";
+    SERVE_FROM_DOMAIN = "lists.${config.host.networking.domainName}";
     UWSGI_STATIC_MAP="/static=/opt/mailman-web-data/static";
 
     # Mail Configuration
-    SMTP_HOST = "mail.${config.inetNetworking.domainName}";
+    SMTP_HOST = "mail.${config.host.networking.domainName}";
     MTA = "postfix";
     MAILMAN_ADMIN_USER = "admin";
     MAILMAN_ADMIN_EMAIL = "admins@inet.tu-berlin.de";
@@ -25,7 +25,7 @@ in
 {
 
   services.nginx.virtualHosts = {
-    "lists.${config.inetNetworking.domainName}" = {
+    "lists.${config.host.networking.domainName}" = {
       forceSSL = true;
       enableACME = true;
 

@@ -1,10 +1,13 @@
 { ... }: {
-  users.groups.prometheus.members = [ "prometheus" ];
+  users.groups.prometheus = {
+    gid = 255;
+    members = [ "prometheus" "grafana" ];
+  };
 
   users.users = {
     prometheus = {
       isSystemUser = true;
-      uid = 5012;
+      uid = 255;
       group = "prometheus";
     };
   };

@@ -15,12 +15,18 @@
       metaGB = 12;
     };
 
-    inetNetworking = {
+    networking = {
       ip = "130.149.152.136";
       location = "en";
       networkRange = "ennet";
       interface = "eno1";
     };
+  };
+
+  monitoredServices = {
+    nginx.enable = true;
+    smartctl.enable = true;
+    zfs.enable = true;
   };
 
   # import other host-specific things

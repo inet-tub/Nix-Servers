@@ -1,7 +1,7 @@
 { pkgs, config, lib, ...}: {
 
   services.nginx.virtualHosts = {
-    "passbolt.${config.inetNetworking.domainName}" = {
+    "passbolt.${config.host.networking.domainName}" = {
       forceSSL = true;
       enableACME = true;
 
