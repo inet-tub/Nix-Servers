@@ -12,6 +12,8 @@
     };
   };
 
+
+
   outputs = { self, nixpkgs, nixpkgs-unstable, agenix }@inputs:
     let
       mkHost = hostName: stateVersion: system:
@@ -24,6 +26,7 @@
             # You can also add more  channels to pin package version.
             pkgs = import nixpkgs {
               inherit system;
+              overlays = [ (import ./overlays/urbackup.nix) ];
               config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
             };
 
@@ -53,7 +56,7 @@
     {
       nixosConfigurations = {
         nixie = mkHost "nixie" "23.05" "x86_64-linux";
-        enbackup = mkHost "enbackup" "23.11" "x86_64-linux";
+        en-backup = mkHost "en-backup" "23.11" "x86_64-linux";
         en-observertory = mkHost "en-observertory" "23.11" "x86_64-linux";#
         authentication = mkHost "authentication" "23.11" "x86_64-linux";
         admin = mkHost "admin" "23.11" "x86_64-linux";

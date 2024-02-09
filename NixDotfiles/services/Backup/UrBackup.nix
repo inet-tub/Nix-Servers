@@ -20,6 +20,7 @@ let DATA_DIR = "/data/UrBackup"; in
         volumes = [
           "${DATA_DIR}/backups:/backups"
           "${DATA_DIR}/urbackup:/var/urbackup"
+          "${DATA_DIR}/www:/usr/share/urbackup"
         ];
       }
     )
@@ -29,5 +30,6 @@ let DATA_DIR = "/data/UrBackup"; in
     "d ${DATA_DIR} 0750 6004 6004"
     "d ${DATA_DIR}/backups/ 0750 6004 6004"
     "d ${DATA_DIR}/urbackup/ 0750 6004 6004"
+    "d ${DATA_DIR}/www/ 0750 6004 6004"
   ];
 }

@@ -133,6 +133,18 @@ in {
         };});
       };
 
+      urbackup = mkOption {
+        description = "UrBackup";
+        default = null;
+        type = types.nullOr (types.submodule { options = {
+          enable = mkOption {
+            description = "Enable urbackup exporter";
+            type = types.bool;
+            default = false;
+          };
+        };});
+      };
+
     };};
 
   };
@@ -170,10 +182,26 @@ in {
         devices = cfg.monitoredServices.smartctl.devices;
         extraFlags = [ "--web.telemetry-path=/smartctl-metrics" ];
       };
+
     };
 
     # Enable monitoring options of services
     services.nginx.statusPage = cfg.monitoredServices.nginx != null;
+
+    # Enable Docker monitoring
+    virtualisation.oci-containers.containers.urbackup-exporter = mkIf (cfg.monitoredServices.urbackup != null) {
+      image = "ngosang/urbackup-exporter";
+      ports = [ "127.0.0.1::9554" ];
+      extraOptions = [ "--ip=10.88.4.2" "--userns=keep-id" ];
+      volumes = [ "/etc/resolv.conf:/etc/resolv.conf:ro" ];
+      environment = {
+        TZ = "Europe/Berlin";
+        URBACKUP_SERVER_URL = "http://10.88.4.1:55414/x";
+        URBACKUP_SERVER_USERNAME = "admin";
+        EXPORT_CLIENT_BACKUP = "true";
+      };
+      environmentFiles = [ config.age.secrets.UrBackup_exporter.path ];
+    };
 
     services.nginx.virtualHosts = mkIf (config.monitoredServices != [ ]) {
       "${config.host.name}.observer.${config.host.networking.domainName}" = {
@@ -185,6 +213,8 @@ in {
           "/${it}-metrics".proxyPass = "http://127.0.0.1:${toString cfg.services.prometheus.exporters.${it}.port}";
         } // acc ) { "/".return = "403"; } [ "zfs" "smartctl" "nginx" ] // {
           "/prometheus-metrics".proxyPass = "http://192.168.7.112:9090/metrics";
+          "/backuppc-metrics".proxyPass = "http://10.88.3.1:8080/BackupPC_Admin?action=metrics&format=prometheus";
+          "/urbackup-metrics".proxyPass = "http://10.88.4.2:9554/metrics";
         };
       };
     };

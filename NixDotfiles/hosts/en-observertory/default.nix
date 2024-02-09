@@ -40,5 +40,6 @@
     "Nginx.nix"
     "Monitoring/Prometheus.nix"
     "Monitoring/Grafana.nix"
+    "Backup/UrBackup-Client.nix"
   ];
 }

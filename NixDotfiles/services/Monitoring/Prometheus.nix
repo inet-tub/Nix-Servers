@@ -32,8 +32,11 @@ in
         imports = [ ../../users/services/Monitoring/prometheus.nix ];
         bindMounts = {
           "/var/lib/prometheus2/" = { hostPath = "${DATA_DIR}/prometheus2"; isReadOnly = false; };
+          "${config.age.secrets.Prometheus_nixie-pw.path}".hostPath = config.age.secrets.Prometheus_nixie-pw.path;
+          "${config.age.secrets.Prometheus_en-backup-pw.path}".hostPath = config.age.secrets.Prometheus_en-backup-pw.path;
           "${config.age.secrets.Prometheus_en-observertory-pw.path}".hostPath = config.age.secrets.Prometheus_en-observertory-pw.path;
           "${config.age.secrets.Prometheus_authentication-pw.path}".hostPath = config.age.secrets.Prometheus_authentication-pw.path;
+          "${config.age.secrets.Prometheus_admin-pw.path}".hostPath = config.age.secrets.Prometheus_admin-pw.path;
         };
 
         cfg = {
@@ -42,10 +45,14 @@ in
             webExternalUrl = "https://en-observertory.${config.host.networking.domainName}";
             webConfigFile = "/var/lib/prometheus2/config/web-config.yaml";
 
-            scrapeConfigs = let def = [ "zfs" "nginx" "smartctl" ]; in
+            scrapeConfigs = let
+              def = [ "zfs" "nginx" "smartctl" ];
+            in
+              (mkScrapers "nixie" ([ "prometheus" ] ++ def)) ++
+              (mkScrapers "en-backup" ([ "backuppc" "urbackup" ] ++ def)) ++
               (mkScrapers "en-observertory" ([ "prometheus" ] ++ def)) ++
-              (mkScrapers "authentication" ([  ] ++ def))
-#              (mkScapers "en-backup" [ "zfs" "smartctl" ])
+              (mkScrapers "authentication" ([  ] ++ def)) ++
+              (mkScrapers "admin" ([ ] ++ def))
               ;
 
           };

@@ -1,71 +1,47 @@
 { config, modulesPath, ... }: {
-  zfs-root = {
-    boot = {
-      devNodes = "/dev/disk/by-id/";
-      bootDevices = [ "bootDevices_placeholder" ];
-      removableEfi = true;
-    };
-  };
+  host = {
+    name = "en-backup";
+    id = "abcd1234";
+    bootDevices = [ "bootDevices_placeholder" ];
 
-  boot.zfs.forceImportRoot = false;
-  services.zfs = {
-    autoSnapshot = {
-      enable = true;
-      flags = "-k -p --utc";
-
-      # How many snapshots to keep
+    zfsAutoSnapshot = {
       weekly = 7;
       monthly = 120;
     };
+
+    zfsArc = {
+      minGB = 6;
+      maxGB = 8;
+      metaGB = 4;
+    };
+
+    networking = {
+      ip = "130.149.152.130";
+      location = "en";
+      networkRange = "ennet";
+      interface = "enp2s0f0";
+    };
   };
 
-  boot.initrd.availableKernelModules = [
-    # "Normal" disk Support
-    "sd_mod"
-    "sr_mod"
-    "nvme"
-    "ahci"
-
-    # QEMU
-    "virtio_pci"
-    "virtio_blk"
-    "virtio_scsi"
-    "virtio_net"
-
-    # USB
-    "uas"
-    "usb_storage"
-    "usbhid"
-
-    # Legacy Server Modules
-    "ehci_pci"
-    "ata_piix"
-    "kvm-intel"
-    "xhci_pci"
-
-    # Legacy RAID modules
-    "megaraid_sas"
-    "hpsa"
-  ];
-
-  boot.kernelParams = [
-    "zfs.zfs_arc_max=12884901888"
-    "zfs.zfs_arc_min=4294967296"
-    "zfs.zfs_arc_meta_limit=8589934592"
-  ];
-
-  networking = {
-    hostName = "enbackup";
-    hostId = "abcd1234";
+  monitoredServices = {
+    nginx.enable = true;
+    smartctl.enable = true;
+    zfs.enable = true;
+    urbackup.enable = true;
   };
 
-  time.timeZone = "Europe/Berlin";
+  services.urbackup-client.enable = false;
 
-  # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./networking.nix
-    ./services.nix
     ./secrets.nix
+  ] ++ map (it: ../../services/${it}) [
+    "Nginx.nix"
+
+    "Backup/UrBackup.nix"
+    "Backup/Borg.nix"
+    "Backup/Restic.nix"
+    "Backup/Rsnapshot.nix"
+    "Backup/BackupPC.nix"
   ];
 }

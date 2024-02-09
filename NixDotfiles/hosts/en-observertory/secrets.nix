@@ -1,5 +1,11 @@
 { pkgs, options, config, lib, ... }: {
   age.secrets = {
+    Monitoring_host-htpasswd = {
+      file = ../../secrets/Monitoring/Nginx/en-observertory-htpasswd.age;
+      owner = "nginx";
+      group = "nginx";
+    };
+
     Prometheus_en-observertory-pw = {
       file = ../../secrets/Monitoring/Prometheus/en-observertory-pw.age;
       mode = "440";
@@ -7,15 +13,24 @@
       group = "prometheus";
     };
 
+    Prometheus_en-backup-pw = {
+      file = ../../secrets/Monitoring/Prometheus/en-backup-pw.age;
+      owner = "prometheus";
+    };
+
     Prometheus_authentication-pw = {
       file = ../../secrets/Monitoring/Prometheus/authentication-pw.age;
       owner = "prometheus";
     };
 
-    Monitoring_host-htpasswd = {
-      file = ../../secrets/Monitoring/Nginx/en-observertory-htpasswd.age;
-      owner = "nginx";
-      group = "nginx";
+    Prometheus_admin-pw = {
+      file = ../../secrets/Monitoring/Prometheus/admin-pw.age;
+      owner = "prometheus";
+    };
+
+    Prometheus_nixie-pw = {
+      file = ../../secrets/Monitoring/Prometheus/nixie-pw.age;
+      owner = "prometheus";
     };
 
     Grafana_admin-pw = {

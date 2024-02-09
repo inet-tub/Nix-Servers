@@ -126,13 +126,13 @@ in
           firewallAllowedTCPPorts = mkOption {
             type = types.listOf types.int;
             description = "Ports to be allowed in the firewall";
-            default = [ 22 80 443 ];
+            default = [ 22 80 443 35621 35623 ];
           };
 
           firewallAllowedUDPPorts = mkOption {
             type = types.listOf types.int;
             description = "Ports to be allowed in the firewall";
-            default = [ ];
+            default = [ 35622 ];
           };
 
           domainName = mkOption {
