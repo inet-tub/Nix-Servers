@@ -37,6 +37,7 @@
 
   monitoredServices = {
     nginx.enable = true;
+    nginxlog.enable = true;
     smartctl.enable = true;
     zfs.enable = true;
   };

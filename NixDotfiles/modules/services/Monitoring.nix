@@ -79,6 +79,18 @@ in {
         };});
       };
 
+      nginxlog = mkOption {
+        description = "Nginx";
+        default = null;
+        type = types.nullOr (types.submodule { options = {
+          enable = mkOption {
+            description = "Enable nginx exporter";
+            type = types.bool;
+            default = false;
+          };
+        };});
+      };
+
       postgres = mkOption {
         description = "Postgres";
         default = null;
@@ -156,6 +168,11 @@ in {
       type = types.str;
       default = "/smartctl-metrics";
     };
+    nginxlog.telemetryPath = mkOption {
+      description = "FAKE OPTION (this does nothing): Path to nginxlog metrics";
+      type = types.str;
+      default = "/nginxlog-metrics";
+    };
   };
 
 
@@ -176,6 +193,11 @@ in {
       # impi = {};
       # nextcloud = {};
       # postgres = {};
+
+      nginxlog = mkIf cfg.monitoredServices.nginxlog.enable {
+        enable = true;
+        metricsEndpoint = "/nginxlog-metrics";
+      };
 
       smartctl = mkIf (cfg.monitoredServices.smartctl != null) {
         enable = true;
@@ -211,7 +233,7 @@ in {
 
         locations = foldl' (acc: it: {
           "/${it}-metrics".proxyPass = "http://127.0.0.1:${toString cfg.services.prometheus.exporters.${it}.port}";
-        } // acc ) { "/".return = "403"; } [ "zfs" "smartctl" "nginx" ] // {
+        } // acc ) { "/".return = "403"; } [ "zfs" "smartctl" "nginx" "nginxlog" ] // {
           "/prometheus-metrics".proxyPass = "http://192.168.7.112:9090/metrics";
           "/backuppc-metrics".proxyPass = "http://10.88.3.1:8080/BackupPC_Admin?action=metrics&format=prometheus";
           "/urbackup-metrics".proxyPass = "http://10.88.4.2:9554/metrics";
