@@ -7,7 +7,7 @@ let DATA_DIR = "/data/YouTrack"; in
       import ./Container-Config/Oci-Container.nix {
         inherit config lib;
         name = "youtrack";
-        image = "jetbrains/youtrack:2023.2.21228";
+        image = "jetbrains/youtrack:2023.3.24329";
 
         subdomain = "asktheadmins";
         containerIP = "10.88.1.1";
