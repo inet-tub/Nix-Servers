@@ -67,5 +67,11 @@
       owner = "root";
       group = "root";
     };
+
+    Monitoring_host-htpasswd = {
+      file = ../../secrets/Monitoring/Nginx/nixie-htpasswd.age;
+      owner = "nginx";
+      group = "nginx";
+    };
   };
 }

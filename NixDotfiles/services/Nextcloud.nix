@@ -31,7 +31,7 @@ in
         cfg = {
           services.nextcloud = {
             enable = true;
-            package = pkgs.nextcloud27;
+            package = pkgs.nextcloud28;
             datadir = "/var/lib/nextcloud";
             hostName = "${SUBDOMAIN}.${config.host.networking.domainName}";
             https = true;
@@ -131,18 +131,21 @@ in
               overwriteprotocol = "https";
               default_locale = "en_IE";
 
-              oidc_login_default_quota = "268435456000";
-              post_max_size = "20G";
-              upload_max_filesize = "20G";
-
               oidc_login_default_group = "Authenticated";
               oidc_login_disable_registration = false;
               oidc_create_groups = true;
               oidc_login_webdav_enabled = true;
               oidc_login_password_authentication = false;
 
+              # File Size limits
+              oidc_login_default_quota = "268435456000";
+              post_max_size = "20G";
+              upload_max_filesize = "20G";
+              chunk_size = "512MB";
+
               # Calendar
               calendarSubscriptionRefreshRate = "PT1H";
+              maintenance_window_start = "1";
             };
           };
 

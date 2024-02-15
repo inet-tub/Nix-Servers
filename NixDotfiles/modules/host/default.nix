@@ -107,6 +107,23 @@ in
             description = "IP address of the host";
           };
 
+          interface = mkOption {
+            type = types.str;
+            description = "Interface to be used";
+          };
+
+          adminIp = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "IP address in the admin network";
+          };
+
+          adminInterface = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "Interface to be used";
+          };
+
           location = mkOption {
             type = types.enum [ "en" "mar" ];
             description = "Location of the host";
@@ -116,12 +133,6 @@ in
             type = types.enum [ "ennet" "birdcage" "dmz" ];
             description = "Network range to be used";
           };
-
-          interface = mkOption {
-            type = types.str;
-            description = "Interface to be used";
-          };
-          # TODO: Add second interface for admin network
 
           firewallAllowedTCPPorts = mkOption {
             type = types.listOf types.int;
@@ -157,6 +168,7 @@ in
     assertions = [
       { assertion = config.networking.defaultGateway.address != ""; }
       { assertion = config.networking.defaultGateway6.address != ""; }
+      { assertion = config.host.networking.adminIp == null && config.host.networking.adminInterface == null || config.host.networking.adminIp != null && config.host.networking.adminInterface != null; }
     ];
 
     zfs-root.boot.bootDevices = config.host.bootDevices;
@@ -167,10 +179,10 @@ in
       flags = "-k -p --utc";
 
       frequent = 0;
-      hourly = config.host.zfs-auto-snapshot.hourly;
-      daily = config.host.zfs-auto-snapshot.daily;
-      weekly = config.host.zfs-auto-snapshot.weekly;
-      monthly = config.host.zfs-auto-snapshot.monthly;
+      hourly = config.host.zfsAutoSnapshot.hourly;
+      daily = config.host.zfsAutoSnapshot.daily;
+      weekly = config.host.zfsAutoSnapshot.weekly;
+      monthly = config.host.zfsAutoSnapshot.monthly;
     };
 
     boot.kernelParams = [
@@ -254,6 +266,14 @@ in
           else
             ""}:${lib.replaceStrings [ "." ] [ ":" ] config.host.networking.ip}";
           prefixLength = 64;
+        }];
+      };
+
+      interfaces."${config.host.networking.adminInterface}" = mkIf (config.host.networking.adminInterface != null) {
+
+        ipv4.addresses = [{
+          address = config.host.networking.adminIp;
+          prefixLength = 25;
         }];
       };
 

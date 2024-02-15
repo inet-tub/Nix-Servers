@@ -1,74 +1,74 @@
 { config, modulesPath, ... }: {
-  zfs-root = {
-    boot = {
-      devNodes = "/dev/disk/by-id/";
-      bootDevices = [ "bootDevices_placeholder" ];
-      removableEfi = true;
-      luks.enable = false;
+  host = {
+    name = "nixie";
+    id = "abcd1234";
+    bootDevices = [ "bootDevices_placeholder" ];
 
-      sshUnlock = {
-        enable = false;
-        authorizedKeys = [ ];
-      };
-    };
-  };
-
-  boot.zfs.forceImportRoot = false;
-  services.zfs = {
-    autoSnapshot = {
+    zfsAutoSnapshot = {
       enable = true;
-      flags = "-k -p --utc";
-
-      # How many snapshots to keep
       weekly = 7;
       monthly = 48;
     };
+
+    zfsArc = {
+      minGB = 24;
+      maxGB = 48;
+      metaGB = 12;
+    };
+
+    networking = {
+      ip = "130.149.220.242";
+      interface = "eno1";
+
+      adminIp = "192.168.200.7";
+      adminInterface = "eno2";
+
+      location = "mar";
+      networkRange = "dmz";
+
+      firewallAllowedTCPPorts = [
+        22 80 443 35621 35623      # Default
+        25 465 587 993 4190  # Mail
+      ];
+    };
   };
 
-  boot.initrd.availableKernelModules = [
-    # "Normal" disk Support
-    "sd_mod"
-    "sr_mod"
-    "nvme"
-    "ahci"
+  keycloak-setup.realm = "INET";
 
-    # QEMU
-    "virtio_pci"
-    "virtio_blk"
-    "virtio_scsi"
-    "virtio_net"
-
-    # USB
-    "uas"
-    "usb_storage"
-    "usbhid"
-
-    # Legacy Server Modules
-    "ehci_pci"
-    "megaraid_sas"
-    "ata_piix"
-    "kvm-intel"
-    "xhci_pci"
-  ];
-
-  boot.kernelParams = [
-    "zfs.zfs_arc_max=68719476736"
-    "zfs.zfs_arc_min=12884901888"
-    "zfs.zfs_arc_meta_limit=12884901888"
-  ];
-
-  networking = {
-    hostName = "nixie";
-    hostId = "abcd1234";
+  monitoredServices = {
+    nginx.enable = true;
+    smartctl.enable = true;
+    zfs.enable = true;
   };
 
-  time.timeZone = "Europe/Berlin";
+  # Currently there is no better place to put it as nixie handles inet.tu-berlin.de
+  services.nginx.virtualHosts."${config.host.networking.domainName}" = {
+    forceSSL = true;
+    enableACME = true;
+    serverAliases = [ "www.${config.host.networking.domainName}" ];
+
+    globalRedirect = "tu.berlin/eninet";
+  };
 
   # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./networking.nix
-    ./services.nix
     ./secrets.nix
+  ] ++ map (it: ../../services/${it}) [
+    # Import services
+    "Nginx.nix"
+    "HedgeDoc.nix"
+    "Keycloak.nix"
+    "Nextcloud.nix"
+    "OnlyOffice.nix"
+    "Wiki-js.nix"
+    "YouTrack.nix"
+    "NetBox.nix"
+
+    "PasswordManagers/VaultWarden.nix"
+
+    "Mail/MailServer.nix"
+    "Mail/MailMan.nix"
+    "Mail/WebMail.nix"
   ];
 }

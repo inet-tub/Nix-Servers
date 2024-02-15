@@ -5,6 +5,7 @@
     bootDevices = [ "bootDevices_placeholder" ];
 
     zfsAutoSnapshot = {
+      enable = true;
       weekly = 7;
       monthly = 120;
     };
