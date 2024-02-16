@@ -18,14 +18,19 @@
 
     networking = {
       ip = "130.149.152.137";
+      interface = "eno1";
+
+      adminIp = "192.168.201.137";
+      adminInterface = "eno2";
+
       location = "en";
       networkRange = "ennet";
-      interface = "eno1";
     };
   };
 
   monitoredServices = {
     nginx.enable = true;
+    nginxlog.enable = true;
     smartctl.enable = true;
     zfs.enable = true;
   };
@@ -36,5 +41,7 @@
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
+    "Admin/NetBox.nix"
+    "Admin/YouTrack.nix"
   ];
 }

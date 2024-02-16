@@ -12,7 +12,7 @@ let DATA_DIR = "/data/MailServer"; in
   imports = [
     (
       import ./Container-Config/Oci-Container.nix {
-        inherit config lib;
+        inherit config lib pkgs;
         name = "mail";
         image = "mailserver/docker-mailserver:latest";
 

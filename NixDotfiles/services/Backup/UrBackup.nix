@@ -5,7 +5,7 @@ let DATA_DIR = "/data/UrBackup"; in
   imports = [
     (
       import ../Container-Config/Oci-Container.nix {
-        inherit config lib;
+        inherit config lib pkgs;
         name = "urbackup";
         image = "uroni/urbackup-server";
         containerIP = "10.88.4.1";

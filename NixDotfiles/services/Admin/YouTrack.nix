@@ -4,14 +4,16 @@ let DATA_DIR = "/data/YouTrack"; in
 
   imports = [
     (
-      import ./Container-Config/Oci-Container.nix {
-        inherit config lib;
+      import ../Container-Config/Oci-Container.nix {
+        inherit config lib pkgs;
         name = "youtrack";
         image = "jetbrains/youtrack:2023.3.24329";
+        dataDir = DATA_DIR;
 
-        subdomain = "asktheadmins";
-        containerIP = "10.88.1.1";
+        subdomain = "admin-ticket";
+        containerNum = 1;
         containerPort = 8080;
+        createSeperateNetworkInterface = true;
 
         volumes = [
           "${DATA_DIR}/data:/opt/youtrack/data"

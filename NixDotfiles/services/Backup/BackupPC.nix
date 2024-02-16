@@ -6,7 +6,7 @@ let DATA_DIR = "/data/BackupPC"; in
   imports = [
     (
       import ../Container-Config/Oci-Container.nix {
-        inherit config lib;
+        inherit config lib pkgs;
         name = "backuppc";
         image = "adferrand/backuppc:4";
 

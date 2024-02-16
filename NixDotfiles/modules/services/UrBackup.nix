@@ -107,7 +107,7 @@ in
         Group = cfg.group;
         ExecStart = "${pkgs.urbackup-client}/bin/urbackupclientbackend --config ${settingsFormat.generate "urbackupclient" cfg.otherSettings} --no-consoletime --loglevel debug";
         StateDirectory = "urbackup urbackup/data";
-        WorkingDirectory = "/var/lib/urbackup"; # Overridden by a hardcoded path in the binary
+        WorkingDirectory = "/data/UrBackup/urbackup"; # Overridden by a hardcoded path in the binary
         LogsDirectory = "urbackup";
         AmbientCapabilities = "CAP_SETUID CAP_SYS_NICE";
       };

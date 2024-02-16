@@ -6,7 +6,7 @@ let
   authentication = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGqrwJxF7Pql+p1XQqH8m9TaSThg35xu5f1R3T7UB0/L root@authentication";
   admin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPu5yJRC0EdgEBer1ACyLCLekC6Q6tOH7LdMtGDaZS4O root@admin";
 
-  allSystems = [ nixie en-backup ];
+  allSystems = [ nixie en-backup en-observertory authentication admin ];
 in
 {
   "Keycloak/DatabasePassword.age".publicKeys = [ nixie ];
@@ -24,9 +24,10 @@ in
   "Mail/MailManEnvironmentFile.age".publicKeys = [ nixie ];
   "Mail/MailManDatabasePassword.age".publicKeys = [ nixie ];
 
-  "NetBox/SecretKey.age".publicKeys = [ nixie ];
-  "NetBox/KeycloakClientSecret.age".publicKeys = [ nixie ];
   "NetBox.age".publicKeys = [ nixie ];
+  "NetBox/PostgresEnv.age".publicKeys = [ admin ];
+  "NetBox/RedisEnv.age".publicKeys = [ admin ];
+  "NetBox/Env.age".publicKeys = [ admin ];
 
   "SSHKeys/Wiki-js.age".publicKeys = [ nixie ];
 
@@ -53,4 +54,6 @@ in
   "Monitoring/Grafana/admin-pw.age".publicKeys = [ en-observertory ];
   "Monitoring/Grafana/secret-key.age".publicKeys = [ en-observertory ];
   "Monitoring/Grafana/mail-pw.age".publicKeys = [ en-observertory ];
+
+  "Test.age".publicKeys = [ admin ];
 }
