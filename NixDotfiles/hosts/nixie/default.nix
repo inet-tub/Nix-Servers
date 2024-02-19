@@ -63,8 +63,8 @@
     "Nextcloud.nix"
     "OnlyOffice.nix"
     "Wiki-js.nix"
-    "YouTrack.nix"
-    "NetBox.nix"
+    "Admin/YouTrack.nix"
+    "Admin/NetBox.nix"
 
     "PasswordManagers/VaultWarden.nix"
 

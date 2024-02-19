@@ -18,4 +18,9 @@ in
   };
 
   users.users.nginx.extraGroups = [ "acme" ];
+
+  services.nginx.virtualHosts."_" = {
+    default = true;
+    locations."/".return = "500";
+  };
 }

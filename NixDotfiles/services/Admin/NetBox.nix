@@ -10,7 +10,7 @@ let DATA_DIR = "/data/NetBox"; in
         image = "linuxserver/netbox:latest";
         dataDir = DATA_DIR;
 
-        subdomain = "admin-netbox";
+        subdomain = "netbox";
         containerNum = 5;
         containerPort = 8000;
         createSeperateNetworkInterface = true;

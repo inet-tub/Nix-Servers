@@ -48,7 +48,7 @@ in
             scrapeConfigs = let
               def = [ "zfs" "nginx" "smartctl" ];
             in
-              (mkScrapers "nixie" ([ "prometheus" ] ++ def)) ++
+              (mkScrapers "nixie" ([ ] ++ def)) ++
               (mkScrapers "en-backup" ([ "backuppc" "urbackup" ] ++ def)) ++
               (mkScrapers "en-observertory" ([ "prometheus" ] ++ def)) ++
               (mkScrapers "authentication" ([  ] ++ def)) ++
