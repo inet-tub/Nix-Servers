@@ -4,7 +4,7 @@ let
   cfg = config.services.urbackup-client;
   settingsFormat = pkgs.formats.keyValue { };
 
-  inherit (lib) types mkOption mkDefault mkDoc mdDoc mkIf mkEnableOption;
+  inherit (lib) types mkOption mkDefault mkDoc mdDoc mkIf mkEnableOption optional;
 in
 {
   options.services.urbackup-client = {
@@ -106,11 +106,13 @@ in
         User = cfg.user;
         Group = cfg.group;
         ExecStart = "${pkgs.urbackup-client}/bin/urbackupclientbackend --config ${settingsFormat.generate "urbackupclient" cfg.otherSettings} --no-consoletime --loglevel debug";
-        StateDirectory = "urbackup urbackup/data";
-        WorkingDirectory = "/data/UrBackup/urbackup"; # Overridden by a hardcoded path in the binary
+        StateDirectory = "/data/UrBackup/urbackup /data/UrBackup/urbackup/data";
+        WorkingDirectory = "/data/UrBackup"; # Overridden by a hardcoded path in the binary
         LogsDirectory = "urbackup";
         AmbientCapabilities = "CAP_SETUID CAP_SYS_NICE";
       };
     };
+
+    systemd.tmpfiles.rules = optional cfg.enable "d /data/UrBackup/urbackup 0750 root root";
   };
 }

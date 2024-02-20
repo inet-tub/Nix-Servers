@@ -2,7 +2,7 @@ self: super: {
   urbackup-client = with super; super.urbackup-client.overrideAttrs (oldAttrs: {
     configureFlags = oldAttrs.configureFlags ++ [
       "--with-crypto-prefix=${cryptopp.dev}"
-      "--localstatedir=/var/lib"
+      "--localstatedir=/data/UrBackup"
     ];
 
     nativeBuildInputs = [
