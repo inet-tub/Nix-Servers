@@ -8,8 +8,9 @@ let DATA_DIR = "/data/UrBackup"; in
         inherit config lib pkgs;
         name = "urbackup";
         image = "uroni/urbackup-server";
-        containerIP = "10.88.4.1";
         containerPort = 55414;
+        dataDir = DATA_DIR;
+        containerNum = 4;
 
         additionalContainerConfig.extraOptions = [ "--device=/dev/zfs" ];
         environment = {
@@ -18,7 +19,7 @@ let DATA_DIR = "/data/UrBackup"; in
         };
 
         volumes = [
-          "${DATA_DIR}/backups:/backups"
+          "${DATA_DIR}/backups:${DATA_DIR}/backups"
           "${DATA_DIR}/urbackup:/var/urbackup"
           "${DATA_DIR}/www:/usr/share/urbackup"
         ];

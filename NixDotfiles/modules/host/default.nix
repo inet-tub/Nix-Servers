@@ -249,32 +249,34 @@ in
         address = "fe80::1";
       };
 
-      interfaces."${config.host.networking.interface}" = {
+      interfaces = {
+        "${config.host.networking.interface}" = {
 
-        ipv4.addresses = [{
-          address = config.host.networking.ip;
-          prefixLength = 25;
-        }];
+          ipv4.addresses = [{
+            address = config.host.networking.ip;
+            prefixLength = 25;
+          }];
 
-        ipv6.addresses = [{
-          address = "2001:638:809:ff${if config.host.networking.networkRange == "ennet" then
-            "20"
-          else if config.host.networking.networkRange == "birdcage" then
-            ""  # TODO
-          else if config.host.networking.networkRange == "dmz" then
-            "11"
-          else
-            ""}:${lib.replaceStrings [ "." ] [ ":" ] config.host.networking.ip}";
-          prefixLength = 64;
-        }];
-      };
+          ipv6.addresses = [{
+            address = "2001:638:809:ff${if config.host.networking.networkRange == "ennet" then
+              "20"
+            else if config.host.networking.networkRange == "birdcage" then
+              ""  # TODO
+            else if config.host.networking.networkRange == "dmz" then
+              "11"
+            else
+              ""}:${lib.replaceStrings [ "." ] [ ":" ] config.host.networking.ip}";
+            prefixLength = 64;
+          }];
+        };
 
-      interfaces."${config.host.networking.adminInterface}" = mkIf (config.host.networking.adminInterface != null) {
+        "${config.host.networking.adminInterface}" = mkIf (config.host.networking.adminInterface != null) {
 
-        ipv4.addresses = [{
-          address = config.host.networking.adminIp;
-          prefixLength = 25;
-        }];
+          ipv4.addresses = [{
+            address = config.host.networking.adminIp;
+            prefixLength = 25;
+          }];
+        };
       };
 
       firewall = {

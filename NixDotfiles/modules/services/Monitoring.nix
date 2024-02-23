@@ -168,11 +168,6 @@ in {
       type = types.str;
       default = "/smartctl-metrics";
     };
-    nginxlog.telemetryPath = mkOption {
-      description = "FAKE OPTION (this does nothing): Path to nginxlog metrics";
-      type = types.str;
-      default = "/nginxlog-metrics";
-    };
   };
 
 
@@ -194,7 +189,7 @@ in {
       # nextcloud = {};
       # postgres = {};
 
-      nginxlog = mkIf cfg.monitoredServices.nginxlog.enable {
+      nginxlog = mkIf (cfg.monitoredServices.nginxlog != null) {
         enable = true;
         metricsEndpoint = "/nginxlog-metrics";
       };

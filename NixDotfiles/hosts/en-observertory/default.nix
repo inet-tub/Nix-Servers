@@ -18,9 +18,13 @@
 
     networking = {
       ip = "130.149.152.135";
+      interface = "eno1";
+
+      adminIp = "192.168.201.135";
+      adminInterface = "eno2";
+
       location = "en";
       networkRange = "ennet";
-      interface = "eno1";
     };
 
   };

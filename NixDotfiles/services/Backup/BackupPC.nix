@@ -9,8 +9,9 @@ let DATA_DIR = "/data/BackupPC"; in
         inherit config lib pkgs;
         name = "backuppc";
         image = "adferrand/backuppc:4";
+        dataDir = DATA_DIR;
+        containerNum = 3;
 
-        containerIP = "10.88.3.1";
         containerPort = 8080;
         additionalContainerConfig.extraOptions = [ "--cap-add=NET_ADMIN" "--privileged" ];
 
