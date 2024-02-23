@@ -51,12 +51,6 @@
     globalRedirect = "tu.berlin/eninet";
   };
 
-  services.nginx.virtualHosts."asktheadmins.${config.host.networking.domainName}" = {
-    forceSSL = true;
-    enableACME = true;
-    globalRedirect = "admin-ticket.${config.host.networking.domainName}";
-  };
-
   # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")

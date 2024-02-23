@@ -13,7 +13,6 @@ let DATA_DIR = "/data/NetBox"; in
         subdomain = "netbox";
         containerNum = 5;
         containerPort = 8000;
-        createSeperateNetworkInterface = true;
 
         environmentFiles = [ config.age.secrets.NetBox_Env.path ];
         postgresEnvFile = config.age.secrets.NetBox_Postgres.path;

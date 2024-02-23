@@ -1,5 +1,5 @@
 {
-  name, image, dataDir, subdomain ? null, containerNum, containerPort, volumes, createSeperateNetworkInterface ? false,
+  name, image, dataDir, subdomain ? null, containerNum, containerPort, volumes,
   imports ? [], postgresEnvFile ? null, redisEnvFile ? null, environment ? { }, environmentFiles ? [ ], additionalDomains ? [ ], additionalContainerConfig ? {},
   makeNginxConfig ? true, additionalNginxConfig ? {}, additionalNginxLocationConfig ? {}, additionalNginxHostConfig ? {},
   config, lib, pkgs
@@ -33,7 +33,7 @@ in
 {
   imports = imports ++ nginxImport;
 
-  systemd.services."create-pod-${name}" = mkIf createSeperateNetworkInterface {
+  systemd.services."create-pod-${name}" = {
     serviceConfig.Type = "oneshot";
     wantedBy = [ "${config.virtualisation.oci-containers.backend}-${name}.service" ];
     script = ''
@@ -47,7 +47,7 @@ in
       additionalContainerConfig
       {
         image = image;
-        extraOptions = optional createSeperateNetworkInterface "--pod=${podName}";
+        extraOptions = [ "--pod=${podName}" ];
 
         volumes = volumes ++ defVolumes;
         environment = { TZ = "Europe/Berlin"; } // environment;

@@ -174,16 +174,25 @@ in
     zfs-root.boot.bootDevices = config.host.bootDevices;
     boot.zfs.forceImportRoot = false;
 
-    services.zfs.autoSnapshot = {
-      enable = config.host.zfsAutoSnapshot.enable;
-      flags = "-k -p --utc";
+    services.zfs = {
+      autoSnapshot = {
+        enable = config.host.zfsAutoSnapshot.enable;
+        flags = "-k -p --utc";
 
-      frequent = 0;
-      hourly = config.host.zfsAutoSnapshot.hourly;
-      daily = config.host.zfsAutoSnapshot.daily;
-      weekly = config.host.zfsAutoSnapshot.weekly;
-      monthly = config.host.zfsAutoSnapshot.monthly;
+        frequent = 0;
+        hourly = config.host.zfsAutoSnapshot.hourly;
+        daily = config.host.zfsAutoSnapshot.daily;
+        weekly = config.host.zfsAutoSnapshot.weekly;
+        monthly = config.host.zfsAutoSnapshot.monthly;
+      };
+
+      autoScrub = {
+        enable = true;
+        interval = "Sun, 02:00";
+        pools = [ "rpool" ];
+      };
     };
+
 
     boot.kernelParams = [
       "zfs_arc_min=${toString (config.host.zfsArc.minGB * 1073741824)}"

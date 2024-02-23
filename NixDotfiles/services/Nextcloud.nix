@@ -2,6 +2,13 @@
 let
   DATA_DIR = "/data/Nextcloud";
   SUBDOMAIN = "nextcloud";
+  nginxConfig = ''
+    client_body_buffer_size 400M;
+    fastcgi_read_timeout 300s;
+    fastcgi_send_timeout 300s;
+    fastcgi_connect_timeout 300s;
+    proxy_read_timeout 300s;
+  '';
 in
 {
   systemd.tmpfiles.rules = [
@@ -17,7 +24,7 @@ in
         name = SUBDOMAIN;
         containerIP = "192.168.7.103";
         containerPort = 80;
-        additionalNginxConfig.extraConfig = "client_max_body_size 200G;";
+        additionalNginxConfig.extraConfig = "client_max_body_size 20G;" + nginxConfig;
 
         postgresqlName = "nextcloud";
         imports = [ ../users/services/nextcloud.nix ];
@@ -29,12 +36,15 @@ in
         };
 
         cfg = {
+          services.nginx.virtualHosts."cloud.${config.host.networking.domainName}".extraConfig = nginxConfig;
+
           services.nextcloud = {
             enable = true;
             package = pkgs.nextcloud28;
             datadir = "/var/lib/nextcloud";
             hostName = "${SUBDOMAIN}.${config.host.networking.domainName}";
             https = true;
+            maxUploadSize = "20G";
 
             secretFile = config.age.secrets.Nexcloud_KeycloakClientSecret.path;
 
@@ -139,9 +149,10 @@ in
 
               # File Size limits
               oidc_login_default_quota = "268435456000";
-              post_max_size = "20G";
-              upload_max_filesize = "20G";
               chunk_size = "512MB";
+              max_input_time = "300";
+              max_execution_time = "300";
+              output_buffering = "0";
 
               # Calendar
               calendarSubscriptionRefreshRate = "PT1H";

@@ -10,10 +10,9 @@ let DATA_DIR = "/data/YouTrack"; in
         image = "jetbrains/youtrack:2023.3.24329";
         dataDir = DATA_DIR;
 
-        subdomain = "admin-ticket";
+        subdomain = "asktheadmins";
         containerNum = 1;
         containerPort = 8080;
-        createSeperateNetworkInterface = true;
 
         volumes = [
           "${DATA_DIR}/data:/opt/youtrack/data"
