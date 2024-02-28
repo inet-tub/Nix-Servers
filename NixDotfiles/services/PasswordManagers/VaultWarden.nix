@@ -41,12 +41,12 @@ let DATA_DIR = "/data/VaultWarden"; in
               EVENTS_DAYS_RETAIN = 30;
               TRASH_AUTO_DELETE_DAYS = 30;
 
-              SMTP_HOST = "smtp.gmail.com";
-              SMTP_FROM = "nixie3403@gmail.com";
+              SMTP_HOST = "mail.inet.tu-berlin.de";
+              SMTP_FROM = "vaultwarden@inet.tu-berlin.de";
               SMTP_FROM_NAME = "VaultWarden";
               SMTP_SECURITY = "force_tls";
               SMTP_PORT = "465";
-              SMTP_USERNAME = "nixie3403@gmail.com";
+              SMTP_USERNAME = "vaultwarden@inet.tu-berlin.de";
 
             };
 
