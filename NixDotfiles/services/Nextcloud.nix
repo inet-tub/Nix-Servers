@@ -44,7 +44,10 @@ in
             datadir = "/var/lib/nextcloud";
             hostName = "${SUBDOMAIN}.${config.host.networking.domainName}";
             https = true;
+
             maxUploadSize = "20G";
+            logType = "file";
+            logLevel = 1;
 
             secretFile = config.age.secrets.Nexcloud_KeycloakClientSecret.path;
 
@@ -153,6 +156,7 @@ in
               max_input_time = "300";
               max_execution_time = "300";
               output_buffering = "0";
+              bulkupload.enabled = "false";
 
               # Calendar
               calendarSubscriptionRefreshRate = "PT1H";
