@@ -297,7 +297,7 @@ in
       # For the containers
       nat = {
         enable = true;
-        internalInterfaces = ["ve-+"];
+        internalInterfaces = [ "ve-+" ];
         externalInterface = config.host.networking.interface;
       };
 

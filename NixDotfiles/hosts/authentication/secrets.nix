@@ -5,5 +5,11 @@
       owner = "nginx";
       group = "nginx";
     };
+
+    Wireguard = {
+      file = ../../secrets/Wireguard.age;
+      owner = "root";
+      group = "root";
+    };
   };
 }

@@ -56,4 +56,5 @@ in
   "Monitoring/Grafana/mail-pw.age".publicKeys = [ en-observertory ];
 
   "Test.age".publicKeys = [ admin ];
+  "Wireguard.age".publicKeys = [ authentication ];
 }

@@ -40,5 +40,6 @@
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
+    "Wireguard.nix"
   ];
 }
