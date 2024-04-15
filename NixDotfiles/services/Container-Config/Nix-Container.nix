@@ -44,7 +44,12 @@ in
       hostAddress = config.host.networking.containerHostIP;
       localAddress = containerIP;
 
-      bindMounts = bindMounts;
+      bindMounts = bindMounts // {
+        # Make sure uids and gids are the same
+        "/var/lib/nixos".hostPath = "/var/lib/nixos";
+        "/etc/passwd".hostPath = "/etc/passwd";
+        "/etc/group".hostPath = "/etc/group";
+      };
 
       config = { pkgs, config, lib, ... }: utils.recursiveMerge [
         cfg

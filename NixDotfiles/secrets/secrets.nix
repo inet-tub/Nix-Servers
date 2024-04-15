@@ -57,4 +57,5 @@ in
 
   "Test.age".publicKeys = [ admin ];
   "Wireguard.age".publicKeys = [ authentication ];
+  "OpenLDAP-rootpw.age".publicKeys = [ authentication ];
 }

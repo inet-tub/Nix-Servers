@@ -11,5 +11,11 @@
       owner = "root";
       group = "root";
     };
+
+    OpenLDAP_rootpw = {
+      file = ../../secrets/OpenLDAP-rootpw.age;
+      owner = "openldap";
+      group = "openldap";
+    };
   };
 }

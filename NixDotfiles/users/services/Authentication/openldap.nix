@@ -1,5 +1,5 @@
 { ... }: {
-  users.groups.openldap.members = [ "openldap" ];
+  users.groups.openldap.members = [ "openldap" "nginx" ];
 
   users.users = {
     openldap = {
