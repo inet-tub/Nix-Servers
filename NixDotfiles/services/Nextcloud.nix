@@ -82,6 +82,7 @@ in
             };
 
             caching.redis = true;
+            configureRedis = true;
 
             # App config
             appstoreEnable = true;
@@ -91,9 +92,8 @@ in
             autoUpdateApps.startAt = "05:00:00";
 
             extraApps = {
-              inherit (pkgs.nextcloud26Packages.apps)
+              inherit (pkgs.nextcloud28Packages.apps)
                 calendar
-                files_markdown
                 groupfolders
                 polls
                 deck
@@ -101,7 +101,7 @@ in
                 ;
 
               oidc = pkgs.fetchNextcloudApp rec {
-                url = "https://github.com/pulsejet/nextcloud-oidc-login/releases/download/v2.5.1/oidc_login.tar.gz";
+                url = "https://github.com/pulsejet/nextcloud-oidc-login/releases/download/v3.0.2/oidc_login.tar.gz";
                 sha256 = "sha256-lQaoKjPTh1RMXk2OE+ULRYKw70OCCFq1jKcUQ+c6XkA=";
                 license = "agpl3Only";
               };
@@ -143,6 +143,7 @@ in
               lost_password_link = "disabled";
               overwriteprotocol = "https";
               default_locale = "en_IE";
+              upgrade.disable-web = false;
 
               oidc_login_default_group = "Authenticated";
               oidc_login_disable_registration = false;
@@ -163,21 +164,6 @@ in
               maintenance_window_start = "1";
             };
           };
-
-          # Caching
-          services.redis.servers."nextcloud" = {
-            enable = true;
-            bind = "::1";
-            port = 6379;
-          };
-
-          systemd.services.nextcloud-setup.serviceConfig.ExecStartPost = pkgs.writeScript "nextcloud-redis.sh" ''
-            #!${pkgs.runtimeShell}
-            nextcloud-occ config:system:set redis 'host' --value '::1' --type string
-            nextcloud-occ config:system:set redis 'port' --value 6379 --type integer
-            nextcloud-occ config:system:set memcache.local --value '\OC\Memcache\Redis' --type string
-            nextcloud-occ config:system:set memcache.locking --value '\OC\Memcache\Redis' --type string
-          '';
 
           systemd.services."nextcloud-setup" = {
             requires = [ "postgresql.service" ];

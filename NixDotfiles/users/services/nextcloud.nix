@@ -1,6 +1,7 @@
 { ... }: {
   imports = [ ./postgres.nix ];
-  users.groups.nextcloud.members = [ "nextcloud" ];
+  # Nginx servs the static files and thus needs access to nextcloud files
+  users.groups.nextcloud.members = [ "nextcloud" "nginx" ];
 
   users.users = {
     nextcloud = {

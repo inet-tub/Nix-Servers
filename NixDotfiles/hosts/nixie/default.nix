@@ -27,8 +27,8 @@
       networkRange = "dmz";
 
       firewallAllowedTCPPorts = [
-        22 80 443 35621 35623      # Default
-        25 465 587 993 4190  # Mail
+        22 80 443 35621 35623  # Default
+        25 465 587 993 4190    # Mail
       ];
     };
   };

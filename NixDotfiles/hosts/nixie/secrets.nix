@@ -27,7 +27,7 @@
 
     OnlyOffice = {
       file = ../../secrets/OnlyOffice.age;
-      owner = "onlyoffice";
+      owner = "109";
     };
 
     HedgeDoc_EnvironmentFile = {
