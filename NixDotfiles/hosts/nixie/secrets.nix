@@ -25,8 +25,18 @@
       owner = "nextcloud";
     };
 
-    OnlyOffice = {
-      file = ../../secrets/OnlyOffice.age;
+    OnlyOffice-Documentserver = {
+      file = ../../secrets/OnlyOffice/Documentserver.age;
+      owner = "109";
+    };
+
+    OnlyOffice-Communityserver = {
+      file = ../../secrets/OnlyOffice/Communityserver.age;
+      owner = "109";
+    };
+
+    OnlyOffice-Communityserver-Mysql = {
+      file = ../../secrets/OnlyOffice/Communityserver-Mysql.age;
       owner = "109";
     };
 

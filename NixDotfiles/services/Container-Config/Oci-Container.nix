@@ -1,6 +1,6 @@
 {
-  name, image, dataDir, subdomain ? null, containerNum, containerPort, volumes,
-  imports ? [], postgresEnvFile ? null, redisEnvFile ? null, environment ? { }, environmentFiles ? [ ], additionalDomains ? [ ], additionalContainerConfig ? {},
+  name, image, dataDir, subdomain ? null, containerNum, containerSubNum ? 1, containerPort, volumes,
+  imports ? [], postgresEnvFile ? null, mysqlEnvFile ? null, redisEnvFile ? null, environment ? { }, environmentFiles ? [ ], additionalDomains ? [ ], additionalContainerConfig ? {},
   makeNginxConfig ? true, additionalNginxConfig ? {}, additionalNginxLocationConfig ? {}, additionalNginxHostConfig ? {},
   config, lib, pkgs
 }:
@@ -9,11 +9,12 @@ let
   inherit (lib) mkIf optional optionals;
   utils = import ../../utils.nix { inherit lib; };
   containerNumStr = if !builtins.isString containerNum then toString containerNum else containerNum;
+  containerSubNumStr = if !builtins.isString containerSubNum then toString containerSubNum else containerSubNum;
   containerPortStr = if !builtins.isString containerPort then toString containerPort else containerPort;
   defVolumes = [ "/etc/resolv.conf:/etc/resolv.conf:ro" ];
 
   podName = "pod-${name}";
-  containerIP = "10.88.${containerNumStr}.1";
+  containerIP = "10.88.${containerNumStr}.${containerSubNumStr}";
 
   nginxImport = if makeNginxConfig == false then [] else [
     (
@@ -38,7 +39,8 @@ in
     wantedBy = [ "${config.virtualisation.oci-containers.backend}-${name}.service" ];
     script = ''
       ${pkgs.podman}/bin/podman pod exists ${podName} || \
-      ${pkgs.podman}/bin/podman pod create --name=${podName} --ip=${containerIP} -p 127.0.0.1::${containerPortStr} --userns=keep-id
+      ${pkgs.podman}/bin/podman pod create --name=${podName} --ip=${containerIP} --userns=keep-id \
+        -p 127.0.0.1::${containerPortStr} -p 127.0.0.1::5432 -p 127.0.0.1::6379
     '';
   };
 
@@ -65,6 +67,25 @@ in
       cmd = [ "-h" "127.0.0.1" ];
     };
 
+    "${name}-mysql" = mkIf (mysqlEnvFile != null) {
+      image = "linuxserver/mariadb:10.11.6";
+      extraOptions = [ "--pod=${podName}" ];
+
+      environment = {
+        PUID = "400${containerNumStr}";
+        PGID = "400${containerNumStr}";
+        TZ = "Europe/Berlin";
+        MYSQL_USER = name;
+        MYSQL_DATABASE = name;
+      };
+
+      environmentFiles = [ mysqlEnvFile ];
+      volumes = [ "${dataDir}/mysql:/config"
+#        "/etc/mysql/custom.cnf:/config/custom.cnf"  # TODO: This is currently the only way to enable bind-address = 127.0.0.1. But when this is enabled, onlyoffice fails to connect to the database.
+      ] ++ defVolumes;
+
+    };
+
     "${name}-redis" = mkIf (redisEnvFile != null) {
       image = "redis:7.2.4-alpine";
       extraOptions = [ "--pod=${podName}" ];
@@ -81,11 +102,21 @@ in
     };
   };
 
+  environment.etc = mkIf (mysqlEnvFile != null) {
+    "mysql/custom.cnf".text = ''
+      [mysqld]
+      bind-address = "127.0.0.1"
+      user=abc
+    '';
+  };
+
   systemd.tmpfiles.rules = optionals (postgresEnvFile != null) [
     "d ${dataDir}/postgresql/ 0750 70 70"
     "d ${dataDir}/postgresql/15/ 0750 70 70"
   ] ++ optionals (redisEnvFile != null) [
     "d ${dataDir}/redis/ 0750 999 999"
+  ] ++ optionals (mysqlEnvFile != null) [
+    "d ${dataDir}/mysql/ 0750 4001 4001"
   ];
 
 }

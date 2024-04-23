@@ -19,8 +19,8 @@ in
   "Nextcloud/AdminPassword.age".publicKeys = [ nixie ];
   "Nextcloud/KeycloakClientSecret.age".publicKeys = [ nixie ];
   "OnlyOffice/Documentserver.age".publicKeys = [ nixie ];
-  "OnlyOffice/Communityserver.age".publicKeys = [ nixie ];
-  "OnlyOffice/Communityserver-Mysql.age".publicKeys = [ nixie ];
+  "OnlyOffice/CommunityServer.age".publicKeys = [ nixie ];
+  "OnlyOffice/CommunityServer-Mysql.age".publicKeys = [ nixie ];
 
   "Mail/EnvironmentFile.age".publicKeys = [ nixie ];
   "Mail/MailManEnvironmentFile.age".publicKeys = [ nixie ];
