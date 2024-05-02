@@ -1,7 +1,7 @@
 { config, modulesPath, ... }: {
   host = {
     name = "nixie";
-    id = "abcd1234";
+    id = "hostid_placeholder";
     bootDevices = [ "bootDevices_placeholder" ];
 
     zfsAutoSnapshot = {
@@ -27,8 +27,19 @@
       networkRange = "dmz";
 
       firewallAllowedTCPPorts = [
-        22 80 443 35621 35623  # Default
-        25 465 587 993 4190    # Mail
+        # Default
+        22
+        80
+        443
+        35621
+        35623
+
+        # Mail
+        25
+        465
+        587
+        993
+        4190
       ];
     };
   };
@@ -38,7 +49,7 @@
   monitoredServices = {
     nginx.enable = true;
     nginxlog.enable = true;
-    smartctl.enable = true;
+    smartctl.enable = false;
     zfs.enable = true;
   };
 

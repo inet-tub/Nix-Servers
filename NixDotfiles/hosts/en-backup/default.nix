@@ -1,7 +1,7 @@
 { config, modulesPath, ... }: {
   host = {
     name = "en-backup";
-    id = "abcd1234";
+    id = "hostid_placeholder";
     bootDevices = [ "bootDevices_placeholder" ];
 
     zfsAutoSnapshot = {
@@ -30,7 +30,7 @@
 
   monitoredServices = {
     nginx.enable = true;
-    smartctl.enable = true;
+    smartctl.enable = false;
     zfs.enable = true;
     urbackup.enable = true;
   };
@@ -44,9 +44,6 @@
     "Nginx.nix"
 
     "Backup/UrBackup.nix"
-    "Backup/Borg.nix"
-    "Backup/Restic.nix"
-    "Backup/Rsnapshot.nix"
     "Backup/BackupPC.nix"
   ];
 }

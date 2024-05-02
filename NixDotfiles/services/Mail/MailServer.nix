@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ...}: {
+{ pkgs, config, lib, ... }: {
 
   services.nginx.virtualHosts = {
     "new-mail.${config.host.networking.domainName}" = {
@@ -23,29 +23,29 @@
     ];
 
     volumes =
-    [
-      "/data/Mail/mail-data:/var/mail"
-      "/data/Mail/mail-state:/var/mail-state"
-      "/data/Mail/mail-logs:/var/log/mail"
-      "/data/Mail/config:/tmp/docker-mailserver"
-      "/etc/localtime:/etc/localtime"
+      [
+        "/data/Mail/mail-data:/var/mail"
+        "/data/Mail/mail-state:/var/mail-state"
+        "/data/Mail/mail-logs:/var/log/mail"
+        "/data/Mail/config:/tmp/docker-mailserver"
+        "/etc/localtime:/etc/localtime"
 
-      # DNS
-      "/etc/resolv.conf:/etc/resolv.conf:ro"
+        # DNS
+        "/etc/resolv.conf:/etc/resolv.conf:ro"
 
-      # Overrides
-      "/etc/postfix/postfix-main.cf:/tmp/docker-mailserver/postfix-main.cf"
-      "/etc/dovecot/dovecot.cf:/tmp/docker-mailserver/dovecot.cf"
+        # Overrides
+        "/etc/postfix/postfix-main.cf:/tmp/docker-mailserver/postfix-main.cf"
+        "/etc/dovecot/dovecot.cf:/tmp/docker-mailserver/dovecot.cf"
 
-      # MailMan
-      "/data/MailMan/mailman-core/var/data/:/var/lib/mailman"
+        # MailMan
+        "/data/MailMan/mailman-core/var/data/:/var/lib/mailman"
 
-      # Certificates
-      "${config.age.secrets.Mail_EnvironmentFile.path}:${config.age.secrets.Mail_EnvironmentFile.path}"
-      "/var/lib/acme/new-mail.inet.tu-berlin.de/:/var/lib/acme/new-mail.inet.tu-berlin.de/:ro"
-    ];
+        # Certificates
+        "${config.age.secrets.Mail_Env.path}:${config.age.secrets.Mail_Env.path}"
+        "/var/lib/acme/new-mail.inet.tu-berlin.de/:/var/lib/acme/new-mail.inet.tu-berlin.de/:ro"
+      ];
 
-    environmentFiles = [ config.age.secrets.Mail_EnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.Mail_Env.path ];
 
     environment = {
       OVERRIDE_HOSTNAME = "mail.${config.host.networking.domainName}";
@@ -67,7 +67,7 @@
       ENABLE_POLICYD_SPF = "0";
 
       # Virus protection
-      ENABLE_AMAVIS = "0";  # Amavis is done by the DFN infront of our servers
+      ENABLE_AMAVIS = "0"; # Amavis is done by the DFN infront of our servers
       ENABLE_CLAMAV = "0";
 
     };

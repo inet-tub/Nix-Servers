@@ -5,9 +5,9 @@ let
 in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 hedgedoc"
-    "d ${DATA_DIR}/hedgedoc 0755 hedgedoc"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0750 hedgedoc"
+    "d ${DATA_DIR}/hedgedoc 0750 hedgedoc"
+    "d ${DATA_DIR}/postgresql 0750 postgres"
   ];
 
   imports = [
@@ -23,12 +23,12 @@ in
         bindMounts = {
           "/var/lib/hedgedoc/" = { hostPath = "${DATA_DIR}/hedgedoc"; isReadOnly = false; };
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
-          "${config.age.secrets.HedgeDoc_EnvironmentFile.path}".hostPath = config.age.secrets.HedgeDoc_EnvironmentFile.path;
+          "${config.age.secrets.HedgeDoc.path}".hostPath = config.age.secrets.HedgeDoc.path;
         };
 
         cfg.services.hedgedoc = {
           enable = true;
-          environmentFile = config.age.secrets.HedgeDoc_EnvironmentFile.path;
+          environmentFile = config.age.secrets.HedgeDoc.path;
 
           settings = {
             domain = "${SUBDOMAIN}.${config.host.networking.domainName}";

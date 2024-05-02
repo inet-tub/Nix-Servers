@@ -1,87 +1,67 @@
 { pkgs, options, config, lib, ... }: {
   age.secrets = {
-    Keycloak_DatabasePassword = {
-      file = ../../secrets/Keycloak/DatabasePassword.age;
+    Monitoring_host-htpasswd = {
+      file = ../../secrets/Monitoring/Nginx/nixie-htpasswd.age;
+      owner = "nginx";
+      group = "nginx";
+    };
+
+    Keycloak_Database-Password = {
+      file = ../../secrets/Keycloak/Database-Password.age;
       owner = "keycloak";
     };
-
-    Keycloak_SSLCert = {
-      file = ../../secrets/Keycloak/SSLCert.age;
+    Keycloak_SSL-Cert = {
+      file = ../../secrets/Keycloak/SSL-Cert.age;
+      owner = "nginx";
+    };
+    Keycloak_SSL-Key = {
+      file = ../../secrets/Keycloak/SSL-Key.age;
       owner = "nginx";
     };
 
-    Keycloak_SSLKey = {
-      file = ../../secrets/Keycloak/SSLKey.age;
-      owner = "nginx";
-    };
-
-    Nextcloud_AdminPassword = {
-      file = ../../secrets/Nextcloud/AdminPassword.age;
+    Nextcloud_Admin-Password = {
+      file = ../../secrets/Nextcloud/Admin-Password.age;
       owner = "nextcloud";
     };
-
-    Nexcloud_KeycloakClientSecret = {
-      file = ../../secrets/Nextcloud/KeycloakClientSecret.age;
+    Nexcloud_Keycloak-Client-Secret = {
+      file = ../../secrets/Nextcloud/Keycloak-Client-Secret.age;
       owner = "nextcloud";
     };
-
     OnlyOffice-Documentserver = {
       file = ../../secrets/OnlyOffice/Documentserver.age;
       owner = "109";
     };
-
     OnlyOffice-Communityserver = {
       file = ../../secrets/OnlyOffice/Communityserver.age;
       owner = "109";
     };
-
     OnlyOffice-Communityserver-Mysql = {
       file = ../../secrets/OnlyOffice/Communityserver-Mysql.age;
       owner = "109";
     };
 
-    HedgeDoc_EnvironmentFile = {
+    HedgeDoc = {
       file = ../../secrets/HedgeDoc.age;
       owner = "hedgedoc";
     };
-
-    NetBox = {
-      file = ../../secrets/NetBox.age;
-      owner = "6050";
-    };
-
     WikiJs_SSHKey = {
       file = ../../secrets/SSHKeys/Wiki-js.age;
       owner = "wiki-js";
     };
-
-    VaultWarden_EnvironmentFile = {
+    VaultWarden = {
       file = ../../secrets/VaultWarden.age;
       owner = "vaultwarden";
     };
 
-    MailMan_EnvironmentFile = {
-      file = ../../secrets/Mail/MailManEnvironmentFile.age;
+    Mail_Env = {
+      file = ../../secrets/Mail/MailServer.age;
       owner = "5000";
       group = "5000";
     };
-
-    MailMan_DatabasePassword = {
-      file = ../../secrets/Mail/MailManEnvironmentFile.age;
-      owner = "5000";
-      group = "5000";
-    };
-
-    Mail_EnvironmentFile = {
-      file = ../../secrets/Mail/EnvironmentFile.age;
-      owner = "root";
-      group = "root";
-    };
-
-    Monitoring_host-htpasswd = {
-      file = ../../secrets/Monitoring/Nginx/nixie-htpasswd.age;
-      owner = "nginx";
-      group = "nginx";
+    MailMan_Env = {
+      file = ../../secrets/Mail/MailMan.age;
+      owner = "100";
+      group = "100";
     };
   };
 }

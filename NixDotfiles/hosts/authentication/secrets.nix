@@ -7,13 +7,13 @@
     };
 
     Wireguard = {
-      file = ../../secrets/Wireguard.age;
+      file = ../../secrets/Office-Gate/Wireguard.age;
       owner = "root";
       group = "root";
     };
 
     OpenLDAP_rootpw = {
-      file = ../../secrets/OpenLDAP-rootpw.age;
+      file = ../../secrets/Authentication/OpenLDAP-rootpw.age;
       owner = "openldap";
       group = "openldap";
     };

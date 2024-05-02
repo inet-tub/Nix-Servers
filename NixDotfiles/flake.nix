@@ -49,7 +49,7 @@
 
             # Configuration per host
             ./hosts/${hostName}
-          ] ++ [ { system.stateVersion = stateVersion; } ];
+          ] ++ [{ system.stateVersion = stateVersion; }];
         };
 
     in
@@ -57,7 +57,8 @@
       nixosConfigurations = {
         nixie = mkHost "nixie" "23.05" "x86_64-linux";
         en-backup = mkHost "en-backup" "23.11" "x86_64-linux";
-        en-observertory = mkHost "en-observertory" "23.11" "x86_64-linux";#
+        en-observertory = mkHost "en-observertory" "23.11" "x86_64-linux";
+        en-mail = mkHost "en-mail" "23.11" "x86_64-linux";
         authentication = mkHost "authentication" "23.11" "x86_64-linux";
         admin = mkHost "admin" "23.11" "x86_64-linux";
       };

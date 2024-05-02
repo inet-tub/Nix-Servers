@@ -21,6 +21,7 @@ let DATA_DIR = "/data/BackupPC"; in
           BACKUPPC_GUID = "6003";
         };
 
+        makeLocaltimeVolume = false;
         volumes = [
           "${DATA_DIR}/config/:/etc/backuppc"
           "${DATA_DIR}/user/:/home/backuppc"

@@ -11,7 +11,7 @@ let DATA_DIR = "/data/YouTrack"; in
         dataDir = DATA_DIR;
 
         subdomain = "asktheadmins";
-        containerNum = 1;
+        containerNum = 2;
         containerPort = 8080;
 
         volumes = [

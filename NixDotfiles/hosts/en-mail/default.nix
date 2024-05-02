@@ -1,6 +1,6 @@
 { config, modulesPath, ... }: {
   host = {
-    name = "en-observertory";
+    name = "admin";
     id = "hostid_placeholder";
     bootDevices = [ "bootDevices_placeholder" ];
 
@@ -17,21 +17,20 @@
     };
 
     networking = {
-      ip = "130.149.152.135";
+      ip = "130.149.152.138";
       interface = "eno1";
 
-      adminIp = "192.168.201.135";
+      adminIp = "192.168.201.138";
       adminInterface = "eno2";
 
       location = "en";
       networkRange = "ennet";
     };
-
   };
 
   monitoredServices = {
-    prometheus.enable = true;
     nginx.enable = true;
+    nginxlog.enable = true;
     smartctl.enable = false;
     zfs.enable = true;
   };
@@ -41,10 +40,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
-    # Import services
     "Nginx.nix"
-    "Monitoring/Prometheus.nix"
-    "Monitoring/Grafana.nix"
-    "Backup/UrBackup-Client.nix"
   ];
 }

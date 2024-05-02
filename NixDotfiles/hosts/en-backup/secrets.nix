@@ -6,19 +6,14 @@
       group = "nginx";
     };
 
-    Borg_Encrytpion_Nixie = {
-      file = ../../secrets/Borg/nixie.age;
-      owner = "borg";
-    };
-
     BackupPC = {
-      file = ../../secrets/BackupPC.age;
+      file = ../../secrets/Backup/BackupPC.age;
       owner = "6003";
       group = "6003";
     };
 
     UrBackup_exporter = {
-      file = ../../secrets/UrBackup-exporter.age;
+      file = ../../secrets/Backup/UrBackup-exporter.age;
       owner = "6004";
       group = "6004";
     };

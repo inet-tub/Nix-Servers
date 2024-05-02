@@ -9,158 +9,166 @@ in
   options.host = mkOption {
     description = "Host configuration";
 
-    type = types.submodule { options = {
-      name = mkOption {
-        description = "Specify the host name";
-        type = types.str;
+    type = types.submodule {
+      options = {
+        name = mkOption {
+          description = "Specify the host name";
+          type = types.str;
+        };
+
+        id = mkOption {
+          description = "Specify the host id";
+          type = types.str;
+        };
+
+        bootDevices = mkOption {
+          description = "Specify boot devices";
+          type = types.nonEmptyListOf types.str;
+        };
+
+        additionalKernelModules = mkOption {
+          description = "Additional kernel modules to load";
+          type = types.listOf types.str;
+          default = [ ];
+        };
+
+        zfsAutoSnapshot = mkOption {
+          description = "Enable zfs-auto-snapshot";
+          default = null;
+
+          type = types.submodule {
+            options = {
+              enable = mkOption {
+                default = false;
+                type = types.bool;
+                description = "Enable zfs-auto-snapshot";
+              };
+
+              hourly = mkOption {
+                default = 0;
+                type = types.int;
+                description = "Number of hourly auto-snapshots that you wish to keep.";
+              };
+
+              daily = mkOption {
+                default = 7;
+                type = types.int;
+                description = "Number of daily auto-snapshots that you wish to keep.";
+              };
+
+              weekly = mkOption {
+                default = 4;
+                type = types.int;
+                description = "Number of weekly auto-snapshots that you wish to keep.";
+              };
+
+              monthly = mkOption {
+                default = 12;
+                type = types.int;
+                description = "Number of monthly auto-snapshots that you wish to keep.";
+              };
+            };
+          };
+        };
+
+        zfsArc = mkOption {
+          description = "Set the ZFS ARC limits";
+
+          type = types.submodule {
+            options = {
+              minGB = mkOption {
+                default = 4;
+                type = types.int;
+                description = "Minimum size of the ARC in Gigabytes";
+              };
+
+              maxGB = mkOption {
+                default = 8;
+                type = types.int;
+                description = "Maximum size of the ARC in Gigabytes";
+              };
+
+              metaGB = mkOption {
+                default = 4;
+                type = types.int;
+                description = "Maximum size of the ARC metadata in Gigabytes";
+              };
+            };
+          };
+        };
+
+        zfsMetrics = mkOption {
+          description = "Enable ZFS metrics";
+          type = types.bool;
+          default = false;
+        };
+
+        networking = mkOption {
+          description = "Enable networking";
+          type = types.submodule {
+            options = {
+
+              ip = mkOption {
+                type = types.str;
+                description = "IP address of the host";
+              };
+
+              interface = mkOption {
+                type = types.str;
+                description = "Interface to be used";
+              };
+
+              adminIp = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "IP address in the admin network";
+              };
+
+              adminInterface = mkOption {
+                type = types.nullOr types.str;
+                default = null;
+                description = "Interface to be used";
+              };
+
+              location = mkOption {
+                type = types.enum [ "en" "mar" ];
+                description = "Location of the host";
+              };
+
+              networkRange = mkOption {
+                type = types.enum [ "ennet" "birdcage" "dmz" ];
+                description = "Network range to be used";
+              };
+
+              firewallAllowedTCPPorts = mkOption {
+                type = types.listOf types.int;
+                description = "Ports to be allowed in the firewall";
+                default = [ 22 80 443 35621 35623 ];
+              };
+
+              firewallAllowedUDPPorts = mkOption {
+                type = types.listOf types.int;
+                description = "Ports to be allowed in the firewall";
+                default = [ 35622 ];
+              };
+
+              domainName = mkOption {
+                type = types.str;
+                description = "Domain name to be used";
+                default = "inet.tu-berlin.de";
+              };
+
+              containerHostIP = mkOption {
+                type = types.str;
+                description = "IP address of the container host";
+                default = "192.168.7.1";
+              };
+
+            };
+          };
+        };
       };
-
-      id = mkOption {
-        description = "Specify the host id";
-        type = types.str;
-      };
-
-      bootDevices = mkOption {
-        description = "Specify boot devices";
-        type = types.nonEmptyListOf types.str;
-      };
-
-      additionalKernelModules = mkOption {
-        description = "Additional kernel modules to load";
-        type = types.listOf types.str;
-        default = [];
-      };
-
-      zfsAutoSnapshot = mkOption {
-        description = "Enable zfs-auto-snapshot";
-        default = null;
-
-        type = types.submodule { options = {
-          enable = mkOption {
-            default = false;
-            type = types.bool;
-            description = "Enable zfs-auto-snapshot";
-          };
-
-          hourly = mkOption {
-            default = 0;
-            type = types.int;
-            description = "Number of hourly auto-snapshots that you wish to keep.";
-          };
-
-          daily = mkOption {
-            default = 7;
-            type = types.int;
-            description = "Number of daily auto-snapshots that you wish to keep.";
-          };
-
-          weekly = mkOption {
-            default = 4;
-            type = types.int;
-            description = "Number of weekly auto-snapshots that you wish to keep.";
-          };
-
-          monthly = mkOption {
-            default = 12;
-            type = types.int;
-            description = "Number of monthly auto-snapshots that you wish to keep.";
-          };
-        };};
-      };
-
-      zfsArc = mkOption {
-        description = "Set the ZFS ARC limits";
-
-        type = types.submodule { options = {
-          minGB = mkOption {
-            default = 4;
-            type = types.int;
-            description = "Minimum size of the ARC in Gigabytes";
-          };
-
-          maxGB = mkOption {
-            default = 8;
-            type = types.int;
-            description = "Maximum size of the ARC in Gigabytes";
-          };
-
-          metaGB = mkOption {
-            default = 4;
-            type = types.int;
-            description = "Maximum size of the ARC metadata in Gigabytes";
-          };
-        };};
-      };
-
-      zfsMetrics = mkOption {
-        description = "Enable ZFS metrics";
-        type = types.bool;
-        default = false;
-      };
-
-      networking = mkOption {
-        description = "Enable networking";
-        type = types.submodule { options = {
-
-          ip = mkOption {
-            type = types.str;
-            description = "IP address of the host";
-          };
-
-          interface = mkOption {
-            type = types.str;
-            description = "Interface to be used";
-          };
-
-          adminIp = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = "IP address in the admin network";
-          };
-
-          adminInterface = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = "Interface to be used";
-          };
-
-          location = mkOption {
-            type = types.enum [ "en" "mar" ];
-            description = "Location of the host";
-          };
-
-          networkRange = mkOption {
-            type = types.enum [ "ennet" "birdcage" "dmz" ];
-            description = "Network range to be used";
-          };
-
-          firewallAllowedTCPPorts = mkOption {
-            type = types.listOf types.int;
-            description = "Ports to be allowed in the firewall";
-            default = [ 22 80 443 35621 35623 ];
-          };
-
-          firewallAllowedUDPPorts = mkOption {
-            type = types.listOf types.int;
-            description = "Ports to be allowed in the firewall";
-            default = [ 35622 ];
-          };
-
-          domainName = mkOption {
-            type = types.str;
-            description = "Domain name to be used";
-            default = "inet.tu-berlin.de";
-          };
-
-          containerHostIP = mkOption {
-            type = types.str;
-            description = "IP address of the container host";
-            default = "192.168.7.1";
-          };
-
-        };};
-      };
-    };};
+    };
   };
 
 
@@ -250,7 +258,7 @@ in
             "130.149.220.126"
           else
             ""
-          ;
+        ;
       };
 
       defaultGateway6 = {

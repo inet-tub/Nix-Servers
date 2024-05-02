@@ -2,9 +2,9 @@
 let DATA_DIR = "/data/Grafana"; in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 grafana"
-    "d ${DATA_DIR}/grafana 0755 grafana"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0750 grafana"
+    "d ${DATA_DIR}/grafana 0750 grafana"
+    "d ${DATA_DIR}/postgresql 0750 postgres"
   ];
 
   imports = [
@@ -30,7 +30,7 @@ let DATA_DIR = "/data/Grafana"; in
         cfg = {
           services.grafana = {
             enable = true;
-            declarativePlugins = null;  # TODO
+            declarativePlugins = null; # TODO
 
 
             settings = {
@@ -56,8 +56,8 @@ let DATA_DIR = "/data/Grafana"; in
 
                 secret_key = "$__file{${config.age.secrets.Grafana_secret-key.path}}";
                 cookie_secure = true;
-                cookie_samesite = "lax";  # TODO: "strict"?
-                strict_transport_security = false;  # TODO
+                cookie_samesite = "lax"; # TODO: "strict"?
+                strict_transport_security = false; # TODO
               };
 
               smtp = {
@@ -106,18 +106,18 @@ let DATA_DIR = "/data/Grafana"; in
 
               dashboards = {
                 settings.providers = [
-#                  {
-#                    # TODO
-#                  }
+                  #                  {
+                  #                    # TODO
+                  #                  }
                 ];
               };
 
-#              alerting = {
-#                rules.settings = {
-#                  apiVersion = 1;
-#
-#                };
-#              };
+              #              alerting = {
+              #                rules.settings = {
+              #                  apiVersion = 1;
+              #
+              #                };
+              #              };
             };
           };
         };

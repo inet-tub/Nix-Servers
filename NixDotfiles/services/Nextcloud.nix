@@ -12,9 +12,9 @@ let
 in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 nextcloud"
-    "d ${DATA_DIR}/nextcloud 0755 nextcloud"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0750 nextcloud"
+    "d ${DATA_DIR}/nextcloud 0750 nextcloud"
+    "d ${DATA_DIR}/postgresql 0750 postgres"
   ];
 
   imports = [
@@ -31,8 +31,8 @@ in
         bindMounts = {
           "/var/lib/nextcloud" = { hostPath = "${DATA_DIR}/nextcloud"; isReadOnly = false; };
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
-          "${config.age.secrets.Nextcloud_AdminPassword.path}".hostPath = config.age.secrets.Nextcloud_AdminPassword.path;
-          "${config.age.secrets.Nexcloud_KeycloakClientSecret.path}".hostPath = config.age.secrets.Nexcloud_KeycloakClientSecret.path;
+          "${config.age.secrets.Nextcloud_Admin-Password.path}".hostPath = config.age.secrets.Nextcloud_Admin-Password.path;
+          "${config.age.secrets.Nexcloud_Keycloak-Client-Secret.path}".hostPath = config.age.secrets.Nexcloud_Keycloak-Client-Secret.path;
         };
 
         cfg = {
@@ -49,11 +49,11 @@ in
             logType = "file";
             logLevel = 1;
 
-            secretFile = config.age.secrets.Nexcloud_KeycloakClientSecret.path;
+            secretFile = config.age.secrets.Nexcloud_Keycloak-Client-Secret.path;
 
             config = {
               adminuser = "admin";
-              adminpassFile = config.age.secrets.Nextcloud_AdminPassword.path;
+              adminpassFile = config.age.secrets.Nextcloud_Admin-Password.path;
 
               dbtype = "pgsql";
               dbhost = "/run/postgresql";

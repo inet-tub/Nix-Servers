@@ -1,8 +1,27 @@
-{
-  name, image, dataDir, subdomain ? null, containerNum, containerSubNum ? 1, containerPort, volumes,
-  imports ? [], postgresEnvFile ? null, mysqlEnvFile ? null, redisEnvFile ? null, environment ? { }, environmentFiles ? [ ], additionalDomains ? [ ], additionalContainerConfig ? {},
-  makeNginxConfig ? true, additionalNginxConfig ? {}, additionalNginxLocationConfig ? {}, additionalNginxHostConfig ? {},
-  config, lib, pkgs
+{ name
+, image
+, dataDir
+, subdomain ? null
+, containerNum
+, containerSubNum ? 1
+, containerPort
+, volumes
+, makeLocaltimeVolume ? true
+, imports ? [ ]
+, postgresEnvFile ? null
+, mysqlEnvFile ? null
+, redisEnvFile ? null
+, environment ? { }
+, environmentFiles ? [ ]
+, additionalDomains ? [ ]
+, additionalContainerConfig ? { }
+, makeNginxConfig ? true
+, additionalNginxConfig ? { }
+, additionalNginxLocationConfig ? { }
+, additionalNginxHostConfig ? { }
+, config
+, lib
+, pkgs
 }:
 let
 
@@ -11,12 +30,12 @@ let
   containerNumStr = if !builtins.isString containerNum then toString containerNum else containerNum;
   containerSubNumStr = if !builtins.isString containerSubNum then toString containerSubNum else containerSubNum;
   containerPortStr = if !builtins.isString containerPort then toString containerPort else containerPort;
-  defVolumes = [ "/etc/resolv.conf:/etc/resolv.conf:ro" ];
+  defVolumes = [ "/etc/resolv.conf:/etc/resolv.conf:ro" ] ++ optional makeLocaltimeVolume "/etc/localtime:/etc/localtime:ro";
 
   podName = "pod-${name}";
   containerIP = "10.88.${containerNumStr}.${containerSubNumStr}";
 
-  nginxImport = if makeNginxConfig == false then [] else [
+  nginxImport = if makeNginxConfig == false then [ ] else [
     (
       import ./Nginx.nix {
         inherit containerIP config additionalDomains lib;
@@ -80,8 +99,9 @@ in
       };
 
       environmentFiles = [ mysqlEnvFile ];
-      volumes = [ "${dataDir}/mysql:/config"
-#        "/etc/mysql/custom.cnf:/config/custom.cnf"  # TODO: This is currently the only way to enable bind-address = 127.0.0.1. But when this is enabled, onlyoffice fails to connect to the database.
+      volumes = [
+        "${dataDir}/mysql:/config"
+        #        "/etc/mysql/custom.cnf:/config/custom.cnf"  # TODO: This is currently the only way to enable bind-address = 127.0.0.1. But when this is enabled, onlyoffice fails to connect to the database.
       ] ++ defVolumes;
 
     };

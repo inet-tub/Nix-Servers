@@ -1,8 +1,20 @@
-{
-  name, subdomain ? null, containerIP, containerPort, bindMounts,
-  imports ? [], postgresqlName ? null, additionalDomains ? [ ], additionalContainerConfig ? {},
-  makeNginxConfig ? true, additionalNginxConfig ? {}, additionalNginxLocationConfig ? {}, additionalNginxHostConfig ? {},
-  cfg, lib, config, pkgs
+{ name
+, subdomain ? null
+, containerIP
+, containerPort
+, bindMounts
+, imports ? [ ]
+, postgresqlName ? null
+, additionalDomains ? [ ]
+, additionalContainerConfig ? { }
+, makeNginxConfig ? true
+, additionalNginxConfig ? { }
+, additionalNginxLocationConfig ? { }
+, additionalNginxHostConfig ? { }
+, cfg
+, lib
+, config
+, pkgs
 }:
 let
 
@@ -10,7 +22,7 @@ let
   containerPortStr = if !builtins.isString containerPort then toString containerPort else containerPort;
   stateVersion = config.system.stateVersion;
 
-  pgImport = if postgresqlName == null then [] else [
+  pgImport = if postgresqlName == null then [ ] else [
     (
       import ./Postgresql.nix {
         inherit pkgs lib;
@@ -19,7 +31,7 @@ let
     )
   ];
 
-  nginxImport = if makeNginxConfig == false then [] else [
+  nginxImport = if makeNginxConfig == false then [ ] else [
     (
       import ./Nginx.nix {
         inherit containerIP config additionalDomains lib;

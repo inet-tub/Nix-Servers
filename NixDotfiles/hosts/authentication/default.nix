@@ -1,7 +1,7 @@
 { config, modulesPath, ... }: {
   host = {
     name = "authentication";
-    id = "abcd1234";
+    id = "hostid_placeholder";
     bootDevices = [ "bootDevices_placeholder" ];
 
     zfsAutoSnapshot = {
@@ -30,7 +30,7 @@
 
   monitoredServices = {
     nginx.enable = true;
-    smartctl.enable = true;
+    smartctl.enable = false;
     zfs.enable = true;
   };
 

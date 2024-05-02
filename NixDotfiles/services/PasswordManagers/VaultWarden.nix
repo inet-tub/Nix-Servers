@@ -2,9 +2,9 @@
 let DATA_DIR = "/data/VaultWarden"; in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 vaultwarden"
-    "d ${DATA_DIR}/bitwarden_rs 0755 vaultwarden"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0750 vaultwarden"
+    "d ${DATA_DIR}/bitwarden_rs 0750 vaultwarden"
+    "d ${DATA_DIR}/postgresql 0750 postgres"
   ];
 
   imports = [
@@ -20,19 +20,19 @@ let DATA_DIR = "/data/VaultWarden"; in
         bindMounts = {
           "/var/lib/bitwarden_rs/" = { hostPath = "${DATA_DIR}/bitwarden_rs"; isReadOnly = false; };
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
-          "${config.age.secrets.VaultWarden_EnvironmentFile.path}".hostPath = config.age.secrets.VaultWarden_EnvironmentFile.path;
+          "${config.age.secrets.VaultWarden.path}".hostPath = config.age.secrets.VaultWarden.path;
         };
 
         cfg = {
           services.vaultwarden = {
             enable = true;
-            environmentFile = config.age.secrets.VaultWarden_EnvironmentFile.path;
+            environmentFile = config.age.secrets.VaultWarden.path;
             dbBackend = "postgresql";
 
             config = {
               DATABASE_URL = "postgres://vaultwarden@%2Frun%2Fpostgresql/vaultwarden";
               DOMAIN = "https://vaultwarden.${config.host.networking.domainName}";
-              ROCKET_ADDRESS="0.0.0.0";
+              ROCKET_ADDRESS = "0.0.0.0";
 
               SIGNUPS_ALLOWED = false;
               SIGNUPS_VERIFY = true;

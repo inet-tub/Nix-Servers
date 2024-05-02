@@ -2,9 +2,9 @@
 let DATA_DIR = "/data/Keycloak"; in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 keycloak"
-    "d ${DATA_DIR}/keycloak-data 0755 keycloak"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0750 keycloak"
+    "d ${DATA_DIR}/keycloak-data 0750 keycloak"
+    "d ${DATA_DIR}/postgresql 0750 postgres"
   ];
 
   imports = [
@@ -20,7 +20,7 @@ let DATA_DIR = "/data/Keycloak"; in
         bindMounts = {
           "/run/keycloak/data" = { hostPath = "${DATA_DIR}/keycloak-data"; isReadOnly = false; };
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
-          "${config.age.secrets.Keycloak_DatabasePassword.path}".hostPath = config.age.secrets.Keycloak_DatabasePassword.path;
+          "${config.age.secrets.Keycloak_Database-Password.path}".hostPath = config.age.secrets.Keycloak_Database-Password.path;
         };
 
         additionalNginxConfig.locations."~* ^/(admin|welcome|metrics|health)(/.*)?$".return = "403";
@@ -33,8 +33,8 @@ let DATA_DIR = "/data/Keycloak"; in
         additionalNginxHostConfig."keycloak-admin.${config.host.networking.domainName}" = {
           forceSSL = true;
 
-          sslCertificate = config.age.secrets.Keycloak_SSLCert.path;
-          sslCertificateKey = config.age.secrets.Keycloak_SSLKey.path;
+          sslCertificate = config.age.secrets.Keycloak_SSL-Cert.path;
+          sslCertificateKey = config.age.secrets.Keycloak_SSL-Key.path;
 
           locations = {
             "/" = {
@@ -68,7 +68,7 @@ let DATA_DIR = "/data/Keycloak"; in
             database = {
               createLocally = false;
               type = "postgresql";
-              passwordFile = config.age.secrets.Keycloak_DatabasePassword.path;
+              passwordFile = config.age.secrets.Keycloak_Database-Password.path;
             };
 
             initialAdminPassword = "changeme"; # TODO: Change this

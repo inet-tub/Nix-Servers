@@ -12,7 +12,7 @@
     initialHashedPassword = "!";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHAzQFMYrSvjGtzcOUbR1YHawaPMCBDnO4yRKsV7WHkg emily"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINA0V/ByFxlMU8nBJ+R2RGxr0uZAapovARLPbHYmNE2V emily"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND9kUmAEwH+qD6T+Gs/G83SA/oyIzpz1Zj4oMAkOvhO emily@work"
     ];
 
   };

@@ -1,13 +1,13 @@
-{ pkgs, config, lib, ...}:
+{ pkgs, config, lib, ... }:
 let
-  ENVIRONMENT_CONFIG =  {
+  ENVIRONMENT_CONFIG = {
     # DB Configuration
     DATABASE_TYPE = "postgres";
     DATABASE_CLASS = "mailman.database.postgresql.PostgreSQLDatabase";
 
     # Web Configuration
     SERVE_FROM_DOMAIN = "lists.${config.host.networking.domainName}";
-    UWSGI_STATIC_MAP="/static=/opt/mailman-web-data/static";
+    UWSGI_STATIC_MAP = "/static=/opt/mailman-web-data/static";
 
     # Mail Configuration
     SMTP_HOST = "mail.${config.host.networking.domainName}";
@@ -47,7 +47,7 @@ in
     ];
 
     environment = ENVIRONMENT_CONFIG;
-    environmentFiles = [ config.age.secrets.MailMan_EnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.MailMan_Env.path ];
 
     volumes = [
       "/data/MailMan/mailman-core:/opt/mailman"
@@ -63,10 +63,9 @@ in
     ports = [ "127.0.0.1:3022:8000" ];
 
     environment = ENVIRONMENT_CONFIG;
-    environmentFiles = [ config.age.secrets.MailMan_EnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.MailMan_Env.path ];
 
-    volumes =
-    [
+    volumes = [
       "/data/MailMan/mailman-web:/opt/mailman-web-data"
       "/etc/resolv.conf:/etc/resolv.conf:ro"
     ];
@@ -85,22 +84,20 @@ in
       POSTGRES_USER = "mailman";
     };
 
-    environmentFiles = [ config.age.secrets.MailMan_EnvironmentFile.path ];
+    environmentFiles = [ config.age.secrets.MailMan_Env.path ];
 
     volumes =
-    [
-      "/data/MailMan/postgresql:/var/lib/postgresql/data"
-    ];
+      [
+        "/data/MailMan/postgresql:/var/lib/postgresql/data"
+      ];
 
   };
 
 
   systemd.tmpfiles.rules = [
-    "d /data/MailMan/mailman-core 0755 5000 5000"
-    "d /data/MailMan/mailman-web 0755 5000 5000"
-    "d /data/MailMan/postgresql 0755 5000 5000"
+    "d /data/MailMan/mailman-core 0750 100 100"
+    "d /data/MailMan/mailman-web 0750 100 100"
+    "d /data/MailMan/postgresql 0750 100 100"
   ];
-
-
 
 }

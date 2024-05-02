@@ -23,7 +23,7 @@ done
 sed -i "s|\"bootDevices_placeholder\"|$diskNames|g" \
     "/mnt/etc/nixos/hosts/$HOST_TO_INSTALL/default.nix"
 
-sed -i "s|\"abcd1234\"|\"$(head -c4 /dev/urandom | od -A none -t x4| sed 's| ||g' || true)\"|g" \
+sed -i "s|\"hostid_placeholder\"|\"$(head -c4 /dev/urandom | od -A none -t x4| sed 's| ||g' || true)\"|g" \
     "/mnt/etc/nixos/hosts/$HOST_TO_INSTALL/default.nix"
 
 # Set the root password
@@ -42,11 +42,7 @@ then
     ssh-keygen -f "$SSH_HOST_KEY_LOCATION" -y > "/mnt/etc/ssh/ssh_host_ed25519_key.pub"
 fi
 
-if [ ! -d "$SSH_ROOT_DIR" ];
-then
-    mkdir -p /root/.ssh
-fi
-
+mkdir -p "$SSH_ROOT_DIR"
 if [ ! -L "$SSH_ROOT_ID" ] || [ ! -e "$SSH_ROOT_ID" ];
 then
     rm -f "$SSH_ROOT_ID"

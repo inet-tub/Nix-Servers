@@ -2,9 +2,9 @@
 let DATA_DIR = "/data/Wiki-js"; in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 wiki-js"
-    "d ${DATA_DIR}/wiki-js 0755 wiki-js"
-    "d ${DATA_DIR}/postgresql 0755 postgres"
+    "d ${DATA_DIR} 0750 wiki-js"
+    "d ${DATA_DIR}/wiki-js 0750 wiki-js"
+    "d ${DATA_DIR}/postgresql 0750 postgres"
   ];
 
   imports = [

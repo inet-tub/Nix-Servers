@@ -5,8 +5,8 @@ let
 in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 openldap openldap"
-    "d ${DATA_DIR}/openldap 0755 openldap openldap"
+    "d ${DATA_DIR} 0750 openldap openldap"
+    "d ${DATA_DIR}/openldap 0750 openldap openldap"
   ];
 
   systemd.services."container@ldap" = {
@@ -36,55 +36,55 @@ in
         };
 
         cfg = {
-            services.openldap = {
-              # This configrution is greatly ispried by https://github.com/Mic92/dotfiles/blob/main/nixos/modules/openldap/default.nix
-              enable = true;
-              urlList = [ "ldaps:///" ];
+          services.openldap = {
+            # This configrution is greatly ispried by https://github.com/Mic92/dotfiles/blob/main/nixos/modules/openldap/default.nix
+            enable = true;
+            urlList = [ "ldaps:///" ];
 
-              settings = {
+            settings = {
 
-                attrs = {
-                  olcTLSCACertificateFile = "/var/lib/acme/${LDAP_HOST}/full.pem";
-                  olcTLSCertificateFile = "/var/lib/acme/${LDAP_HOST}/cert.pem";
-                  olcTLSCertificateKeyFile = "/var/lib/acme/${LDAP_HOST}/key.pem";
-                  olcTLSCipherSuite = "HIGH:MEDIUM:!kRSA:!kDHE";
-                  olcTLSCRLCheck = "none";
-                  olcTLSVerifyClient = "demand";
-                  olcTLSProtocolMin = "3.3";
-                };
+              attrs = {
+                olcTLSCACertificateFile = "/var/lib/acme/${LDAP_HOST}/full.pem";
+                olcTLSCertificateFile = "/var/lib/acme/${LDAP_HOST}/cert.pem";
+                olcTLSCertificateKeyFile = "/var/lib/acme/${LDAP_HOST}/key.pem";
+                olcTLSCipherSuite = "HIGH:MEDIUM:!kRSA:!kDHE";
+                olcTLSCRLCheck = "none";
+                olcTLSVerifyClient = "demand";
+                olcTLSProtocolMin = "3.3";
+              };
 
-                children = {
-                  "cn=schema".includes = [
-                    "${pkgs.openldap}/etc/schema/core.ldif"
-                    "${pkgs.openldap}/etc/schema/cosine.ldif"
-                    "${pkgs.openldap}/etc/schema/inetorgperson.ldif"
-                  ];
+              children = {
+                "cn=schema".includes = [
+                  "${pkgs.openldap}/etc/schema/core.ldif"
+                  "${pkgs.openldap}/etc/schema/cosine.ldif"
+                  "${pkgs.openldap}/etc/schema/inetorgperson.ldif"
+                ];
 
-                  "olcDatabase={1}mdb".attrs = {
-                    objectClass = [ "olcDatabaseConfig" "olcMdbConfig" ];
+                "olcDatabase={1}mdb".attrs = {
+                  objectClass = [ "olcDatabaseConfig" "olcMdbConfig" ];
 
-                    olcDatabase = "{1}mdb";
-                    olcDbDirectory = "/var/lib/openldap/data";
+                  olcDatabase = "{1}mdb";
+                  olcDbDirectory = "/var/lib/openldap/data";
 
-                    olcSuffix = "dc=authentication,dc=inet,dc=tu-berlin,dc=de";
-                    olcRootDN = "cn=admin,dc=authentication,dc=inet,dc=tu-berlin,dc=de";
-                    olcRootPW.path = config.age.secrets.OpenLDAP_rootpw.path;
+                  olcSuffix = "dc=authentication,dc=inet,dc=tu-berlin,dc=de";
+                  olcRootDN = "cn=admin,dc=authentication,dc=inet,dc=tu-berlin,dc=de";
+                  olcRootPW.path = config.age.secrets.OpenLDAP_rootpw.path;
 
-                    olcAccess = [
-                      ''{0}to attrs=userPassword
+                  olcAccess = [
+                    ''{0}to attrs=userPassword
                            by self write  by anonymous auth
                            by * none''
 
-                      ''{1}to *
+                    ''{1}to *
                           by * read''
-                    ];
-
-                  };
+                  ];
 
                 };
 
               };
+
             };
+          };
         };
       }
     )

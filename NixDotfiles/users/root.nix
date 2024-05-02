@@ -25,9 +25,9 @@
 
   users.users = {
     root = {
-      initialHashedPassword = "rootHash_placeholder";  # We have to allow password login in case ssh breaks
+      initialHashedPassword = "rootHash_placeholder"; # We have to allow password login in case ssh breaks
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND9kUmAEwH+qD6T+Gs/G83SA/oyIzpz1Zj4oMAkOvhO emily"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND9kUmAEwH+qD6T+Gs/G83SA/oyIzpz1Zj4oMAkOvhO emily@work"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIN0lWZxVSad9z6dZKFqiL3QbQMf7KbDecte3hLsK5jP darwin@rumo"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICw1IrnMe/oOPDK6RmDazEnqwQjHG7ym3sRs7azaRvyc darwin@hammond"
       ];
@@ -66,5 +66,6 @@
     unzip
     unzrip
     urbackup-client
+    ethtool
   ];
 }

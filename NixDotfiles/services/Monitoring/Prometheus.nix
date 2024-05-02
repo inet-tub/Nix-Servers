@@ -5,19 +5,21 @@ let
   DATA_DIR = "/data/Prometheus";
   mkBasicAuth = secretName: { username = "admin"; password_file = config.age.secrets.${secretName}.path; };
 
-  mkScrapers = hostname: metrics: (foldl' (acc: metric: [{
-    job_name = "${hostname}-${metric}";
-    metrics_path = "/${metric}-metrics";
-    scheme = "https";
-    basic_auth = mkBasicAuth "Prometheus_${hostname}-pw";
-    static_configs = [{ targets = [ "${hostname}.observer.inet.tu-berlin.de" ]; }];
-  }] ++ acc)) [] metrics;
+  mkScrapers = hostname: metrics:
+    (foldl' (acc: metric: [{
+      job_name = "${hostname}-${metric}";
+      metrics_path = "/${metric}-metrics";
+      scheme = "https";
+      basic_auth = mkBasicAuth "Prometheus_${hostname}-pw";
+      static_configs = [{ targets = [ "${hostname}.observer.inet.tu-berlin.de" ]; }];
+    }] ++ acc)) [ ]
+      metrics;
 
 in
 {
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0755 prometheus prometheus"
-    "d ${DATA_DIR}/prometheus2 0755 prometheus prometheus"
+    "d ${DATA_DIR} 0750 prometheus prometheus"
+    "d ${DATA_DIR}/prometheus2 0750 prometheus prometheus"
   ];
 
   imports = [
@@ -45,15 +47,17 @@ in
             webExternalUrl = "https://en-observertory.${config.host.networking.domainName}";
             webConfigFile = "/var/lib/prometheus2/config/web-config.yaml";
 
-            scrapeConfigs = let
-              def = [ "zfs" "nginx" "smartctl" ];
-            in
+            scrapeConfigs =
+              let
+                def = [ "zfs" "nginx" ];
+              in
               (mkScrapers "nixie" ([ ] ++ def)) ++
               (mkScrapers "en-backup" ([ "backuppc" "urbackup" ] ++ def)) ++
               (mkScrapers "en-observertory" ([ "prometheus" ] ++ def)) ++
-              (mkScrapers "authentication" ([  ] ++ def)) ++
-              (mkScrapers "admin" ([ ] ++ def))
-              ;
+              (mkScrapers "authentication" ([ ] ++ def)) ++
+              (mkScrapers "admin" ([ ] ++ def)) ++
+              (mkScrapers "en-mail" ([ ] ++ def))
+            ;
 
           };
         };
