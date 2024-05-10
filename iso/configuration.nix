@@ -51,6 +51,7 @@ in
       initialHashedPassword = "";
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND9kUmAEwH+qD6T+Gs/G83SA/oyIzpz1Zj4oMAkOvhO emily@work"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKNLp9IxmLVyuSm2PAFJdestM3vxmPOYx0qaxVQGLkGG darwin@inet"
       ];
 
       shell = pkgs.fish;
