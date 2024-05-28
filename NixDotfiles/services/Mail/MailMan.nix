@@ -95,9 +95,9 @@ in
 
 
   systemd.tmpfiles.rules = [
-    "d /data/MailMan/mailman-core 0750 100 100"
-    "d /data/MailMan/mailman-web 0750 100 100"
-    "d /data/MailMan/postgresql 0750 100 100"
+    "d /data/MailMan/mailman-core 0755 100 100"
+    "d /data/MailMan/mailman-web 0755 100 100"
+    "d /data/MailMan/postgresql 0755 100 100"
   ];
 
 }

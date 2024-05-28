@@ -3,10 +3,10 @@ let DATA_DIR = "/data/MailServer"; in
 {
 
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR}/mail-data/ 0750 6000 6000"
-    "d ${DATA_DIR}/mail-state/ 0750 6000 6000"
-    "d ${DATA_DIR}/mail-logs/ 0750 6000 6000"
-    "d ${DATA_DIR}/config/ 0750 6000 6000"
+    "d ${DATA_DIR}/mail-data/ 0755 6000 6000"
+    "d ${DATA_DIR}/mail-state/ 0755 6000 6000"
+    "d ${DATA_DIR}/mail-logs/ 0755 6000 6000"
+    "d ${DATA_DIR}/config/ 0755 6000 6000"
   ];
 
   # TODO: Exporters:
