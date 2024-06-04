@@ -41,6 +41,6 @@
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
     "Wireguard.nix"
-    "Authentication/OpenLDAP.nix"
+    "Authentication"
   ];
 }

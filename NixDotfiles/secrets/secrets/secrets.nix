@@ -55,8 +55,8 @@ in
   "Monitoring/Nginx/en-mail-htpasswd.age".publicKeys = [ en-mail ];
 
   # Authentication
-  "Authentication/OpenLDAP-rootpw.age".publicKeys = [ authentication ];
-  "Authentication/FreeIPA-rootpw.age".publicKeys = [ authentication ];
+  "OpenLDAP-rootpw.age".publicKeys = [ authentication ];
+  "FreeIPA-rootpw.age".publicKeys = [ authentication ];
 
   # VPN
   "Wireguard.age".publicKeys = [ authentication ];

@@ -17,5 +17,11 @@
       owner = "openldap";
       group = "openldap";
     };
+
+    FreeIPA_rootpw = {
+      file = ../../secrets/Authentication/FreeIPA-rootpw.age;
+      owner = "289";
+      group = "289";
+    };
   };
 }

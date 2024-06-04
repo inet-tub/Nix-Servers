@@ -13,6 +13,7 @@
 , redisEnvFile ? null
 , environment ? { }
 , environmentFiles ? [ ]
+, additionalPorts ? [ ]
 , additionalDomains ? [ ]
 , additionalContainerConfig ? { }
 , makeNginxConfig ? true
@@ -59,8 +60,10 @@ in
     script = ''
       ${pkgs.podman}/bin/podman pod exists ${podName} || \
       ${pkgs.podman}/bin/podman pod create --name=${podName} --ip=${containerIP} --userns=keep-id \
-        -p 127.0.0.1::${containerPortStr} -p 127.0.0.1::5432 -p 127.0.0.1::6379
-    '';
+        -p 127.0.0.1::${containerPortStr} -p 127.0.0.1::5432 -p 127.0.0.1::6379 ''
+        + (builtins.concatStringsSep " " (builtins.map (it: "-p ${it}") additionalPorts))
+      ;
+
   };
 
   virtualisation.oci-containers.containers = {
