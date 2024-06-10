@@ -66,7 +66,7 @@ in
       };
 
       boot = {
-        supportedFilesystems = [ "zfs" ];
+        supportedFilesystems = { zfs = true; };
         zfs = {
           devNodes = cfg.devNodes;
           forceImportRoot = mkDefault false;

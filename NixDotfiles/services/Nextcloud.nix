@@ -40,16 +40,12 @@ in
 
           services.nextcloud = {
             enable = true;
-            package = pkgs.nextcloud28;
+            package = pkgs.nextcloud29;
             datadir = "/var/lib/nextcloud";
             hostName = "${SUBDOMAIN}.${config.host.networking.domainName}";
-            https = true;
-
-            maxUploadSize = "20G";
-            logType = "file";
-            logLevel = 1;
-
             secretFile = config.age.secrets.Nexcloud_Keycloak-Client-Secret.path;
+            https = true;
+            maxUploadSize = "20G";
 
             config = {
               adminuser = "admin";
@@ -59,9 +55,6 @@ in
               dbhost = "/run/postgresql";
               dbuser = "nextcloud";
               dbname = "nextcloud";
-              trustedProxies = [ config.host.networking.containerHostIP ];
-
-              defaultPhoneRegion = "DE";
             };
 
             # Configure the opcache module as recommended
@@ -92,22 +85,30 @@ in
             autoUpdateApps.startAt = "05:00:00";
 
             extraApps = {
-              inherit (pkgs.nextcloud28Packages.apps)
+              inherit (pkgs.nextcloud29Packages.apps)
                 calendar
-                groupfolders
-                polls
+                contacts
                 deck
+#                files_markdown  # Not supported: https://github.com/icewind1991/files_markdown/issues/218
+                groupfolders
+                notes
                 onlyoffice
                 ;
 
               oidc = pkgs.fetchNextcloudApp rec {
-                url = "https://github.com/pulsejet/nextcloud-oidc-login/releases/download/v3.0.2/oidc_login.tar.gz";
-                sha256 = "sha256-lQaoKjPTh1RMXk2OE+ULRYKw70OCCFq1jKcUQ+c6XkA=";
+                url = "https://github.com/pulsejet/nextcloud-oidc-login/releases/download/v3.1.1/oidc_login.tar.gz";
+                sha256 = "sha256-EVHDDFtz92lZviuTqr+St7agfBWok83HpfuL6DFCoTE=";
                 license = "agpl3Only";
               };
             };
 
-            extraOptions = {
+            settings = {
+              log_type = "file";
+              loglevel = 1;
+              overwriteprotocol = "https";
+              default_phone_region = "DE";
+              trusted_proxies = [ config.host.networking.containerHostIP ];
+
               # Behaviour of OpenID Connect with Keycloak
               oidc_login_provider_url = "https://${config.keycloak-setup.subdomain}.${config.keycloak-setup.domain}/realms/${config.keycloak-setup.realm}";
               oidc_login_logout_url = "https://${SUBDOMAIN}.${config.host.networking.domainName}/apps/oidc_login/oidc";
@@ -141,7 +142,6 @@ in
               # Nextcloud config
               allow_user_to_change_display_name = true;
               lost_password_link = "disabled";
-              overwriteprotocol = "https";
               default_locale = "en_IE";
               upgrade.disable-web = false;
 
