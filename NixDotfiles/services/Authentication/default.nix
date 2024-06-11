@@ -1,4 +1,4 @@
 { config, lib, pkgs, ... }: { imports = [
-#  ./FreeIPA.nix
+  ./FreeIPA.nix
   ./OpenLDAP.nix
 ]; }

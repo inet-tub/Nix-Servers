@@ -11,9 +11,10 @@ let DATA_DIR = "/data/FreeIPA"; in
         inherit config lib pkgs;
         name = "freeipa";
         image = "freeipa/freeipa-server:almalinux-9";
-
         dataDir = DATA_DIR;
         containerNum = 7;
+
+        nginxUseHttps = true;
         containerPort = 443;
         additionalPorts = [
           # LDAP / LDAPS
@@ -28,6 +29,9 @@ let DATA_DIR = "/data/FreeIPA"; in
 
           # NTP
         ];
+
+#        additionalContainerConfig.extraOptions = [ "--sysctl=ipv6.disable=1" ];
+
         environment = {
           IPA_SERVER_IP = "10.88.7.1";
           IPA_SERVER_HOSTNAME = "freeipa.${config.host.networking.domainName}";

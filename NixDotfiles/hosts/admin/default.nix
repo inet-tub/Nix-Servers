@@ -43,5 +43,6 @@
     "Nginx.nix"
     "Admin/NetBox.nix"
     "Admin/YouTrack.nix"
+    "Authentication/IPA-Client.nix"
   ];
 }

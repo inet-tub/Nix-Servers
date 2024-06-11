@@ -17,6 +17,7 @@
 , additionalDomains ? [ ]
 , additionalContainerConfig ? { }
 , makeNginxConfig ? true
+, nginxUseHttps ? false
 , additionalNginxConfig ? { }
 , additionalNginxLocationConfig ? { }
 , additionalNginxHostConfig ? { }
@@ -42,6 +43,7 @@ let
         inherit containerIP config additionalDomains lib;
         containerPort = containerPortStr;
         subdomain = if subdomain != null then subdomain else name;
+        useHttps = nginxUseHttps;
         additionalConfig = additionalNginxConfig;
         additionalLocationConfig = additionalNginxLocationConfig;
         additionalHostConfig = additionalNginxHostConfig;

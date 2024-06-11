@@ -1,6 +1,7 @@
 { subdomain
 , containerIP
 , containerPort /* str */
+, useHttps ? false
 , additionalDomains ? [ ]
 , additionalConfig ? { }
 , additionalLocationConfig ? { }
@@ -23,7 +24,7 @@ let utils = import ../../utils.nix { inherit lib; }; in
           locations."/" = utils.recursiveMerge [
             additionalLocationConfig
             {
-              proxyPass = "http://${containerIP}:${containerPort}/";
+              proxyPass = (if useHttps then "https" else "http") + "://${containerIP}:${containerPort}/";
             }
           ];
         }
