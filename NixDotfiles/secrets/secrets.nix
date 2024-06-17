@@ -1,7 +1,6 @@
 let
   nixie = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE2ZgWixxR/GhpC/pPqiwuHtKHdMGeg/qAb33MBs6H8T root@nixie";
   en-backup = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKdlEoAplZ90VCBYcuYbIEIOoQNO1OKko1mXRfda8uv2 root@en-backup";
-
   en-observertory = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEXmHskBbNV4L84enFVlj/x6cmH4jvae2Y+jLexF5RMB root@monitoring";
   authentication = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGqrwJxF7Pql+p1XQqH8m9TaSThg35xu5f1R3T7UB0/L root@authentication";
   admin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPu5yJRC0EdgEBer1ACyLCLekC6Q6tOH7LdMtGDaZS4O root@admin";
@@ -32,8 +31,15 @@ in
   "Mail/MailMan.age".publicKeys = [ nixie ];
 
   # Backup
-  "BackupPC.age".publicKeys = [ en-backup ];
-  "UrBackup-exporter.age".publicKeys = [ en-backup ];
+  "Backup/BackupPC.age".publicKeys = [ en-backup ];
+  "Backup/UrBackup-exporter.age".publicKeys = [ en-backup ];
+
+  "Backup/Restic/nixie-htpasswd.age".publicKeys = [ nixie ];
+  "Backup/Restic/en-backup-htpasswd.age".publicKeys = [ en-backup ];
+  "Backup/Restic/en-observertory-htpasswd.age".publicKeys = [ en-observertory ];
+  "Backup/Restic/authentication-htpasswd.age".publicKeys = [ authentication ];
+  "Backup/Restic/admin-htpasswd.age".publicKeys = [ admin ];
+  "Backup/Restic/en-mail-htpasswd.age".publicKeys = [ en-mail ];
 
   # Monitoring
   "Monitoring/Grafana/admin-pw.age".publicKeys = [ en-observertory ];

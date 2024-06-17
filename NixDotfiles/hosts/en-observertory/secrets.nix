@@ -6,6 +6,18 @@
       group = "nginx";
     };
 
+    Restic_pw = {
+      file = ../../secrets/Backup/Restic/en-observertory-pw.age;
+      owner = "root";
+      group = "root";
+    };
+
+    Restic_env = {
+      file = ../../secrets/Backup/Restic/en-observertory-env.age;
+      owner = "root";
+      group = "root";
+    };
+
     Grafana_admin-pw = {
       file = ../../secrets/Monitoring/Grafana/admin-pw.age;
       owner = "grafana";

@@ -33,6 +33,7 @@
     nginxlog.enable = true;
     smartctl.enable = false;
     zfs.enable = true;
+    restic.enable = true;
   };
 
   # import other host-specific things
@@ -41,5 +42,6 @@
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
+    "Backup/Restic-Client.nix"
   ];
 }

@@ -34,6 +34,7 @@
     nginx.enable = true;
     smartctl.enable = false;
     zfs.enable = true;
+    restic.enable = true;
   };
 
   # import other host-specific things
@@ -41,8 +42,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
-    # Import services
     "Nginx.nix"
+    "Backup/Restic-Client.nix"
     "Monitoring/Prometheus.nix"
     "Monitoring/Grafana.nix"
     "Backup/UrBackup-Client.nix"

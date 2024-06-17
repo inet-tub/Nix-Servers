@@ -6,6 +6,18 @@
       group = "nginx";
     };
 
+    Restic_pw = {
+      file = ../../secrets/Backup/Restic/authentication-pw.age;
+      owner = "root";
+      group = "root";
+    };
+
+    Restic_env = {
+      file = ../../secrets/Backup/Restic/authentication-env.age;
+      owner = "root";
+      group = "root";
+    };
+
     Wireguard = {
       file = ../../secrets/Office-Gate/Wireguard.age;
       owner = "root";

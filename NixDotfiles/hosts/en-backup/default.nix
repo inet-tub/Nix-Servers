@@ -45,5 +45,6 @@
 
     "Backup/UrBackup.nix"
     "Backup/BackupPC.nix"
+    "Backup/Restic.nix"
   ];
 }

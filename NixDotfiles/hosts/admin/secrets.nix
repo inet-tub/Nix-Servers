@@ -6,6 +6,18 @@
       group = "nginx";
     };
 
+    Restic_pw = {
+      file = ../../secrets/Backup/Restic/admin-pw.age;
+      owner = "root";
+      group = "root";
+    };
+
+    Restic_env = {
+      file = ../../secrets/Backup/Restic/admin-env.age;
+      owner = "root";
+      group = "root";
+    };
+
     NetBox_Env = {
       file = ../../secrets/NetBox/Env.age;
       owner = "6050";

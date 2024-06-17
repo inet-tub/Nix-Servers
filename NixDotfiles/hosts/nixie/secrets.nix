@@ -6,6 +6,18 @@
       group = "nginx";
     };
 
+    Restic_pw = {
+      file = ../../secrets/Backup/Restic/nixie-pw.age;
+      owner = "root";
+      group = "root";
+    };
+
+    Restic_env = {
+      file = ../../secrets/Backup/Restic/nixie-env.age;
+      owner = "root";
+      group = "root";
+    };
+
     Keycloak_Database-Password = {
       file = ../../secrets/Keycloak/Database-Password.age;
       owner = "keycloak";

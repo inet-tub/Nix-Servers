@@ -51,6 +51,7 @@
     nginxlog.enable = true;
     smartctl.enable = false;
     zfs.enable = true;
+    restic.enable = true;
   };
 
   # Currently there is no better place to put it as nixie handles inet.tu-berlin.de
@@ -67,8 +68,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
-    # Import services
     "Nginx.nix"
+    "Backup/Restic-Client.nix"
     "HedgeDoc.nix"
     "Keycloak.nix"
     "Nextcloud.nix"

@@ -51,12 +51,12 @@ in
               let
                 def = [ "zfs" "nginx" ];
               in
-              (mkScrapers "nixie" ([ ] ++ def)) ++
-              (mkScrapers "en-backup" ([ "backuppc" "urbackup" ] ++ def)) ++
-              (mkScrapers "en-observertory" ([ "prometheus" ] ++ def)) ++
-              (mkScrapers "authentication" ([ ] ++ def)) ++
-              (mkScrapers "admin" ([ ] ++ def)) ++
-              (mkScrapers "en-mail" ([ ] ++ def))
+              (mkScrapers "nixie" ([ "restic" ] ++ def)) ++
+              (mkScrapers "en-backup" ([ "urbackup" ] ++ def)) ++
+              (mkScrapers "en-observertory" ([ "prometheus" "restic" ] ++ def)) ++
+              (mkScrapers "authentication" ([ "restic" ] ++ def)) ++
+              (mkScrapers "admin" ([ "restic" ] ++ def)) ++
+              (mkScrapers "en-mail" ([ "restic" ] ++ def))
             ;
 
           };

@@ -5,5 +5,17 @@
       owner = "nginx";
       group = "nginx";
     };
+
+    Restic_pw = {
+      file = ../../secrets/Backup/Restic/en-mail-pw.age;
+      owner = "root";
+      group = "root";
+    };
+
+    Restic_env = {
+      file = ../../secrets/Backup/Restic/en-mail-env.age;
+      owner = "root";
+      group = "root";
+    };
   };
 }

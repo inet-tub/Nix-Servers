@@ -184,6 +184,20 @@ in
           });
         };
 
+        restic = mkOption {
+          description = "Restic";
+          default = null;
+          type = types.nullOr (types.submodule {
+            options = {
+              enable = mkOption {
+                description = "Enable restic exporter";
+                type = types.bool;
+                default = false;
+              };
+            };
+          });
+        };
+
       };
     };
 
@@ -253,6 +267,29 @@ in
       environmentFiles = [ config.age.secrets.UrBackup_exporter.path ];
     };
 
+    virtualisation.oci-containers.containers.restic-exporter = mkIf (cfg.monitoredServices.restic != null) {
+      image = "ngosang/restic-exporter";
+      ports = [ "127.0.0.1::8001" ];
+      extraOptions = [ "--ip=10.88.5.2" "--userns=keep-id" ];
+
+      volumes = [
+        "/etc/resolv.conf:/etc/resolv.conf:ro"
+        "${config.age.secrets.Restic_pw.path}:${config.age.secrets.Restic_pw.path}"
+        "${config.age.secrets.Restic_env.path}:${config.age.secrets.Restic_env.path}"
+      ];
+
+      environment = {
+        TZ = "Europe/Berlin";
+        RESTIC_REPOSITORY = "rest:https://restic.${config.host.networking.domainName}/${config.host.name}";
+        RESTIC_PASSWORD_FILE = config.age.secrets.Restic_pw.path;
+        REFRESH_INTERVAL="900";  # 15min
+
+      };
+      environmentFiles = [ config.age.secrets.Restic_env.path ];
+    };
+
+
+
     services.nginx.virtualHosts = mkIf (config.monitoredServices != [ ]) {
       "${config.host.name}.observer.${config.host.networking.domainName}" = {
         forceSSL = true;
@@ -267,6 +304,7 @@ in
           "/prometheus-metrics".proxyPass = "http://192.168.7.112:9090/metrics";
           "/backuppc-metrics".proxyPass = "http://10.88.3.1:8080/BackupPC_Admin?action=metrics&format=prometheus";
           "/urbackup-metrics".proxyPass = "http://10.88.4.2:9554/metrics";
+          "/restic-metrics".proxyPass = "http://10.88.5.2:8001/metrics";
         };
       };
     };
