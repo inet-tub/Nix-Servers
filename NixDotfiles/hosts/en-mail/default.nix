@@ -42,6 +42,6 @@
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
-    "Backup/Restic-Client.nix"
+#    "Backup/Restic-Client.nix"
   ];
 }

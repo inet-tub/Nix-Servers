@@ -34,12 +34,19 @@ in
   "Backup/BackupPC.age".publicKeys = [ en-backup ];
   "Backup/UrBackup-exporter.age".publicKeys = [ en-backup ];
 
-  "Backup/Restic/nixie-htpasswd.age".publicKeys = [ nixie ];
-  "Backup/Restic/en-backup-htpasswd.age".publicKeys = [ en-backup ];
-  "Backup/Restic/en-observertory-htpasswd.age".publicKeys = [ en-observertory ];
-  "Backup/Restic/authentication-htpasswd.age".publicKeys = [ authentication ];
-  "Backup/Restic/admin-htpasswd.age".publicKeys = [ admin ];
-  "Backup/Restic/en-mail-htpasswd.age".publicKeys = [ en-mail ];
+  "Backup/Restic/nixie-pw.age".publicKeys = [ nixie ];
+  "Backup/Restic/en-backup-pw.age".publicKeys = [ en-backup ];
+  "Backup/Restic/en-observertory-pw.age".publicKeys = [ en-observertory ];
+  "Backup/Restic/authentication-pw.age".publicKeys = [ authentication ];
+  "Backup/Restic/admin-pw.age".publicKeys = [ admin ];
+  "Backup/Restic/en-mail-pw.age".publicKeys = [ en-mail ];
+
+  "Backup/Restic/nixie-env.age".publicKeys = [ nixie ];
+  "Backup/Restic/en-backup-env.age".publicKeys = [ en-backup ];
+  "Backup/Restic/en-observertory-env.age".publicKeys = [ en-observertory ];
+  "Backup/Restic/authentication-env.age".publicKeys = [ authentication ];
+  "Backup/Restic/admin-env.age".publicKeys = [ admin ];
+  "Backup/Restic/en-mail-env.age".publicKeys = [ en-mail ];
 
   # Monitoring
   "Monitoring/Grafana/admin-pw.age".publicKeys = [ en-observertory ];
