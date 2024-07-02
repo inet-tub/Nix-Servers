@@ -25,7 +25,7 @@ let DATA_DIR = "/data/Restic"; in
 
         cfg.services.restic.server = {
           enable = true;
-          appendOnly = true;
+          appendOnly = false;  # we want to be able to do a staggered backup
           privateRepos = true;
           prometheus = true;
           extraFlags = [ "--no-auth" "--prometheus-no-auth" ];  # Authentication is handled by nginx

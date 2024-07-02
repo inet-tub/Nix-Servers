@@ -18,11 +18,5 @@
       group = "6003";
     };
 
-    UrBackup_exporter = {
-      file = ../../secrets/Backup/UrBackup-exporter.age;
-      owner = "6004";
-      group = "6004";
-    };
-
   };
 }

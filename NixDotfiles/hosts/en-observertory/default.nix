@@ -46,6 +46,5 @@
     "Backup/Restic-Client.nix"
     "Monitoring/Prometheus.nix"
     "Monitoring/Grafana.nix"
-    "Backup/UrBackup-Client.nix"
   ];
 }

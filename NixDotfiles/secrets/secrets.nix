@@ -32,7 +32,6 @@ in
 
   # Backup
   "Backup/BackupPC.age".publicKeys = [ en-backup ];
-  "Backup/UrBackup-exporter.age".publicKeys = [ en-backup ];
 
   "Backup/Restic/nixie-pw.age".publicKeys = [ nixie ];
   "Backup/Restic/en-backup-pw.age".publicKeys = [ en-backup ];
@@ -72,6 +71,6 @@ in
   "Authentication/FreeIPA-rootpw.age".publicKeys = [ authentication ];
 
   # VPN
-  "Wireguard.age".publicKeys = [ authentication ];
-  "Headscale.age".publicKeys = [ en-backup ];
+  "Office-Gate/Wireguard.age".publicKeys = [ authentication nixie ];
+  "Office-Gate/Headscale.age".publicKeys = [ en-backup ];
 }

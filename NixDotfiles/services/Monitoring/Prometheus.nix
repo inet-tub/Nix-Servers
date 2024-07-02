@@ -52,7 +52,7 @@ in
                 def = [ "zfs" "nginx" ];
               in
               (mkScrapers "nixie" ([ "restic" ] ++ def)) ++
-              (mkScrapers "en-backup" ([ "urbackup" ] ++ def)) ++
+              (mkScrapers "en-backup" ([ ] ++ def)) ++
               (mkScrapers "en-observertory" ([ "prometheus" "restic" ] ++ def)) ++
               (mkScrapers "authentication" ([ "restic" ] ++ def)) ++
               (mkScrapers "admin" ([ "restic" ] ++ def)) ++

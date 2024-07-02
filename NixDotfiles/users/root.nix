@@ -64,7 +64,6 @@
     ripgrep
     unzip
     unzrip
-    urbackup-client
     ethtool
   ];
 }

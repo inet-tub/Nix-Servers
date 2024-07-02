@@ -170,20 +170,6 @@ in
           });
         };
 
-        urbackup = mkOption {
-          description = "UrBackup";
-          default = null;
-          type = types.nullOr (types.submodule {
-            options = {
-              enable = mkOption {
-                description = "Enable urbackup exporter";
-                type = types.bool;
-                default = false;
-              };
-            };
-          });
-        };
-
         restic = mkOption {
           description = "Restic";
           default = null;
@@ -253,20 +239,6 @@ in
     };
 
     # Enable Docker monitoring
-    virtualisation.oci-containers.containers.urbackup-exporter = mkIf (cfg.monitoredServices.urbackup != null) {
-      image = "ngosang/urbackup-exporter";
-      ports = [ "127.0.0.1::9554" ];
-      extraOptions = [ "--ip=10.88.4.2" "--userns=keep-id" ];
-      volumes = [ "/etc/resolv.conf:/etc/resolv.conf:ro" ];
-      environment = {
-        TZ = "Europe/Berlin";
-        URBACKUP_SERVER_URL = "http://10.88.4.1:55414/x";
-        URBACKUP_SERVER_USERNAME = "admin";
-        EXPORT_CLIENT_BACKUP = "true";
-      };
-      environmentFiles = [ config.age.secrets.UrBackup_exporter.path ];
-    };
-
     virtualisation.oci-containers.containers.restic-exporter = mkIf (cfg.monitoredServices.restic != null) {
       image = "ngosang/restic-exporter";
       ports = [ "127.0.0.1::8001" ];
@@ -303,7 +275,6 @@ in
           { "/".return = "403"; } [ "zfs" "smartctl" "nginx" "nginxlog" ] // {
           "/prometheus-metrics".proxyPass = "http://192.168.7.112:9090/metrics";
           "/backuppc-metrics".proxyPass = "http://10.88.3.1:8080/BackupPC_Admin?action=metrics&format=prometheus";
-          "/urbackup-metrics".proxyPass = "http://10.88.4.2:9554/metrics";
           "/restic-metrics".proxyPass = "http://10.88.5.2:8001/metrics";
         };
       };

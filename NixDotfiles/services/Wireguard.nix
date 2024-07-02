@@ -13,6 +13,15 @@
       listenPort = 51820;
       privateKeyFile = config.age.secrets.Wireguard.path;
 
+      postSetup = ''
+        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 192.168.42.0/25 -o ${config.host.networking.adminInterface} -j MASQUERADE
+      '';
+
+      # This undoes the above command
+      postShutdown = ''
+        ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 192.168.42.0/25 -o ${config.host.networking.adminInterface} -j MASQUERADE
+      '';
+
       peers =
         let
           defconfig = {

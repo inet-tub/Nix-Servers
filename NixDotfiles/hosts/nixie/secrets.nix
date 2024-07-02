@@ -75,5 +75,11 @@
       owner = "100";
       group = "100";
     };
+
+    Wireguard = {
+      file = ../../secrets/Office-Gate/Wireguard.age;
+      owner = "root";
+      group = "root";
+    };
   };
 }

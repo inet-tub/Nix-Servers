@@ -26,7 +26,7 @@
             # You can also add more  channels to pin package version.
             pkgs = import nixpkgs {
               inherit system;
-              overlays = [ (import ./overlays/urbackup.nix) ];
+#              overlays = [ (import ...) ];
               config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
             };
 

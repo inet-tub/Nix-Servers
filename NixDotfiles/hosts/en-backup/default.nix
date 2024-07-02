@@ -32,10 +32,7 @@
     nginx.enable = true;
     smartctl.enable = false;
     zfs.enable = true;
-    urbackup.enable = true;
   };
-
-  services.urbackup-client.enable = false;
 
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -43,7 +40,6 @@
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
 
-    "Backup/UrBackup.nix"
     "Backup/BackupPC.nix"
     "Backup/Restic.nix"
   ];

@@ -78,6 +78,8 @@
 
     "PasswordManagers/VaultWarden.nix"
 
+    "Wireguard.nix"
+
     "Mail/MailServer.nix"
     "Mail/MailMan.nix"
     "Mail/WebMail.nix"
