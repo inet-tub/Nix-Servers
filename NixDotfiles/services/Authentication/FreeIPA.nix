@@ -30,8 +30,6 @@ let DATA_DIR = "/data/FreeIPA"; in
           # NTP
         ];
 
-#        additionalContainerConfig.extraOptions = [ "--sysctl=ipv6.disable=1" ];
-
         environment = {
           IPA_SERVER_IP = "10.88.7.1";
           IPA_SERVER_HOSTNAME = "freeipa.${config.host.networking.domainName}";
@@ -42,13 +40,16 @@ let DATA_DIR = "/data/FreeIPA"; in
 
         volumes = [
           "${DATA_DIR}/data:/data"
+          "/var/lib/acme/freeipa.${config.host.networking.domainName}:/var/lib/acme"
         ];
       }
     )
   ];
 
   systemd.tmpfiles.rules = [
-    "d ${DATA_DIR} 0750 289 289"
-    "d ${DATA_DIR}/data/ 0750 289 289"
+    "d ${DATA_DIR} 0750 root root"
+
+    # This directory has to be readable by everyone as there are multiple users that depend on it
+    "d ${DATA_DIR}/data/ 0755 root root"
   ];
 }

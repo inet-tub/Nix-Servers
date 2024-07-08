@@ -3,8 +3,8 @@
     enable = true;
 
     certificate = pkgs.fetchurl {
-      url = "https://ipa.example.com/ipa/config/ca.crt";
-      sha256 = "0jhxzggc2bm55mg2id7pzpfkm2jyj1zyy6jzsn3j37b0hnjp0dch";
+      url = "https://freeipa.inet.tu-berlin.de/ipa/config/ca.crt";
+      sha256 = "0bqnvsmfv9s512bzjs9cnj6p95pqbvd2wpqp43zriwmflzwgaxxy";
     };
 
     domain = "inet.tu-berlin.de";
@@ -18,6 +18,6 @@
   };
 
   environment.systemPackages = [
-    pkgs-unstable.freeipa
+    pkgs.freeipa
   ];
 }

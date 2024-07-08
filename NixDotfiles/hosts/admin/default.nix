@@ -45,6 +45,6 @@
     "Backup/Restic-Client.nix"
     "Admin/NetBox.nix"
     "Admin/YouTrack.nix"
-#    "Authentication/IPA-Client.nix"
+    "Authentication/IPA-Client.nix"
   ];
 }
