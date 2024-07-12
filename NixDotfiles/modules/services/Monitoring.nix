@@ -255,6 +255,7 @@ in
         RESTIC_REPOSITORY = "rest:https://restic.${config.host.networking.domainName}/${config.host.name}";
         RESTIC_PASSWORD_FILE = config.age.secrets.Restic_pw.path;
         REFRESH_INTERVAL="900";  # 15min
+        NO_CHECK="True";
 
       };
       environmentFiles = [ config.age.secrets.Restic_env.path ];

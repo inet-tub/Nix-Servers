@@ -95,7 +95,7 @@ in
                 onlyoffice
                 ;
 
-              oidc = pkgs.fetchNextcloudApp rec {
+              oidc_login = pkgs.fetchNextcloudApp rec {
                 url = "https://github.com/pulsejet/nextcloud-oidc-login/releases/download/v3.1.1/oidc_login.tar.gz";
                 sha256 = "sha256-EVHDDFtz92lZviuTqr+St7agfBWok83HpfuL6DFCoTE=";
                 license = "agpl3Only";

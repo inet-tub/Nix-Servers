@@ -8,14 +8,6 @@
       initialize = true;
       paths = [ "/data" ];
 
-      pruneOpts = [
-        "--keep-last 7"
-        "--keep-daily 30"
-        "--keep-weekly 52"
-        "--keep-monthly 120"
-        "--keep-yearly 15"
-      ];
-
       timerConfig = {
         # Run every day between 23:00 and 5:00, depending on the random delay
         OnCalendar = "23:00";
