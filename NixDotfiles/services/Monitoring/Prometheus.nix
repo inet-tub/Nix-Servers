@@ -39,6 +39,7 @@ in
           "${config.age.secrets.Prometheus_en-observertory-pw.path}".hostPath = config.age.secrets.Prometheus_en-observertory-pw.path;
           "${config.age.secrets.Prometheus_authentication-pw.path}".hostPath = config.age.secrets.Prometheus_authentication-pw.path;
           "${config.age.secrets.Prometheus_admin-pw.path}".hostPath = config.age.secrets.Prometheus_admin-pw.path;
+          "${config.age.secrets.Prometheus_en-mail-pw.path}".hostPath = config.age.secrets.Prometheus_en-mail-pw.path;
         };
 
         cfg = {

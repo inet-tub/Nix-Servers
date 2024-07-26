@@ -15,6 +15,11 @@ let DATA_DIR = "/data/FreeIPA"; in
         containerNum = 7;
 
         nginxUseHttps = true;
+        additionalNginxConfig = {
+          sslCertificate = "/var/lib/acme/freeipa.inet.tu-berlin.de/httpd.crt";
+          sslCertificateKey = "/var/lib/acme/freeipa.inet.tu-berlin.de/httpd.key";
+          enableACME = lib.mkForce false;
+        };
         containerPort = 443;
         additionalPorts = [
           # LDAP / LDAPS

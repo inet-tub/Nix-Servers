@@ -1,7 +1,7 @@
 {
   description = "Custom NixOS installation media";
   inputs = {
-    nixos.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixos.url = "github:NixOS/nixpkgs/nixos-24.05";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.darwin.follows = "";

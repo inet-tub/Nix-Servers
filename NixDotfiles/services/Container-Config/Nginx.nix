@@ -18,7 +18,7 @@ let utils = import ../../utils.nix { inherit lib; }; in
         additionalConfig
         {
           forceSSL = true;
-          enableACME = true;
+          enableACME = lib.mkDefault true;
           serverAliases = map (it: "${it}.${config.host.networking.domainName}") additionalDomains;
 
           locations."/" = utils.recursiveMerge [

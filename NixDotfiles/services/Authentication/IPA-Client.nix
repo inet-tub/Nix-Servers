@@ -17,7 +17,6 @@
 
     dyndns.enable = false;
     chromiumSupport = false;
-
   };
 
   environment.systemPackages = [

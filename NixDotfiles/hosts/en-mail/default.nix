@@ -1,6 +1,6 @@
 { config, modulesPath, ... }: {
   host = {
-    name = "admin";
+    name = "en-mail";
     id = "hostid_placeholder";
     bootDevices = [ "bootDevices_placeholder" ];
 
@@ -42,6 +42,7 @@
     ./secrets.nix
   ] ++ map (it: ../../services/${it}) [
     "Nginx.nix"
-#    "Backup/Restic-Client.nix"
+    "Backup/Restic-Client.nix"
+    "Authentication/IPA-Client.nix"
   ];
 }
