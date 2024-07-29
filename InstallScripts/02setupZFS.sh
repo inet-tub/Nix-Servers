@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+source "$SCRIPT_DIR/utils.sh"
+check_variables DRIVES RAID_LEVEL
+
 check_zpool_status() {
     local pool_name="$1"
 
@@ -11,10 +15,6 @@ check_zpool_status() {
         return 1
     fi
 }
-
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-source "$SCRIPT_DIR/utils.sh"
-check_variables DRIVES RAID_LEVEL BOOT_POOL_NAME ROOT_POOL_NAME
 
 if [ "$NUM_HOT_SPARES" -gt 0 ]; then
     check_variables HOT_SPARES
@@ -42,12 +42,12 @@ zpool create \
     -O com.sun:auto-snapshot=true \
     -O mountpoint=/boot \
     -R /mnt \
-    "$BOOT_POOL_NAME" \
+    "bpool" \
     "$RAID_LEVEL" \
     "${DRIVES[@]/%/-part2}" \
     $spare_bpool  # Splitting here is important, otherwise the array will be treated as a single element
 
-check_zpool_status "$BOOT_POOL_NAME"
+check_zpool_status "bpool"
 echo -e "\nCreating root pool ..."
 
 zpool create \
@@ -64,30 +64,30 @@ zpool create \
     -O com.sun:auto-snapshot=true \
     -O mountpoint=/ \
     -R /mnt \
-    "$ROOT_POOL_NAME" \
+    "rpool" \
     "$RAID_LEVEL" \
     "${DRIVES[@]/%/-part3}" \
     $spare_rpool
 
-check_zpool_status "$ROOT_POOL_NAME"
+check_zpool_status "rpool"
 
-zfs create -o canmount=off -o mountpoint=none "$ROOT_POOL_NAME"/nixos
-zfs create -o mountpoint=legacy "$ROOT_POOL_NAME"/nixos/root
-zfs create -o mountpoint=legacy "$ROOT_POOL_NAME"/nixos/home
-zfs create -o mountpoint=legacy "$ROOT_POOL_NAME"/nixos/var
-zfs create -o mountpoint=legacy "$ROOT_POOL_NAME"/nixos/var/lib
-zfs create -o mountpoint=legacy "$ROOT_POOL_NAME"/nixos/var/log
-zfs create -o mountpoint=none "$BOOT_POOL_NAME"/nixos
-zfs create -o mountpoint=legacy "$BOOT_POOL_NAME"/nixos/root
-zfs create -o mountpoint=legacy "$ROOT_POOL_NAME"/nixos/empty
+zfs create -o canmount=off -o mountpoint=none "rpool/nixos"
+zfs create -o mountpoint=legacy "rpool/nixos/root"
+zfs create -o mountpoint=legacy "rpool/nixos/home"
+zfs create -o mountpoint=legacy "rpool/nixos/var"
+zfs create -o mountpoint=legacy "rpool/nixos/var/lib"
+zfs create -o mountpoint=legacy "rpool/nixos/var/log"
+zfs create -o mountpoint=none "bpool/nixos"
+zfs create -o mountpoint=legacy "bpool/nixos/root"
+zfs create -o mountpoint=legacy "rpool/nixos/empty"
 
-mount -t zfs "$ROOT_POOL_NAME"/nixos/root /mnt/
-mkdir /mnt/home
-mkdir /mnt/boot
-mount -t zfs "$ROOT_POOL_NAME"/nixos/home /mnt/home
-mount -t zfs "$BOOT_POOL_NAME"/nixos/root /mnt/boot
+mount -t zfs "rpool/nixos/root" "/mnt/"
+mkdir "/mnt/home"
+mkdir "/mnt/boot"
+mount -t zfs "rpool/nixos/home" "/mnt/home"
+mount -t zfs "bpool/nixos/root" "/mnt/boot"
 
-zfs snapshot "$ROOT_POOL_NAME"/nixos/empty@start
+zfs snapshot "rpool/nixos/empty@start"
 
 for disk in "${DRIVES[@]}"; do
     mkdir -p /mnt/boot/efis/"${disk##*/}"-part1
