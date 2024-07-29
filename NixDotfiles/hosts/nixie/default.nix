@@ -47,11 +47,9 @@
   keycloak-setup.realm = "INET";
 
   monitoredServices = {
-    nginx.enable = true;
-    nginxlog.enable = true;
-    smartctl.enable = false;
-    zfs.enable = true;
-    restic.enable = true;
+    # TODO: This is currently needed because deteriming if nextcloud.enable is true is not possible from outside of the container
+    hedgedoc = true;
+    nextcloud = true;
   };
 
   # Currently there is no better place to put it as nixie handles inet.tu-berlin.de

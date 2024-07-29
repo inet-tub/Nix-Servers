@@ -66,6 +66,8 @@ in
   "Monitoring/Nginx/nixie-htpasswd.age".publicKeys = [ nixie ];
   "Monitoring/Nginx/en-mail-htpasswd.age".publicKeys = [ en-mail ];
 
+  "Monitoring/Exporters/Nextcloud-tokenfile.age".publicKeys = [ nixie ];
+
   # Authentication
   "Authentication/OpenLDAP-rootpw.age".publicKeys = [ authentication ];
   "Authentication/FreeIPA-rootpw.age".publicKeys = [ authentication ];

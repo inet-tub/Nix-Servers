@@ -50,13 +50,13 @@ in
 
             scrapeConfigs =
               let
-                def = [ "zfs" "nginx" ];
+                def = [ "zfs" "nginx" "nginxlog" ];
               in
-              (mkScrapers "nixie" ([ "restic" ] ++ def)) ++
+              (mkScrapers "nixie" ([ "restic" "hedgedoc" "nextcloud" ] ++ def)) ++
               (mkScrapers "en-backup" ([ ] ++ def)) ++
               (mkScrapers "en-observertory" ([ "prometheus" "restic" ] ++ def)) ++
               (mkScrapers "authentication" ([ "restic" ] ++ def)) ++
-              (mkScrapers "admin" ([ "restic" ] ++ def)) ++
+              (mkScrapers "admin" ([ "restic" "netbox" ] ++ def)) ++
               (mkScrapers "en-mail" ([ "restic" ] ++ def))
             ;
 

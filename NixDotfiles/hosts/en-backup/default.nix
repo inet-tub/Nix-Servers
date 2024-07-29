@@ -28,12 +28,6 @@
     };
   };
 
-  monitoredServices = {
-    nginx.enable = true;
-    smartctl.enable = false;
-    zfs.enable = true;
-  };
-
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./secrets.nix

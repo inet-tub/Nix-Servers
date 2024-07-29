@@ -29,11 +29,7 @@
   };
 
   monitoredServices = {
-    nginx.enable = true;
-    nginxlog.enable = true;
-    smartctl.enable = false;
-    zfs.enable = true;
-    restic.enable = true;
+    netbox = true;
   };
 
   # import other host-specific things
@@ -45,6 +41,5 @@
     "Backup/Restic-Client.nix"
     "Admin/NetBox.nix"
     "Admin/YouTrack.nix"
-    "Authentication/IPA-Client.nix"
   ];
 }

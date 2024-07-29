@@ -30,11 +30,7 @@
   };
 
   monitoredServices = {
-    prometheus.enable = true;
-    nginx.enable = true;
-    smartctl.enable = false;
-    zfs.enable = true;
-    restic.enable = true;
+    prometheus = true;
   };
 
   # import other host-specific things

@@ -13,6 +13,7 @@ let DATA_DIR = "/data/NetBox"; in
         subdomain = "netbox";
         containerNum = 5;
         containerPort = 8000;
+        additionalNginxConfig.locations."/metrics".return = "403";
 
         environmentFiles = [ config.age.secrets.NetBox_Env.path ];
         postgresEnvFile = config.age.secrets.NetBox_Postgres.path;

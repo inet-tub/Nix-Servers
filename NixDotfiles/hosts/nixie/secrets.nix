@@ -39,6 +39,10 @@
       file = ../../secrets/Nextcloud/Keycloak-Client-Secret.age;
       owner = "nextcloud";
     };
+    Nextcloud_Exporter-tokenfile = {
+      file = ../../secrets/Monitoring/Exporters/Nextcloud-tokenfile.age;
+      owner = "nextcloud-exporter";
+    };
     OnlyOffice-Documentserver = {
       file = ../../secrets/OnlyOffice/Documentserver.age;
       owner = "109";

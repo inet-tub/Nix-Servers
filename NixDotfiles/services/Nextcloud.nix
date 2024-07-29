@@ -33,6 +33,7 @@ in
           "/var/lib/postgresql" = { hostPath = "${DATA_DIR}/postgresql"; isReadOnly = false; };
           "${config.age.secrets.Nextcloud_Admin-Password.path}".hostPath = config.age.secrets.Nextcloud_Admin-Password.path;
           "${config.age.secrets.Nexcloud_Keycloak-Client-Secret.path}".hostPath = config.age.secrets.Nexcloud_Keycloak-Client-Secret.path;
+          "${config.age.secrets.Nextcloud_Exporter-tokenfile.path}".hostPath = config.age.secrets.Nextcloud_Exporter-tokenfile.path;
         };
 
         cfg = {
@@ -168,6 +169,13 @@ in
           systemd.services."nextcloud-setup" = {
             requires = [ "postgresql.service" ];
             after = [ "postgresql.service" ];
+          };
+
+          services.prometheus.exporters.nextcloud = lib.mkIf config.monitoredServices.nextcloud {
+            enable = true;
+            url = "https://${SUBDOMAIN}.${config.host.networking.domainName}";
+            tokenFile = config.age.secrets.Nextcloud_Exporter-tokenfile.path;
+            openFirewall = true;
           };
         };
       }

@@ -28,13 +28,6 @@
     };
   };
 
-  monitoredServices = {
-    nginx.enable = true;
-    smartctl.enable = false;
-    zfs.enable = true;
-    restic.enable = true;
-  };
-
   # import other host-specific things
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
