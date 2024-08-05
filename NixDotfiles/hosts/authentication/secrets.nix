@@ -30,8 +30,8 @@
       group = "openldap";
     };
 
-    FreeIPA_rootpw = {
-      file = ../../secrets/Authentication/FreeIPA-rootpw.age;
+    FreeIPA_install-command = {
+      file = ../../secrets/Authentication/FreeIPA_install-command.age;
       owner = "289";
       group = "289";
     };

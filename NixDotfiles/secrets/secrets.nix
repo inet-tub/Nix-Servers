@@ -70,7 +70,7 @@ in
 
   # Authentication
   "Authentication/OpenLDAP-rootpw.age".publicKeys = [ authentication ];
-  "Authentication/FreeIPA-rootpw.age".publicKeys = [ authentication ];
+  "Authentication/FreeIPA_install-command.age".publicKeys = [ authentication ];
 
   # VPN
   "Office-Gate/Wireguard.age".publicKeys = [ authentication nixie ];

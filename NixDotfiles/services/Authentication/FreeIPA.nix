@@ -10,17 +10,15 @@ let DATA_DIR = "/data/FreeIPA"; in
       import ../Container-Config/Oci-Container.nix {
         inherit config lib pkgs;
         name = "freeipa";
+        subdomain = "ipa";
         image = "freeipa/freeipa-server:almalinux-9";
         dataDir = DATA_DIR;
         containerNum = 7;
 
+        additionalDomains = [ "ipa-ca" "freeipa" ];
         nginxUseHttps = true;
-        additionalNginxConfig = {
-          sslCertificate = "/var/lib/acme/freeipa.inet.tu-berlin.de/httpd.crt";
-          sslCertificateKey = "/var/lib/acme/freeipa.inet.tu-berlin.de/httpd.key";
-          enableACME = lib.mkForce false;
-        };
         containerPort = 443;
+
         additionalPorts = [
           # LDAP / LDAPS
           "0.0.0.0:389:389"
@@ -37,15 +35,17 @@ let DATA_DIR = "/data/FreeIPA"; in
 
         environment = {
           IPA_SERVER_IP = "10.88.7.1";
-          IPA_SERVER_HOSTNAME = "freeipa.${config.host.networking.domainName}";
+          IPA_SERVER_HOSTNAME = "ipa.${config.host.networking.domainName}";
+
+          # These are meant as debug variables, but I'll leave them on as it will make it easier to debug if some issues arise
           DEBUG_TRACE = "1";
           DEBUG_NO_EXIT = "1";
         };
-        environmentFiles = [ config.age.secrets.FreeIPA_rootpw.path ];
+        environmentFiles = [ config.age.secrets.FreeIPA_install-command.path ];
 
         volumes = [
           "${DATA_DIR}/data:/data"
-          "/var/lib/acme/freeipa.${config.host.networking.domainName}:/var/lib/acme"
+          "/var/lib/acme/ipa.${config.host.networking.domainName}:/var/lib/acme"
         ];
       }
     )

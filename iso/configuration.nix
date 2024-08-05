@@ -19,26 +19,26 @@ in
     search = [ "inet.tu-berlin.de" "net.t-labs.tu-berlin.de" ];
 
     # EN
-    defaultGateway = {
-      address = "130.149.152.129";
-      interface = "eth0";
-    };
-
-    interfaces.eth0.ipv4.addresses = [{
-      address = "130.149.152.159";  # EN
-      prefixLength = 25;
-    }];
-
-    # MAR
 #    defaultGateway = {
-#      address = "130.149.220.TODO";
+#      address = "130.149.152.129";
 #      interface = "eth0";
 #    };
 #
 #    interfaces.eth0.ipv4.addresses = [{
-#      address = "130.149.220.126";  # MAR
+#      address = "130.149.152.159";  # EN
 #      prefixLength = 25;
 #    }];
+
+#     MAR
+    defaultGateway = {
+      address = "130.149.220.126";
+      interface = "eth0";
+    };
+
+    interfaces.eth0.ipv4.addresses = [{
+      address = "130.149.220.125";  # MAR
+      prefixLength = 25;
+    }];
   };
 
   # Copy the existing config
